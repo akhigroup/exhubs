@@ -9,9 +9,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="<c:url value="/resources/css/bootstrap.min.css" />"
+<link href='<c:url value="/resources/css/bootstrap.min.css" />'
 	rel="stylesheet" media="screen" />
-<link href="<c:url value="/resources/css/core.css" />" rel="stylesheet"
+<link href='<c:url value="/resources/css/core.css" />' rel="stylesheet"
 	media="screen" />
 <style type="text/css">
 body {
@@ -19,8 +19,8 @@ body {
 	padding-bottom: 40px;
 }
 </style>
-<script src="<c:url value="/resources/js/jquery.js" />"></script>
-<script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
+<script src='<c:url value="/resources/js/jquery.js" />'></script>
+<script src='<c:url value="/resources/js/bootstrap.min.js" />'></script>
 </head>
 <body>
 	<tiles:insertAttribute name="menu" />
