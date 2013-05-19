@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title><s:message code="global.info.title" /></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href='<c:url value="/resources/css/bootstrap.min.css" />'
 	rel="stylesheet" media="screen" />
