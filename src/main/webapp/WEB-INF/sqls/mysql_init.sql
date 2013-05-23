@@ -12,5 +12,4 @@ create table user (
 insert into user values (null,'bml3i', 'Aa1234', 'Leo Bi', 'bml3i@163.com');
 insert into user values (null,'biminglei', 'Aa1234', 'Bi Minglei', 'biminglei@gmail.com');
 
-
-
+insert into user values (null,'jokeservice', 'Aa1234', 'Joke Service', 'jokeservice@gmail.com');
