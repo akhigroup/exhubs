@@ -1,7 +1,7 @@
 use exhubs;
 
--- 1. user
-create table user (
+-- 1. users
+create table users (
     id int primary key not null auto_increment,
     userid varchar(16) not null,
     password varchar(16) not null,
@@ -9,7 +9,7 @@ create table user (
     email varchar(32) not null unique
 );
 
-insert into user values (null,'bml3i', 'Aa1234', 'Leo Bi', 'bml3i@163.com');
-insert into user values (null,'biminglei', 'Aa1234', 'Bi Minglei', 'biminglei@gmail.com');
+insert into users values (null,'bml3i', 'Aa1234', 'Leo Bi', 'bml3i@163.com');
+insert into users values (null,'biminglei', 'Aa1234', 'Bi Minglei', 'biminglei@gmail.com');
 
-insert into user values (null,'jokeservice', 'Aa1234', 'Joke Service', 'jokeservice@gmail.com');
+insert into users values (null,'jokeservice', 'Aa1234', 'Joke Service', 'jokeservice@gmail.com');

@@ -4,14 +4,30 @@ exhubs is an exam application which is powered by Spring MVC 3.2, Hibernate, JPA
  
 ### Installation
 
-git clone https://github.com/bml3i/exhubs.git
+* `git clone https://github.com/bml3i/exhubs.git`
 
-cd exhubs
+* `cd exhubs`
 
-mvn eclipse:eclipse
+* `mvn eclipse:eclipse`
 
-mvn eclipse:clean
+* `mvn eclipse:clean`
 
-`DEV:` mvn clean -Dspring.profiles.active="dev" tomcat7:run
 
-`PROD:` mvn clean tomcat7:run
+### Run
+
+DEV:
+
+* `mvn clean -P dev install`
+
+* `java -Dspring.profiles.active=dev -jar target/dependency/webapp-runner.jar target/*.war`  
+
+OR
+
+* `mvn clean -Dspring.profiles.active="dev" -P dev tomcat7:run`  
+
+
+UAT:
+
+* `export xxx`
+
+* Set Procfile: `java $JAVA_OPTS -Dspring.profiles.active=uat -jar target/dependency/webapp-runner.jar --port $PORT target/*.war`
