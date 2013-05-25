@@ -28,6 +28,4 @@ OR
 
 UAT:
 
-* `export xxx`
-
 * Set Procfile: `java $JAVA_OPTS -Dspring.profiles.active=uat -jar target/dependency/webapp-runner.jar --port $PORT target/*.war`
