@@ -22,6 +22,12 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
+	@Column(name = "name")
+	private String name;
+
+	@Column(name = "email")
+	private String email;
+
 	public int getId() {
 		return id;
 	}
@@ -61,11 +67,5 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	@Column(name = "name")
-	private String name;
-
-	@Column(name = "email")
-	private String email;
 
 }
