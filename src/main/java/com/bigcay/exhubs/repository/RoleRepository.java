@@ -6,6 +6,4 @@ import com.bigcay.exhubs.model.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-	
-	
 }
