@@ -1,10 +1,18 @@
 package com.bigcay.exhubs.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -14,7 +22,7 @@ public class User {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Integer id;
 
 	@Column(name = "userid")
 	private String userId;
@@ -28,11 +36,34 @@ public class User {
 	@Column(name = "email")
 	private String email;
 
-	public int getId() {
+	@OneToMany(mappedBy = "user", fetch=FetchType.LAZY)
+	private Set<UserRole> userRoles;
+
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+	private Set<Role> roles = new HashSet<Role>();
+
+	public Set<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(Set<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
