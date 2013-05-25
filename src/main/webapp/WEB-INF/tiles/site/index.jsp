@@ -1,7 +1,21 @@
-<div>site/index</div>
-<p>Message is ${message}</p>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 
-<br>
+<c:set var="website_name">
+	<s:message code="global.info.website_name" />
+</c:set>
 
-<p>Message is ${message}</p>
-<p>Message is ${message}</p>
+<div class="hero-unit">
+	<h1>
+		<s:message code="site.index.info.hero_unit_welcome"
+			arguments="${website_name}" />
+	</h1>
+	<p>
+		<s:message code="site.index.info.hero_unit_desc"
+			arguments="${website_name}" />
+	</p>
+	<p>
+		<a class="btn btn-primary" href="#"><s:message
+				code="site.index.info.btn.log_in" /></a>
+	</p>
+</div>
