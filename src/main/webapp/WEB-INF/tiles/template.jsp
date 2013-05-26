@@ -26,9 +26,15 @@ body {
 <body>
 	<tiles:insertAttribute name="menu" />
 	<div id="container" class="container">
-		<p>${info}</p>
-		<p>${error}</p>
-		
+
+		<c:if test="${not empty info}">
+			<div class="alert alert-success">${info}</div>
+		</c:if>
+
+		<c:if test="${not empty error}">
+			<div class="alert alert-error">${error}</div>
+		</c:if>
+
 		<tiles:insertAttribute name="body" />
 	</div>
 	<tiles:insertAttribute name="footer" />
