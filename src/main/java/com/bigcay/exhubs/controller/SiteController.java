@@ -20,12 +20,17 @@ public class SiteController {
 	private AuthorityService authorityService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(Model model, @RequestParam(required = false) String info) {
+	public String indexHandler(Model model, @RequestParam(required = false) String info,
+			@RequestParam(required = false) String error) {
 
 		logger.debug("SiteController.indexHandler is invoked.");
 
 		if (info != null) {
 			model.addAttribute("info", info);
+		}
+
+		if (error != null) {
+			model.addAttribute("error", error);
 		}
 
 		return "site/index";

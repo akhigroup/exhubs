@@ -1,5 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 
 <div class="navbar navbar-inverse navbar-fixed-top navbar-static-top ">
 	<div class="navbar-inner">
@@ -11,17 +13,25 @@
 					code="global.info.website_name" /></a>
 			<div class="nav-collapse">
 				<ul class="nav">
-					<li class="active"><a href='<c:url value="/"/>'><s:message
+					<li class="a-c-t-i-v-e"><a href='<c:url value="/"/>'><s:message
 								code="global.info.home" /></a></li>
-					<li><a href='<c:url value="#"/>'>Menu 2</a></li>
-					<li><a href='<c:url value="#"/>'>Menu 3</a></li>
+					<sec:authorize ifNotGranted="ROLE_USER">
+						<li><a href='<c:url value="/login"/>'><s:message
+									code="global.info.login" /></a></li>
+					</sec:authorize>
+					<sec:authorize access="hasRole('ROLE_USER')">
+						<li><a href='<c:url value="/logout"/>'><s:message
+									code="global.info.log_out" /></a></li>
+					</sec:authorize>
+					<li><a href='<c:url value="#"/>'>Menu 1</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
 </div>
+
+<!-- 
 <script type="text/javascript" charset="utf-8">
-	// Bootstrap active/inactive menu
 	$(document).ready(function() {
 		$('.navbar li').click(function(e) {
 			$('.navbar li').removeClass('active');
@@ -32,6 +42,5 @@
 			e.preventDefault();
 		});
 	});
-
-	
 </script>
+ -->

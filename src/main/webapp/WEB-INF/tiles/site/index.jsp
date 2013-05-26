@@ -1,5 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 
 <c:set var="website_name">
 	<s:message code="global.info.website_name" />
@@ -14,8 +16,10 @@
 		<s:message code="site.index.info.hero_unit_desc"
 			arguments="${website_name}" />
 	</p>
-	<p>
-		<a class="btn btn-primary" href='<c:url value="/login"/>'><s:message
-				code="site.index.info.btn.log_in" /></a>
-	</p>
+	<sec:authorize ifNotGranted="ROLE_USER">
+		<p>
+			<a class="btn btn-primary" href='<c:url value="/login"/>'><s:message
+					code="site.index.info.btn.log_in" /></a>
+		</p>
+	</sec:authorize>
 </div>
