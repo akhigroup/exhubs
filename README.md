@@ -19,7 +19,7 @@ DEV:
 
 * `mvn clean -P dev install`
 
-* `java -Dspring.profiles.active=dev -jar target/dependency/webapp-runner.jar target/*.war`  
+* `java -Dspring.profiles.active=dev -jar target/dependency/jetty-runner.jar target/*.war`  
 
 OR
 
@@ -28,4 +28,4 @@ OR
 
 UAT:
 
-* Set Procfile: `java $JAVA_OPTS -Dspring.profiles.active=uat -jar target/dependency/webapp-runner.jar --port $PORT target/*.war`
+* Set Procfile: `java $JAVA_OPTS -Dspring.profiles.active=uat -jar target/dependency/jetty-runner.jar --port $PORT target/*.war`

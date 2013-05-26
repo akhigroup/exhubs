@@ -15,7 +15,7 @@
 			arguments="${website_name}" />
 	</p>
 	<p>
-		<a class="btn btn-primary" href="#"><s:message
+		<a class="btn btn-primary" href='<c:url value="/login"/>'><s:message
 				code="site.index.info.btn.log_in" /></a>
 	</p>
 </div>

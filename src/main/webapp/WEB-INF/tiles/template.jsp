@@ -26,6 +26,9 @@ body {
 <body>
 	<tiles:insertAttribute name="menu" />
 	<div id="container" class="container">
+		<p>${info}</p>
+		<p>${error}</p>
+		
 		<tiles:insertAttribute name="body" />
 	</div>
 	<tiles:insertAttribute name="footer" />
