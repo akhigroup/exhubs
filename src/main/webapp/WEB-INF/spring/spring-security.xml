@@ -15,6 +15,10 @@
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
 		<intercept-url pattern="/denied" access="hasRole('ROLE_USER')" />
+
+		<!-- User Module -->
+		<intercept-url pattern="/user/api/users" access="hasRole('ROLE_USER_MANAGER')" />
+
 		<intercept-url pattern="/" access="permitAll" />
 
 		<form-login login-page="/login" authentication-failure-url="/login/failure"

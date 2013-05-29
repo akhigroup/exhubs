@@ -65,4 +65,13 @@ public class AccessController {
 		}
 	}
 
+	@RequestMapping(value = "/denied")
+	public String deniedHandler(Locale locale) throws UnsupportedEncodingException {
+
+		logger.debug("AccessController.deniedHandler is invoked.");
+
+		return "redirect:/?error="
+				+ URLEncoder.encode(messageSource.getMessage("global.error.permission_denied", null, locale), "UTF-8");
+	}
+
 }

@@ -1,6 +1,5 @@
 package com.bigcay.exhubs.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,11 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bigcay.exhubs.bean.UserBean;
-import com.bigcay.exhubs.bean.UserBeansObj;
-import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
 
 @Controller
+@RequestMapping("user")
 public class UserController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -24,24 +22,11 @@ public class UserController {
 	private AuthorityService authorityService;
 
 	@RequestMapping("api/users")
-	public @ResponseBody UserBeansObj usersApiHandler() {
-		UserBeansObj userBeansObj = new UserBeansObj();
+	public @ResponseBody
+	List<UserBean> usersApiHandler() {
 
-		List<UserBean> userBeans = new ArrayList<UserBean>();
-		List<User> users = authorityService.findAllUsers();
+		logger.debug("UserController.usersApiHandler is invoked.");
 
-		for (User user : users) {
-			UserBean userBean = new UserBean();
-			userBean.setId(user.getId());
-			userBean.setUserId(user.getUserId());
-			userBean.setPassword(user.getPassword());
-			userBean.setName(user.getName());
-			userBean.setEmail(user.getEmail());
-
-			userBeans.add(userBean);
-		}
-
-		userBeansObj.setUserBeans(userBeans);
-		return userBeansObj;
+		return authorityService.findAllUserBeans();
 	}
 }
