@@ -6,22 +6,22 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 @Entity
-@IdClass(UserRolePK.class)
-@Table(name = "user_role")
-public class UserRole {
+@IdClass(GroupRolePK.class)
+@Table(name = "group_role")
+public class GroupRole {
 
 	@Id
-	private User user;
+	private Group group;
 
 	@Id
 	private Role role;
 
-	public User getUser() {
-		return user;
+	public Group getGroup() {
+		return group;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 
 	public Role getRole() {

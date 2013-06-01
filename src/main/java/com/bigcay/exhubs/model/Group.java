@@ -9,13 +9,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "roles")
-public class Role {
+@Table(name = "groups")
+public class Group {
 
 	@Id
 	@Column(name = "id")
@@ -27,13 +29,14 @@ public class Role {
 
 	@Column(name = "description")
 	private String description;
-
-	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+	
+	@OneToMany(mappedBy = "group", fetch=FetchType.LAZY)
 	private Set<GroupRole> groupRoles;
-
-	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-	private Set<Group> groups = new HashSet<Group>();
-
+	
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name = "group_role", joinColumns = { @JoinColumn(name = "group_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+	private Set<Role> roles = new HashSet<Role>();
+	
 	public Set<GroupRole> getGroupRoles() {
 		return groupRoles;
 	}
@@ -42,12 +45,12 @@ public class Role {
 		this.groupRoles = groupRoles;
 	}
 
-	public Set<Group> getGroups() {
-		return groups;
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
-	public void setGroups(Set<Group> groups) {
-		this.groups = groups;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	public Integer getId() {

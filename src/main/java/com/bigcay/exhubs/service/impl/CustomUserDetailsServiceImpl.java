@@ -36,7 +36,7 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 			boolean accountNonLocked = true;
 
 			return new User(domainUser.getUserId(), domainUser.getPassword().toLowerCase(), enabled, accountNonExpired,
-					credentialsNonExpired, accountNonLocked, getAuthorities(domainUser.getRoles()));
+					credentialsNonExpired, accountNonLocked, getAuthorities(domainUser.getGroup().getRoles()));
 		} catch (Exception e) {
 			throw new UsernameNotFoundException("User is not found!", e);
 		}
