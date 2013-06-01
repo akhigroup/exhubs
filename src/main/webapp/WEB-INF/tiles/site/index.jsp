@@ -18,7 +18,7 @@
 	</p>
 	<sec:authorize ifNotGranted="ROLE_USER">
 		<p>
-			<a class="btn btn-primary" href='<c:url value="/login"/>'><s:message
+			<a class="btn btn-primary" href="/login"><s:message
 					code="site.index.info.btn.log_in" /></a>
 		</p>
 	</sec:authorize>

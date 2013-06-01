@@ -7,6 +7,8 @@ public class UserBean {
 	private String userId;
 
 	private String name;
+	
+	private String email;
 
 	public Integer getId() {
 		return id;
@@ -39,7 +41,5 @@ public class UserBean {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	private String email;
 
 }

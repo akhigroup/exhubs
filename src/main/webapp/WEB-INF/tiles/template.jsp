@@ -10,18 +10,17 @@
 <head>
 <title><s:message code="global.info.title" /></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href='<c:url value="/resources/css/bootstrap.min.css" />'
-	rel="stylesheet" media="screen" />
-<link href='<c:url value="/resources/css/core.css" />' rel="stylesheet"
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet"
 	media="screen" />
+<link href="/resources/css/core.css" rel="stylesheet" media="screen" />
 <style type="text/css">
 body {
 	padding-top: 60px;
 	padding-bottom: 40px;
 }
 </style>
-<script src='<c:url value="/resources/js/jquery.js" />'></script>
-<script src='<c:url value="/resources/js/bootstrap.min.js" />'></script>
+<script src="/resources/js/jquery.js"></script>
+<script src="/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<tiles:insertAttribute name="menu" />

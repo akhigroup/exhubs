@@ -9,21 +9,32 @@
 			<a class="btn btn-navbar" data-toggle="collapse"
 				data-target=".nav-collapse"> <span class="icon-bar"></span> <span
 				class="icon-bar"></span> <span class="icon-bar"></span>
-			</a> <a class="brand" href='<c:url value="/"/>'><s:message
+			</a> <a class="brand" href="/"><s:message
 					code="global.info.website_name" /></a>
 			<div class="nav-collapse">
 				<ul class="nav">
-					<li class="a-c-t-i-v-e"><a href='<c:url value="/"/>'><s:message
+					<li class="a-c-t-i-v-e"><a href="/"><s:message
 								code="global.info.home" /></a></li>
 					<sec:authorize ifNotGranted="ROLE_USER">
-						<li><a href='<c:url value="/login"/>'><s:message
-									code="global.info.login" /></a></li>
+						<li><a href="/login"><s:message code="global.info.login" /></a></li>
+					</sec:authorize>
+					<sec:authorize access="hasRole('ROLE_USER_MANAGER')">
+						<li><a href="/users"><s:message
+									code="global.info.user_manage" /></a></li>
 					</sec:authorize>
 					<sec:authorize access="hasRole('ROLE_USER')">
-						<li><a href='<c:url value="/logout"/>'><s:message
-									code="global.info.log_out" /></a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown"> <s:message code="global.info.account" />
+								<b class="caret"></b>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a href="#"><s:message
+											code="global.info.account_setting" /></a></li>
+								<li class="divider" />
+								<li><a href="/logout"><s:message
+											code="global.info.log_out" /></a></li>
+							</ul></li>
 					</sec:authorize>
-					<li><a href='<c:url value="#"/>'>Menu 1</a></li>
 				</ul>
 			</div>
 		</div>
