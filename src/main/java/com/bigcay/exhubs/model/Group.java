@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
@@ -29,14 +30,15 @@ public class Group {
 
 	@Column(name = "description")
 	private String description;
-	
-	@OneToMany(mappedBy = "group", fetch=FetchType.LAZY)
+
+	@OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
 	private Set<GroupRole> groupRoles;
-	
-	@ManyToMany(fetch=FetchType.EAGER)
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@OrderBy("id ASC")
 	@JoinTable(name = "group_role", joinColumns = { @JoinColumn(name = "group_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	private Set<Role> roles = new HashSet<Role>();
-	
+
 	public Set<GroupRole> getGroupRoles() {
 		return groupRoles;
 	}

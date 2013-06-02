@@ -6,6 +6,7 @@
 		<tr>
 			<th><s:message code="groups.info.groups_name" /></th>
 			<th><s:message code="groups.info.groups_description" /></th>
+			<th><s:message code="groups.info.groups_operation" /></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -13,6 +14,12 @@
 			<tr>
 				<td>${groupBean.name}</td>
 				<td>${groupBean.description}</td>
+				<td>
+					<button class="btn btn-link btn-mini"
+						onclick="location.href='/group/${groupBean.id}'">
+						<s:message code="groups.info.groups_view" />
+					</button>
+				</td>
 			</tr>
 		</c:forEach>
 	</tbody>

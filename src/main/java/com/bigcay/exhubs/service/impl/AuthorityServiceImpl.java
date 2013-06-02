@@ -2,11 +2,13 @@ package com.bigcay.exhubs.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bigcay.exhubs.bean.GroupBean;
+import com.bigcay.exhubs.bean.RoleBean;
 import com.bigcay.exhubs.bean.UserBean;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Role;
@@ -78,6 +80,26 @@ public class AuthorityServiceImpl implements AuthorityService {
 		}
 
 		return groupBeans;
+	}
+
+	@Override
+	public List<RoleBean> findRoleBeansByGroupId(Integer groupId) {
+
+		List<RoleBean> roleBeans = new ArrayList<RoleBean>();
+
+		Group group = groupRepository.findOne(groupId);
+		Set<Role> roles = group.getRoles();
+
+		for (Role role : roles) {
+			RoleBean roleBean = new RoleBean();
+			roleBean.setId(role.getId());
+			roleBean.setName(role.getName());
+			roleBean.setDescription(role.getDescription());
+
+			roleBeans.add(roleBean);
+		}
+
+		return roleBeans;
 	}
 
 }

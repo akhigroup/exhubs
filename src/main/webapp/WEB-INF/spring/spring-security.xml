@@ -25,6 +25,9 @@
 		<!-- Group Module -->
 		<intercept-url pattern="/groups" access="hasRole('ROLE_USER_MANAGER')" />
 		<intercept-url pattern="/ajax/groups/show_groups" access="hasRole('ROLE_USER_MANAGER')" />
+		
+		<intercept-url pattern="/group/*" access="hasRole('ROLE_USER_MANAGER')" />
+		<intercept-url pattern="/ajax/groups/show_group_roles/*" access="hasRole('ROLE_USER_MANAGER')" />
 
 		<!-- Site Index -->
 		<intercept-url pattern="/" access="permitAll" />

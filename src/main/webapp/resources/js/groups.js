@@ -9,3 +9,15 @@ function showGroups() {
 		}
 	});
 };
+
+function showGroupRoles(groupId) {
+	$.ajax({
+		url : '/ajax/groups/show_group_roles',
+		data : 'groupId=' + groupId,
+		type : 'get',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			$('#groupRoles').html(response);
+		}
+	});
+};
