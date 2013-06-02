@@ -1,4 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
+
+<div class="page-header">
+	<h3>
+		<s:message code="global.info.group_setting" />
+	</h3>
+</div>
 
 <div class="container-fluid">
 	<div class="row-fluid">
