@@ -2,6 +2,7 @@ package com.bigcay.exhubs.service;
 
 import java.util.List;
 
+import com.bigcay.exhubs.bean.GroupBean;
 import com.bigcay.exhubs.bean.UserBean;
 import com.bigcay.exhubs.model.Role;
 import com.bigcay.exhubs.model.User;
@@ -15,4 +16,6 @@ public interface AuthorityService {
 	Role findRoleById(Integer id);
 
 	List<Role> findAllRoles();
+	
+	List<GroupBean> findAllGroupBeans();
 }

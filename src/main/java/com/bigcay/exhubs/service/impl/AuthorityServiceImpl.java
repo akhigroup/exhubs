@@ -6,9 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bigcay.exhubs.bean.GroupBean;
 import com.bigcay.exhubs.bean.UserBean;
+import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Role;
 import com.bigcay.exhubs.model.User;
+import com.bigcay.exhubs.repository.GroupRepository;
 import com.bigcay.exhubs.repository.RoleRepository;
 import com.bigcay.exhubs.repository.UserRepository;
 import com.bigcay.exhubs.service.AuthorityService;
@@ -21,6 +24,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 	@Autowired
 	private RoleRepository roleRepository;
+
+	@Autowired
+	private GroupRepository groupRepository;
 
 	@Override
 	public User findUserById(Integer id) {
@@ -39,7 +45,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 	@Override
 	public List<UserBean> findAllUserBeans() {
-		
+
 		List<UserBean> userBeans = new ArrayList<UserBean>();
 		List<User> users = userRepository.findAll();
 
@@ -54,6 +60,24 @@ public class AuthorityServiceImpl implements AuthorityService {
 		}
 
 		return userBeans;
+	}
+
+	@Override
+	public List<GroupBean> findAllGroupBeans() {
+
+		List<GroupBean> groupBeans = new ArrayList<GroupBean>();
+		List<Group> groups = groupRepository.findAll();
+
+		for (Group group : groups) {
+			GroupBean groupBean = new GroupBean();
+			groupBean.setId(group.getId());
+			groupBean.setName(group.getName());
+			groupBean.setDescription(group.getDescription());
+
+			groupBeans.add(groupBean);
+		}
+
+		return groupBeans;
 	}
 
 }

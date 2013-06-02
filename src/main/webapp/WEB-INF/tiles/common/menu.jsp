@@ -18,10 +18,21 @@
 					<sec:authorize ifNotGranted="ROLE_USER">
 						<li><a href="/login"><s:message code="global.info.login" /></a></li>
 					</sec:authorize>
+
 					<sec:authorize access="hasRole('ROLE_USER_MANAGER')">
-						<li><a href="/users"><s:message
-									code="global.info.user_manage" /></a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown"> <s:message
+									code="global.info.user_manage" /> <b class="caret"></b>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a href="/users"><s:message
+											code="global.info.user_setting" /></a></li>
+								<li class="divider" />
+								<li><a href="/groups"><s:message
+											code="global.info.group_setting" /></a></li>
+							</ul></li>
 					</sec:authorize>
+
 					<sec:authorize access="hasRole('ROLE_USER')">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"> <s:message code="global.info.account" />
