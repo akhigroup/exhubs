@@ -20,7 +20,11 @@
 
 		<!-- User Module -->
 		<intercept-url pattern="/users" access="hasRole('ROLE_USER_MANAGER')" />
-		<intercept-url pattern="/rest/users" access="hasRole('ROLE_USER_MANAGER')" />
+		<intercept-url pattern="/ajax/users/show_users" access="hasRole('ROLE_USER_MANAGER')" />
+		
+		<!-- Group Module -->
+		<intercept-url pattern="/groups" access="hasRole('ROLE_USER_MANAGER')" />
+		<intercept-url pattern="/ajax/groups/show_groups" access="hasRole('ROLE_USER_MANAGER')" />
 
 		<!-- Site Index -->
 		<intercept-url pattern="/" access="permitAll" />
