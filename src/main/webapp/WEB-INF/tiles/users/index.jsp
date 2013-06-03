@@ -2,9 +2,9 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 
 <div class="page-header">
-	<h3>
+	<h4>
 		<s:message code="global.info.user_setting" />
-	</h3>
+	</h4>
 </div>
 
 <div class="container-fluid">
@@ -14,7 +14,16 @@
 		</div>
 		<div class="span4"></div>
 	</div>
+	<div class="row-fluid">
+		<div class="span6">
+			<button type="button" class="btn btn-primary"
+				onclick="location.href='/users/create'">
+				<s:message code="users.info.btn.add_user" />
+			</button>
+		</div>
+	</div>
 </div>
+<br />
 
 <script src="/resources/js/users.js"></script>
 <script type="text/javascript" charset="utf-8">

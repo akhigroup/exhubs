@@ -4,9 +4,9 @@
 <input type="hidden" name="groupId" value="${groupId}" />
 
 <div class="page-header">
-	<h3>
+	<h4>
 		<s:message code="global.info.group_setting" />
-	</h3>
+	</h4>
 </div>
 
 <div class="container-fluid">

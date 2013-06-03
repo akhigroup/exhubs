@@ -1,7 +1,6 @@
 package com.bigcay.exhubs.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -10,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AccessController {
@@ -24,54 +22,57 @@ public class AccessController {
 	private static final Logger logger = LoggerFactory.getLogger(AccessController.class);
 
 	@RequestMapping("/login")
-	public String loginHandler(Model model, @RequestParam(required = false) String error)
-			throws UnsupportedEncodingException {
+	public String loginHandler() throws UnsupportedEncodingException {
 
 		logger.debug("AccessController.loginHandler is invoked.");
-
-		if (error != null) {
-			model.addAttribute("error", error);
-		}
 
 		return "access/login";
 	}
 
 	@RequestMapping(value = "/login/{status}")
-	public String loginStatusHandler(Locale locale, @PathVariable String status) throws UnsupportedEncodingException {
+	public String loginStatusHandler(Locale locale, @PathVariable String status,
+			final RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
 
 		logger.debug("AccessController.loginStatusHandler is invoked.");
 
 		if ("success".equals(status)) {
-			return "redirect:/?info="
-					+ URLEncoder.encode(messageSource.getMessage("login.info.login_success", null, locale), "UTF-8");
+			redirectAttributes.addFlashAttribute("info",
+					messageSource.getMessage("login.info.login_success", null, locale));
+			return "redirect:/";
 		} else {
-			return "redirect:/login?error="
-					+ URLEncoder.encode(messageSource.getMessage("login.error.login_failure", null, locale), "UTF-8");
+			redirectAttributes.addFlashAttribute("error",
+					messageSource.getMessage("login.error.login_failure", null, locale));
+			return "redirect:/login";
 		}
 	}
 
 	@RequestMapping(value = "/logout/{status}")
-	public String logoutHandler(Locale locale, @PathVariable String status) throws UnsupportedEncodingException,
-			NoSuchMessageException {
+	public String logoutHandler(Locale locale, @PathVariable String status, final RedirectAttributes redirectAttributes)
+			throws UnsupportedEncodingException, NoSuchMessageException {
 
 		logger.debug("AccessController.logoutHandler is invoked.");
 
 		if ("success".equals(status)) {
-			return "redirect:/?info="
-					+ URLEncoder.encode(messageSource.getMessage("logout.info.logout_success", null, locale), "UTF-8");
+			redirectAttributes.addFlashAttribute("info",
+					messageSource.getMessage("logout.info.logout_success", null, locale));
+			return "redirect:/";
 		} else {
-			return "redirect:/?error="
-					+ URLEncoder.encode(messageSource.getMessage("logout.error.logout_failure", null, locale), "UTF-8");
+			redirectAttributes.addFlashAttribute("error",
+					messageSource.getMessage("logout.error.logout_failure", null, locale));
+			return "redirect:/";
 		}
 	}
 
 	@RequestMapping(value = "/denied")
-	public String deniedHandler(Locale locale) throws UnsupportedEncodingException {
+	public String deniedHandler(Locale locale, final RedirectAttributes redirectAttributes)
+			throws UnsupportedEncodingException {
 
 		logger.debug("AccessController.deniedHandler is invoked.");
 
-		return "redirect:/?error="
-				+ URLEncoder.encode(messageSource.getMessage("global.error.permission_denied", null, locale), "UTF-8");
+		redirectAttributes.addFlashAttribute("error",
+				messageSource.getMessage("global.error.permission_denied", null, locale));
+
+		return "redirect:/";
 	}
 
 }

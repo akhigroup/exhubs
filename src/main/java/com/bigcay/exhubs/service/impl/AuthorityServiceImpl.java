@@ -41,6 +41,11 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
+	public Group findGroupById(Integer id) {
+		return groupRepository.findOne(id);
+	}
+
+	@Override
 	public List<Role> findAllRoles() {
 		return roleRepository.findAll();
 	}
@@ -100,6 +105,11 @@ public class AuthorityServiceImpl implements AuthorityService {
 		}
 
 		return roleBeans;
+	}
+
+	@Override
+	public User persist(User user) {
+		return userRepository.save(user);
 	}
 
 }

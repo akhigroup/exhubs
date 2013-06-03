@@ -13,9 +13,10 @@
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet"
 	media="screen" />
 <link href="/resources/css/core.css" rel="stylesheet" media="screen" />
+<link rel="shortcut icon" href="/resources/img/favicon.ico"/>
 <style type="text/css">
 body {
-	padding-top: 60px;
+	padding-top: 50px;
 	padding-bottom: 40px;
 }
 </style>

@@ -2,9 +2,9 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 
 <div class="page-header">
-	<h3>
+	<h4>
 		<s:message code="global.info.group_setting" />
-	</h3>
+	</h4>
 </div>
 
 <div class="container-fluid">
