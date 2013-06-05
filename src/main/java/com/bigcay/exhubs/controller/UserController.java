@@ -70,9 +70,7 @@ public class UserController {
 		logger.debug("UserController.addUserSubmitHandler is invoked.");
 
 		if (result.hasErrors()) {
-			redirectAttributes.addFlashAttribute("error",
-					messageSource.getMessage("users.error.add_user_failure", null, locale));
-			return "redirect:/users/create";
+			return "users/add_user";
 		} else {
 			User user = new User();
 			user.setUserId(userFormBean.getUserId());

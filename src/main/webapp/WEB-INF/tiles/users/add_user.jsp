@@ -9,37 +9,55 @@
 			<s:message code="users.info.add_user" />
 		</legend>
 
-		<div class="control-group">
-			<label class="control-label" for="userid"><s:message
-					code="users.info.user_userid" /></label>
-			<div class="controls">
-				<form:input class="input-xlarge" path="userId" />
+		<s:bind path="userId">
+			<div class="control-group ${status.error ? 'error' : '' }">
+				<label class="control-label" for="userId"><s:message
+						code="users.info.user_userid" /></label>
+				<div class="controls">
+					<form:input class="input-xlarge" path="userId" />
+					<c:if test="${status.error}">
+						<span class="help-inline">${status.errorMessage}</span>
+					</c:if>
+				</div>
 			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="name"><s:message
-					code="users.info.user_name" /></label>
-			<div class="controls">
-				<input type="text" class="input-xlarge" name="name" id="name"
-					value="">
+		</s:bind>
+		<s:bind path="name">
+			<div class="control-group ${status.error ? 'error' : '' }">
+				<label class="control-label" for="name"><s:message
+						code="users.info.user_name" /></label>
+				<div class="controls">
+					<form:input class="input-xlarge" path="name" />
+					<c:if test="${status.error}">
+						<span class="help-inline">${status.errorMessage}</span>
+					</c:if>
+				</div>
 			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="password"><s:message
-					code="users.info.user_password" /></label>
-			<div class="controls">
-				<input type="password" class="input-xlarge" name="password"
-					id="password">
+		</s:bind>
+		<s:bind path="password">
+			<div class="control-group ${status.error ? 'error' : '' }">
+				<label class="control-label" for="password"><s:message
+						code="users.info.user_password" /></label>
+				<div class="controls">
+					<form:input type="password" class="input-xlarge" path="password" />
+					<c:if test="${status.error}">
+						<span class="help-inline">${status.errorMessage}</span>
+					</c:if>
+				</div>
 			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="email"><s:message
-					code="users.info.user_email" /></label>
-			<div class="controls">
-				<input type="text" class="input-xlarge" name="email" id="email"
-					value="">
+		</s:bind>
+		<s:bind path="email">
+			<div class="control-group ${status.error ? 'error' : '' }">
+				<label class="control-label" for="email"><s:message
+						code="users.info.user_email" /></label>
+				<div class="controls">
+					<form:input class="input-xlarge" path="email" />
+					<c:if test="${status.error}">
+						<span class="help-inline">${status.errorMessage}</span>
+					</c:if>
+				</div>
 			</div>
-		</div>
+		</s:bind>
+
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary">
 				<s:message code="users.info.btn.add_user" />
