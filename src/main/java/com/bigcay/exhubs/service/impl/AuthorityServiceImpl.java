@@ -62,6 +62,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 			userBean.setUserId(user.getUserId());
 			userBean.setName(user.getName());
 			userBean.setEmail(user.getEmail());
+			userBean.setGroup(user.getGroup());
 
 			userBeans.add(userBean);
 		}

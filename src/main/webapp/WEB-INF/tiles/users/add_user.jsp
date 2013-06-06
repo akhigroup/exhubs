@@ -58,6 +58,22 @@
 			</div>
 		</s:bind>
 
+		<s:bind path="groupId">
+			<div class="control-group ${status.error ? 'error' : '' }">
+				<label class="control-label" for="groupId"><s:message
+						code="users.info.user_group" /></label>
+				<div class="controls">
+					<form:select path="groupId">
+						<form:option value="0" label="--- Select ---" />
+						<form:options items="${groupBeans}" itemValue="id" itemLabel="description" />
+					</form:select>
+					<c:if test="${status.error}">
+						<span class="help-inline">${status.errorMessage}</span>
+					</c:if>
+				</div>
+			</div>
+		</s:bind>
+
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary">
 				<s:message code="users.info.btn.add_user" />

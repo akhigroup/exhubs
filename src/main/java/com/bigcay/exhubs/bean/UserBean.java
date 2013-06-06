@@ -1,5 +1,7 @@
 package com.bigcay.exhubs.bean;
 
+import com.bigcay.exhubs.model.Group;
+
 public class UserBean {
 
 	private Integer id;
@@ -9,6 +11,8 @@ public class UserBean {
 	private String name;
 	
 	private String email;
+	
+	private Group group;
 
 	public Integer getId() {
 		return id;
@@ -40,6 +44,14 @@ public class UserBean {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 
 }

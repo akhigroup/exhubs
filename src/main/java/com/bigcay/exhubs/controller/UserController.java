@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bigcay.exhubs.bean.GroupBean;
 import com.bigcay.exhubs.bean.UserBean;
 import com.bigcay.exhubs.form.UserFormBean;
 import com.bigcay.exhubs.model.User;
@@ -57,19 +58,24 @@ public class UserController {
 	public String addUserGetHandler(Model model) {
 
 		logger.debug("UserController.addUserGetHandler is invoked.");
-
+		
+		List<GroupBean> groupBeans = authorityService.findAllGroupBeans();
 		model.addAttribute("userFormBean", new UserFormBean());
+		model.addAttribute("groupBeans", groupBeans);
 
 		return "users/add_user";
 	}
 
 	@RequestMapping(value = "users/create", method = RequestMethod.POST)
-	public String addUserSubmitHandler(Locale locale, @Valid @ModelAttribute("userFormBean") UserFormBean userFormBean,
+	public String addUserSubmitHandler(Model model, Locale locale, @Valid @ModelAttribute("userFormBean") UserFormBean userFormBean,
 			BindingResult result, final RedirectAttributes redirectAttributes) {
 
 		logger.debug("UserController.addUserSubmitHandler is invoked.");
 
 		if (result.hasErrors()) {
+			List<GroupBean> groupBeans = authorityService.findAllGroupBeans();
+			model.addAttribute("groupBeans", groupBeans);
+			
 			return "users/add_user";
 		} else {
 			User user = new User();
@@ -77,7 +83,7 @@ public class UserController {
 			user.setName(userFormBean.getName());
 			user.setPassword(userFormBean.getPassword());
 			user.setEmail(userFormBean.getEmail());
-			user.setGroup(authorityService.findGroupById(2)); // TO-DO
+			user.setGroup(authorityService.findGroupById(userFormBean.getGroupId()));
 
 			authorityService.persist(user);
 

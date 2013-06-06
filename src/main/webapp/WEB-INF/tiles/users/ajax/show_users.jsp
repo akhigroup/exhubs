@@ -7,6 +7,7 @@
 			<th><s:message code="users.info.users_userid" /></th>
 			<th><s:message code="users.info.users_name" /></th>
 			<th><s:message code="users.info.users_email" /></th>
+			<th><s:message code="users.info.users_group" /></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -15,6 +16,7 @@
 				<td>${userBean.userId}</td>
 				<td>${userBean.name}</td>
 				<td>${userBean.email}</td>
+				<td>${userBean.group.description}</td>
 			</tr>
 		</c:forEach>
 	</tbody>
