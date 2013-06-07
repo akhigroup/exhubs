@@ -1,3 +1,5 @@
+create database exhubs charset=utf8;
+
 use exhubs;
 
 -- 0. initiation --
