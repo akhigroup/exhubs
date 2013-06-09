@@ -2,6 +2,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
+<c:set var="please_select">
+	<s:message code="global.info.please_select" />
+</c:set>
+
 <form:form id="form" class="form-horizontal" method="post"
 	modelAttribute="userFormBean">
 	<fieldset>
@@ -64,7 +68,7 @@
 						code="users.info.user_group" /></label>
 				<div class="controls">
 					<form:select path="groupId">
-						<form:option value="0" label="--- Select ---" />
+						<form:option value="0" label="${please_select}" />
 						<form:options items="${groupBeans}" itemValue="id" itemLabel="description" />
 					</form:select>
 					<c:if test="${status.error}">
