@@ -22,7 +22,7 @@
 					<sec:authorize access="hasRole('ROLE_USER_MANAGER')">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"> <s:message
-									code="global.info.user_manage" /> <b class="caret"></b>
+									code="global.info.system_manage" /> <b class="caret"></b>
 						</a>
 							<ul class="dropdown-menu">
 								<li><a href="/users"><s:message
@@ -35,7 +35,7 @@
 
 					<sec:authorize access="hasRole('ROLE_USER')">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"> <s:message code="global.info.account" />
+							data-toggle="dropdown"> <s:message code="global.info.my_account" />
 								<b class="caret"></b>
 						</a>
 							<ul class="dropdown-menu">
