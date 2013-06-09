@@ -40,7 +40,7 @@
 
 		<access-denied-handler error-page="/denied" />
 
-		<logout invalidate-session="true" logout-success-url="/logout/success" logout-url="/logout" />
+		<logout invalidate-session="true" logout-success-url="/" logout-url="/logout" />
 
 		<session-management invalid-session-url="/">
 			<concurrency-control max-sessions="1" error-if-maximum-exceeded="false" />

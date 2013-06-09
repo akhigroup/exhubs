@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.NoSuchMessageException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,23 +42,6 @@ public class AccessController extends BaseController {
 			redirectAttributes.addFlashAttribute("error",
 					messageSource.getMessage("login.error.login_failure", null, locale));
 			return "redirect:/login";
-		}
-	}
-
-	@RequestMapping(value = "/logout/{status}")
-	public String logoutHandler(Locale locale, @PathVariable String status, final RedirectAttributes redirectAttributes)
-			throws UnsupportedEncodingException, NoSuchMessageException {
-
-		logger.debug("AccessController.logoutHandler is invoked.");
-
-		if ("success".equals(status)) {
-			redirectAttributes.addFlashAttribute("info",
-					messageSource.getMessage("logout.info.logout_success", null, locale));
-			return "redirect:/";
-		} else {
-			redirectAttributes.addFlashAttribute("error",
-					messageSource.getMessage("logout.error.logout_failure", null, locale));
-			return "redirect:/";
 		}
 	}
 
