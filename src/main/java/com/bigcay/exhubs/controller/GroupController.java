@@ -16,7 +16,7 @@ import com.bigcay.exhubs.bean.RoleBean;
 import com.bigcay.exhubs.service.AuthorityService;
 
 @Controller
-public class GroupController {
+public class GroupController extends BaseController {
 
 	private static final Logger logger = LoggerFactory.getLogger(GroupController.class);
 

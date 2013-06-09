@@ -10,6 +10,7 @@
 				class="divider">/</span>
 			<s:message code="global.info.icons_from" />
 			<a href="http://glyphicons.com">Glyphicons</a>
+			(<s:message code="global.info.online_user_number" />: ${onlineUserNum})
 		</p>
 		<p class="pull-right">
 			<s:message code="global.info.copyright" />

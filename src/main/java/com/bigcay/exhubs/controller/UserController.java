@@ -25,7 +25,7 @@ import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
 
 @Controller
-public class UserController {
+public class UserController extends BaseController {
 
 	@Autowired
 	MessageSource messageSource;
