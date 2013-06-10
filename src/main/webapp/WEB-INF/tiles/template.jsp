@@ -13,10 +13,10 @@
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet"
 	media="screen" />
 <link href="/resources/css/core.css" rel="stylesheet" media="screen" />
-<link rel="shortcut icon" href="/resources/img/favicon.ico"/>
+<link rel="shortcut icon" href="/resources/img/favicon.ico" />
 <style type="text/css">
 body {
-	padding-top: 50px;
+	padding-top: 60px;
 	padding-bottom: 40px;
 }
 </style>
@@ -28,11 +28,17 @@ body {
 	<div id="container" class="container">
 
 		<c:if test="${not empty info}">
-			<div class="alert alert-success">${info}</div>
+			<div class="alert alert-success">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				${info}
+			</div>
 		</c:if>
 
 		<c:if test="${not empty error}">
-			<div class="alert alert-error">${error}</div>
+			<div class="alert alert-error">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				${error}
+			</div>
 		</c:if>
 
 		<tiles:insertAttribute name="body" />

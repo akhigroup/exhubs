@@ -2,6 +2,8 @@ package com.bigcay.exhubs.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.bigcay.exhubs.bean.GroupBean;
 import com.bigcay.exhubs.bean.RoleBean;
 import com.bigcay.exhubs.bean.UserBean;
@@ -14,6 +16,10 @@ public interface AuthorityService {
 	User findUserById(Integer id);
 
 	List<UserBean> findAllUserBeans();
+	
+	Page<User> findPageableUsers(Integer pageNumber);
+	
+	List<UserBean> convertUsers(List<User> users);
 
 	Role findRoleById(Integer id);
 

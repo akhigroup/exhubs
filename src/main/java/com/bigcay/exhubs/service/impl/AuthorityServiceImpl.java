@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.bigcay.exhubs.bean.GroupBean;
 import com.bigcay.exhubs.bean.RoleBean;
 import com.bigcay.exhubs.bean.UserBean;
+import com.bigcay.exhubs.global.GlobalManager;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Role;
 import com.bigcay.exhubs.model.User;
@@ -52,22 +55,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 	@Override
 	public List<UserBean> findAllUserBeans() {
-
-		List<UserBean> userBeans = new ArrayList<UserBean>();
-		List<User> users = userRepository.findAll();
-
-		for (User user : users) {
-			UserBean userBean = new UserBean();
-			userBean.setId(user.getId());
-			userBean.setUserId(user.getUserId());
-			userBean.setName(user.getName());
-			userBean.setEmail(user.getEmail());
-			userBean.setGroup(user.getGroup());
-
-			userBeans.add(userBean);
-		}
-
-		return userBeans;
+		return this.convertUsers(userRepository.findAll());
 	}
 
 	@Override
@@ -111,6 +99,31 @@ public class AuthorityServiceImpl implements AuthorityService {
 	@Override
 	public User persist(User user) {
 		return userRepository.save(user);
+	}
+
+	@Override
+	public Page<User> findPageableUsers(Integer pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE);
+		return userRepository.findAll(pageRequest);
+	}
+
+	@Override
+	public List<UserBean> convertUsers(List<User> users) {
+
+		List<UserBean> userBeans = new ArrayList<UserBean>();
+
+		for (User user : users) {
+			UserBean userBean = new UserBean();
+			userBean.setId(user.getId());
+			userBean.setUserId(user.getUserId());
+			userBean.setName(user.getName());
+			userBean.setEmail(user.getEmail());
+			userBean.setGroup(user.getGroup());
+
+			userBeans.add(userBean);
+		}
+
+		return userBeans;
 	}
 
 }

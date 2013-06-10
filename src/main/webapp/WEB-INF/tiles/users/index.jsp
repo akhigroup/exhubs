@@ -9,10 +9,10 @@
 
 <div class="container-fluid">
 	<div class="row-fluid">
-		<div class="span8">
+		<div class="span10">
 			<div id="users" class="panel"></div>
 		</div>
-		<div class="span4"></div>
+		<div class="span2"></div>
 	</div>
 	<div class="row-fluid">
 		<div class="span6">
@@ -21,6 +21,7 @@
 				<s:message code="users.info.btn.add_user" />
 			</button>
 		</div>
+		<div class="span6"></div>
 	</div>
 </div>
 <br />
@@ -28,6 +29,6 @@
 <script src="/resources/js/users.js"></script>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		showUsers();
+		showUsers(1);
 	});
 </script>

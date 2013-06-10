@@ -9,12 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -44,12 +46,26 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping("ajax/users/show_users")
-	public String showUsersAjaxHandler(Model model) {
+	public String showUsersAjaxHandler(Model model, @RequestParam("pageNumber") Integer pageNumber) {
 
 		logger.debug("UserController.showUsersAjaxHandler is invoked.");
 
-		List<UserBean> userBeans = authorityService.findAllUserBeans();
+		Page<User> userPage = authorityService.findPageableUsers(pageNumber - 1);
+		List<UserBean> userBeans = authorityService.convertUsers(userPage.getContent());
+
+		// pagination
+		int current = userPage.getNumber() + 1;
+		int begin = Math.max(1, current - 5);
+		int end = Math.min(begin + 10, userPage.getTotalPages());
+		int totalPages = userPage.getTotalPages();
+
 		model.addAttribute("userBeans", userBeans);
+
+		// pagination
+		model.addAttribute("currentIndex", current);
+		model.addAttribute("beginIndex", begin);
+		model.addAttribute("endIndex", end);
+		model.addAttribute("totalPages", totalPages);
 
 		return "ajax/users/show_users";
 	}
@@ -58,7 +74,7 @@ public class UserController extends BaseController {
 	public String addUserGetHandler(Model model) {
 
 		logger.debug("UserController.addUserGetHandler is invoked.");
-		
+
 		List<GroupBean> groupBeans = authorityService.findAllGroupBeans();
 		model.addAttribute("userFormBean", new UserFormBean());
 		model.addAttribute("groupBeans", groupBeans);
@@ -67,15 +83,16 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value = "users/create", method = RequestMethod.POST)
-	public String addUserSubmitHandler(Model model, Locale locale, @Valid @ModelAttribute("userFormBean") UserFormBean userFormBean,
-			BindingResult result, final RedirectAttributes redirectAttributes) {
+	public String addUserSubmitHandler(Model model, Locale locale,
+			@Valid @ModelAttribute("userFormBean") UserFormBean userFormBean, BindingResult result,
+			final RedirectAttributes redirectAttributes) {
 
 		logger.debug("UserController.addUserSubmitHandler is invoked.");
 
 		if (result.hasErrors()) {
 			List<GroupBean> groupBeans = authorityService.findAllGroupBeans();
 			model.addAttribute("groupBeans", groupBeans);
-			
+
 			return "users/add_user";
 		} else {
 			User user = new User();
@@ -87,7 +104,8 @@ public class UserController extends BaseController {
 
 			authorityService.persist(user);
 
-			redirectAttributes.addFlashAttribute("info", messageSource.getMessage("users.info.add_user_success", new String[] { user.getUserId() }, locale));
+			redirectAttributes.addFlashAttribute("info",
+					messageSource.getMessage("users.info.add_user_success", new String[] { user.getUserId() }, locale));
 			return "redirect:/users";
 		}
 
