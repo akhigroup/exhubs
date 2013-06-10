@@ -25,11 +25,11 @@
 		<intercept-url pattern="/users/create" access="hasRole('ROLE_USER_MANAGER')" />-->
 		
 		<!-- Group Module 
-		<intercept-url pattern="/groups" access="hasRole('ROLE_USER_MANAGER')" />
-		<intercept-url pattern="/ajax/groups/show_groups" access="hasRole('ROLE_USER_MANAGER')" />
+		<intercept-url pattern="/groups" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
+		<intercept-url pattern="/ajax/groups/show_groups" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
 		
-		<intercept-url pattern="/group/*" access="hasRole('ROLE_USER_MANAGER')" />
-		<intercept-url pattern="/ajax/groups/show_group_roles/*" access="hasRole('ROLE_USER_MANAGER')" />-->
+		<intercept-url pattern="/group/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
+		<intercept-url pattern="/ajax/groups/show_group_roles/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />-->
 
 		<!-- Site Index -->
 		<intercept-url pattern="/" access="permitAll" />

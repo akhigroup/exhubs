@@ -45,11 +45,8 @@ create table roles (
 );
 
 insert into roles (name, description) values ('ROLE_USER', 'Registered User');
+insert into roles (name, description) values ('ROLE_USER_GROUP_MANAGER', 'User Group Manager');
 insert into roles (name, description) values ('ROLE_USER_MANAGER', 'User Manager');
-insert into roles (name, description) values ('ROLE_UNIT_MANAGER', 'Unit Manager');
-insert into roles (name, description) values ('ROLE_EXAMINER', 'Examiner');
-insert into roles (name, description) values ('ROLE_TEST_TAKER', 'Test Taker');
-insert into roles (name, description) values ('ROLE_TEST_REVIEWER', 'Test Reviewer');
 
 
 -- 3. group_role --
@@ -64,9 +61,6 @@ create table group_role (
 insert into group_role (group_id, role_id) values (1, 1);
 insert into group_role (group_id, role_id) values (1, 2);
 insert into group_role (group_id, role_id) values (1, 3);
-insert into group_role (group_id, role_id) values (1, 4);
-insert into group_role (group_id, role_id) values (1, 5);
-insert into group_role (group_id, role_id) values (1, 6);
 insert into group_role (group_id, role_id) values (2, 1);
 
 

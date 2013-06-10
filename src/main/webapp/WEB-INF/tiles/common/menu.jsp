@@ -19,29 +19,32 @@
 						<li><a href="/login"><s:message code="global.info.login" /></a></li>
 					</sec:authorize>
 
-					<sec:authorize access="hasRole('ROLE_USER_MANAGER')">
+					<sec:authorize
+						access="hasAnyRole('ROLE_USER_MANAGER','ROLE_USER_GROUP_MANAGER')">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"> <s:message
 									code="global.info.system_manage" /> <b class="caret"></b>
 						</a>
 							<ul class="dropdown-menu">
-								<li><a href="/users"><s:message
-											code="global.info.user_setting" /></a></li>
-								<li class="divider" />
-								<li><a href="/groups"><s:message
-											code="global.info.group_setting" /></a></li>
+								<sec:authorize access="hasRole('ROLE_USER_MANAGER')">
+									<li><a href="/users"><s:message
+												code="global.info.user_setting" /></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('ROLE_USER_GROUP_MANAGER')">
+									<li><a href="/groups"><s:message
+												code="global.info.group_setting" /></a></li>
+								</sec:authorize>
 							</ul></li>
 					</sec:authorize>
 
 					<sec:authorize access="hasRole('ROLE_USER')">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"> <s:message code="global.info.my_account" />
-								<b class="caret"></b>
+							data-toggle="dropdown"> <s:message
+									code="global.info.my_account" /> <b class="caret"></b>
 						</a>
 							<ul class="dropdown-menu">
 								<li><a href="#"><s:message
 											code="global.info.account_setting" /></a></li>
-								<li class="divider" />
 								<li><a href="/logout"><s:message
 											code="global.info.log_out" /></a></li>
 							</ul></li>
