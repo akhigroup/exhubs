@@ -34,6 +34,7 @@
 				<th><s:message code="users.info.users_name" /></th>
 				<th><s:message code="users.info.users_email" /></th>
 				<th><s:message code="users.info.users_group" /></th>
+				<th><s:message code="users.info.users_status" /></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -43,6 +44,11 @@
 					<td>${userBean.name}</td>
 					<td>${userBean.email}</td>
 					<td>${userBean.group.description}</td>
+					<td><c:if test="${userBean.activeFlag}">
+							<s:message code="global.info.active" />
+						</c:if> <c:if test="${not userBean.activeFlag}">
+							<s:message code="global.info.inactive" />
+						</c:if></td>
 				</tr>
 			</c:forEach>
 		</tbody>

@@ -79,12 +79,13 @@ create table users (
     name varchar(32),
     email varchar(32) not null,
     group_id int not null,
+    active_flg boolean default TRUE,
     primary key (id),
     foreign key (group_id) references groups (id)
 );
 
-insert into users (userid, password, name, email, group_id) values ('admin', 'admin123', 'Super Admin', 'biminglei@gmail.com', 1);
-insert into users (userid, password, name, email, group_id) values ('test', 'test123', 'Tester', 'jokeservice@gmail.com', 2);
+insert into users (userid, password, name, email, group_id, active_flg) values ('admin', 'admin123', 'Super Admin', 'biminglei@gmail.com', 1, TRUE);
+insert into users (userid, password, name, email, group_id, active_flg) values ('test', 'test123', 'Tester', 'jokeservice@gmail.com', 2, FALSE);
 
 
 

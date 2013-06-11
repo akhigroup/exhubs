@@ -13,6 +13,8 @@ public class UserBean {
 	private String email;
 	
 	private Group group;
+	
+	private Boolean activeFlag;
 
 	public Integer getId() {
 		return id;
@@ -52,6 +54,14 @@ public class UserBean {
 
 	public void setGroup(Group group) {
 		this.group = group;
+	}
+
+	public Boolean getActiveFlag() {
+		return activeFlag;
+	}
+
+	public void setActiveFlag(Boolean activeFlag) {
+		this.activeFlag = activeFlag;
 	}
 
 }

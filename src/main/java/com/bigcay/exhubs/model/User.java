@@ -35,6 +35,17 @@ public class User {
 	@JoinColumn(name = "group_id")
 	private Group group;
 
+	@Column(name = "active_flg")
+	private boolean activeFlag;
+
+	public Boolean getActiveFlag() {
+		return activeFlag;
+	}
+
+	public void setActiveFlag(Boolean activeFlag) {
+		this.activeFlag = activeFlag;
+	}
+
 	public Group getGroup() {
 		return group;
 	}

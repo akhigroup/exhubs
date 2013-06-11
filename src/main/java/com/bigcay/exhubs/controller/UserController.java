@@ -92,6 +92,7 @@ public class UserController extends BaseController {
 			user.setPassword(userFormBean.getPassword());
 			user.setEmail(userFormBean.getEmail());
 			user.setGroup(authorityService.findGroupById(userFormBean.getGroupId()));
+			user.setActiveFlag(true);
 
 			authorityService.persist(user);
 
