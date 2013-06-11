@@ -18,7 +18,7 @@
 				<label class="control-label" for="userId"><s:message
 						code="users.info.user_userid" /></label>
 				<div class="controls">
-					<form:input class="input-xlarge" path="userId" />
+					<form:input class="input-xlarge" path="userId" tabindex="1" autofocus="autofocus" />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
@@ -30,7 +30,7 @@
 				<label class="control-label" for="name"><s:message
 						code="users.info.user_name" /></label>
 				<div class="controls">
-					<form:input class="input-xlarge" path="name" />
+					<form:input class="input-xlarge" path="name" tabindex="2" />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
@@ -42,7 +42,8 @@
 				<label class="control-label" for="password"><s:message
 						code="users.info.user_password" /></label>
 				<div class="controls">
-					<form:input type="password" class="input-xlarge" path="password" />
+					<form:input type="password" class="input-xlarge" path="password"
+						tabindex="3" />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
@@ -54,7 +55,7 @@
 				<label class="control-label" for="email"><s:message
 						code="users.info.user_email" /></label>
 				<div class="controls">
-					<form:input class="input-xlarge" path="email" />
+					<form:input class="input-xlarge" path="email" tabindex="4" />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
@@ -67,9 +68,10 @@
 				<label class="control-label" for="groupId"><s:message
 						code="users.info.user_group" /></label>
 				<div class="controls">
-					<form:select path="groupId">
+					<form:select path="groupId" tabindex="5">
 						<form:option value="0" label="${please_select}" />
-						<form:options items="${groupBeans}" itemValue="id" itemLabel="description" />
+						<form:options items="${groupBeans}" itemValue="id"
+							itemLabel="description" />
 					</form:select>
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
@@ -79,7 +81,7 @@
 		</s:bind>
 
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">
+			<button type="submit" class="btn btn-primary" tabindex="6">
 				<s:message code="users.info.btn.add_user" />
 			</button>
 		</div>
