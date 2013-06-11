@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bigcay.exhubs.bean.GroupBean;
 import com.bigcay.exhubs.bean.UserBean;
 import com.bigcay.exhubs.form.UserFormBean;
+import com.bigcay.exhubs.global.GlobalManager;
 import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
 
@@ -53,19 +54,9 @@ public class UserController extends BaseController {
 		Page<User> userPage = authorityService.findPageableUsers(pageNumber - 1);
 		List<UserBean> userBeans = authorityService.convertUsers(userPage.getContent());
 
-		// pagination
-		int current = userPage.getNumber() + 1;
-		int begin = Math.max(1, current - 5);
-		int end = Math.min(begin + 10, userPage.getTotalPages());
-		int totalPages = userPage.getTotalPages();
-
 		model.addAttribute("userBeans", userBeans);
-
-		// pagination
-		model.addAttribute("currentIndex", current);
-		model.addAttribute("beginIndex", begin);
-		model.addAttribute("endIndex", end);
-		model.addAttribute("totalPages", totalPages);
+		// add pagination attributes
+		model.addAllAttributes(GlobalManager.getGlobalPageableMap(userPage));
 
 		return "ajax/users/show_users";
 	}
