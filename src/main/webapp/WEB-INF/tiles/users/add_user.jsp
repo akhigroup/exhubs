@@ -18,7 +18,8 @@
 				<label class="control-label" for="userId"><s:message
 						code="users.info.user_userid" /></label>
 				<div class="controls">
-					<form:input class="input-xlarge" path="userId" tabindex="1" autofocus="autofocus" />
+					<form:input class="input-xlarge" path="userId" tabindex="1"
+						autofocus="autofocus" />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
