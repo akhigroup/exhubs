@@ -1,5 +1,6 @@
 package com.bigcay.exhubs.controller;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,7 @@ import com.bigcay.exhubs.bean.GroupBean;
 import com.bigcay.exhubs.bean.UserBean;
 import com.bigcay.exhubs.form.UserFormBean;
 import com.bigcay.exhubs.global.GlobalManager;
+import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
 
@@ -98,6 +100,32 @@ public class UserController extends BaseController {
 		return "users/edit_user";
 	}
 
+	@RequestMapping(value = "users/edit_my_account", method = RequestMethod.GET)
+	public String editMyAccountGetHandler(Model model, Principal principal) {
+
+		logger.debug("UserController.editMyAccountGetHandler is invoked.");
+
+		User editUser = authorityService.findUserByUserId(principal.getName());
+		Group editUserGroup = editUser.getGroup();
+
+		UserFormBean userFormBean = new UserFormBean();
+		userFormBean.setUserId(editUser.getUserId());
+		userFormBean.setName(editUser.getName());
+		userFormBean.setPassword(editUser.getPassword());
+		userFormBean.setEmail(editUser.getEmail());
+		userFormBean.setGroupId(editUser.getGroup().getId());
+
+		GroupBean groupBean = new GroupBean();
+		groupBean.setId(editUserGroup.getId());
+		groupBean.setName(editUserGroup.getName());
+		groupBean.setDescription(editUserGroup.getDescription());
+
+		model.addAttribute("userFormBean", userFormBean);
+		model.addAttribute("groupBean", groupBean);
+
+		return "users/edit_my_account";
+	}
+
 	@RequestMapping(value = "users/create", method = RequestMethod.POST)
 	public String addUserSubmitHandler(Model model, Locale locale,
 			@Valid @ModelAttribute("userFormBean") UserFormBean userFormBean, BindingResult result,
@@ -156,6 +184,39 @@ public class UserController extends BaseController {
 		}
 	}
 
+	@RequestMapping(value = "users/edit_my_account", method = RequestMethod.POST)
+	public String editMyAccountSubmitHandler(Model model, Locale locale,
+			@Valid @ModelAttribute("userFormBean") UserFormBean userFormBean, BindingResult result,
+			final RedirectAttributes redirectAttributes, Principal principal) {
+
+		logger.debug("UserController.editMyAccountSubmitHandler is invoked.");
+
+		User editUser = authorityService.findUserByUserId(principal.getName());
+
+		if (result.hasErrors()) {
+			Group editUserGroup = editUser.getGroup();
+
+			GroupBean groupBean = new GroupBean();
+			groupBean.setId(editUserGroup.getId());
+			groupBean.setName(editUserGroup.getName());
+			groupBean.setDescription(editUserGroup.getDescription());
+
+			model.addAttribute("groupBean", groupBean);
+
+			return "users/edit_my_account";
+		} else {
+			editUser.setName(userFormBean.getName());
+			editUser.setPassword(userFormBean.getPassword());
+			editUser.setEmail(userFormBean.getEmail());
+
+			authorityService.persist(editUser);
+
+			redirectAttributes.addFlashAttribute("info", messageSource.getMessage("users.info.edit_user_success",
+					new String[] { editUser.getUserId() }, locale));
+			return "redirect:/";
+		}
+	}
+
 	@RequestMapping("/rest/users/update_active_flag")
 	public @ResponseBody
 	Map<String, Object> updateActiveFlagRestHandler(Locale locale, @RequestParam("updateId") Integer updateId,
@@ -174,14 +235,5 @@ public class UserController extends BaseController {
 
 		return responseMap;
 	}
-
-	// not used yet
-	@RequestMapping("rest/users")
-	public @ResponseBody
-	List<UserBean> usersRestHandler() {
-
-		logger.debug("UserController.usersRestHandler is invoked.");
-
-		return authorityService.findAllUserBeans();
-	}
+	
 }

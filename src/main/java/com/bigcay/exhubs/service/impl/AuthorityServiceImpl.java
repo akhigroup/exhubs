@@ -148,4 +148,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 		}
 	}
 
+	@Override
+	public User findUserByUserId(String userId) {
+		return userRepository.findByUserId(userId);
+	}
+
 }

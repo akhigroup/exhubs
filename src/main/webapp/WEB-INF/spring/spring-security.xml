@@ -18,18 +18,26 @@
 		<intercept-url pattern="/logout" access="permitAll" />
 		<intercept-url pattern="/denied" access="hasRole('ROLE_USER')" />
 
-		<!-- User Module 
+
+		<!-- My Account Module -->
+		<!-- This part should be placed ahead of the user module -->
+		<intercept-url pattern="/users/edit_my_account" access="hasRole('ROLE_USER')" />
+
+
+		<!-- User Module -->
 		<intercept-url pattern="/users" access="hasRole('ROLE_USER_MANAGER')" />
-		<intercept-url pattern="/ajax/users/show_users" access="hasRole('ROLE_USER_MANAGER')" />
-		
-		<intercept-url pattern="/users/create" access="hasRole('ROLE_USER_MANAGER')" />-->
-		
-		<!-- Group Module 
+		<intercept-url pattern="/users/*" access="hasRole('ROLE_USER_MANAGER')" />
+		<intercept-url pattern="/user/*" access="hasRole('ROLE_USER_MANAGER')" />
+		<intercept-url pattern="/ajax/users/*" access="hasRole('ROLE_USER_MANAGER')" />
+		<intercept-url pattern="/rest/users/*" access="hasRole('ROLE_USER_MANAGER')" />
+
+
+
+		<!-- Group Module -->
 		<intercept-url pattern="/groups" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
-		<intercept-url pattern="/ajax/groups/show_groups" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
-		
 		<intercept-url pattern="/group/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
-		<intercept-url pattern="/ajax/groups/show_group_roles/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />-->
+		<intercept-url pattern="/ajax/groups/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
+
 
 		<!-- Site Index -->
 		<intercept-url pattern="/" access="permitAll" />
@@ -44,7 +52,7 @@
 
 		<session-management invalid-session-url="/">
 			<concurrency-control max-sessions="1" error-if-maximum-exceeded="false" />
-		</session-management> 
+		</session-management>
 	</http>
 
 	<authentication-manager>

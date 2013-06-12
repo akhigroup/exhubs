@@ -43,7 +43,7 @@
 									code="global.info.my_account" /> <b class="caret"></b>
 						</a>
 							<ul class="dropdown-menu">
-								<li><a href="#"><s:message
+								<li><a href="/users/edit_my_account"><s:message
 											code="global.info.account_setting" /></a></li>
 								<li><a href="/logout"><s:message
 											code="global.info.log_out" /></a></li>

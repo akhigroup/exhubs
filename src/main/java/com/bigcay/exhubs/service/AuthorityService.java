@@ -14,6 +14,8 @@ import com.bigcay.exhubs.model.User;
 public interface AuthorityService {
 
 	User findUserById(Integer id);
+	
+	User findUserByUserId(String userId);
 
 	List<UserBean> findAllUserBeans();
 
