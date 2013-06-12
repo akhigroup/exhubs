@@ -1,5 +1,6 @@
 package com.bigcay.exhubs.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -95,6 +96,7 @@ public class UserController extends BaseController {
 			user.setEmail(userFormBean.getEmail());
 			user.setGroup(authorityService.findGroupById(userFormBean.getGroupId()));
 			user.setActiveFlag(true);
+			user.setCreateDate(new Date());
 
 			authorityService.persist(user);
 

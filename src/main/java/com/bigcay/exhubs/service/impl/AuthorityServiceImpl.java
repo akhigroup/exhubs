@@ -1,6 +1,7 @@
 package com.bigcay.exhubs.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -99,6 +100,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 	@Override
 	public User persist(User user) {
+		user.setUpdateDateTime(new Date());
 		return userRepository.save(user);
 	}
 
@@ -121,6 +123,8 @@ public class AuthorityServiceImpl implements AuthorityService {
 			userBean.setEmail(user.getEmail());
 			userBean.setGroup(user.getGroup());
 			userBean.setActiveFlag(user.getActiveFlag());
+			userBean.setCreateDate(user.getCreateDate());
+			userBean.setUpdateDateTime(user.getUpdateDateTime());
 
 			userBeans.add(userBean);
 		}

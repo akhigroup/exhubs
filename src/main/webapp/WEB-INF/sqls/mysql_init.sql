@@ -58,12 +58,14 @@ create table users (
     email varchar(32) not null,
     group_id int not null,
     active_flg boolean default 1,
+    create_date date not null,
+    update_datetime timestamp null,
     primary key (id),
     foreign key (group_id) references groups (id)
 );
 
-insert into users (userid, password, name, email, group_id, active_flg) values ('admin', 'admin123', 'Super Admin', 'biminglei@gmail.com', 1, true);
-insert into users (userid, password, name, email, group_id, active_flg) values ('test', 'test123', 'Tester', 'jokeservice@gmail.com', 2, false);
+insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('admin', 'admin123', 'Super Admin', 'biminglei@gmail.com', 1, true, '2013-06-01', null);
+insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('test', 'test123', 'Tester', 'jokeservice@gmail.com', 2, false, '2013-06-02', null);
 
 
 

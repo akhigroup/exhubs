@@ -1,5 +1,7 @@
 package com.bigcay.exhubs.bean;
 
+import java.util.Date;
+
 import com.bigcay.exhubs.model.Group;
 
 public class UserBean {
@@ -15,6 +17,26 @@ public class UserBean {
 	private Group group;
 	
 	private Boolean activeFlag;
+	
+	private Date createDate;
+	
+	private Date updateDateTime;
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getUpdateDateTime() {
+		return updateDateTime;
+	}
+
+	public void setUpdateDateTime(Date updateDateTime) {
+		this.updateDateTime = updateDateTime;
+	}
 
 	public Integer getId() {
 		return id;

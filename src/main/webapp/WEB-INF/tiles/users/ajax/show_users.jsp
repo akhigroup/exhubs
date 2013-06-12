@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <c:url var="firstUrl" value="javascript:showUsers(1);" />
 <c:url var="lastUrl" value="javascript:showUsers(${totalPages});" />
@@ -34,6 +35,7 @@
 				<th><s:message code="users.info.users_name" /></th>
 				<th><s:message code="users.info.users_email" /></th>
 				<th><s:message code="users.info.users_group" /></th>
+				<th><s:message code="users.info.users_create_date" /></th>
 				<th><s:message code="users.info.users_status" /></th>
 				<th><s:message code="users.info.users_operation" /></th>
 			</tr>
@@ -45,6 +47,8 @@
 					<td>${userBean.name}</td>
 					<td>${userBean.email}</td>
 					<td>${userBean.group.description}</td>
+					<td><fmt:formatDate pattern="yyyy-MM-dd"
+							value="${userBean.createDate}" /></td>
 					<td><c:if test="${userBean.activeFlag}">
 							<s:message code="global.info.active" />
 						</c:if> <c:if test="${not userBean.activeFlag}">

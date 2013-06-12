@@ -1,5 +1,7 @@
 package com.bigcay.exhubs.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,7 +38,29 @@ public class User {
 	private Group group;
 
 	@Column(name = "active_flg")
-	private boolean activeFlag;
+	private Boolean activeFlag;
+
+	@Column(name = "create_date")
+	private Date createDate;
+
+	@Column(name = "update_datetime")
+	private Date updateDateTime;
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getUpdateDateTime() {
+		return updateDateTime;
+	}
+
+	public void setUpdateDateTime(Date updateDateTime) {
+		this.updateDateTime = updateDateTime;
+	}
 
 	public Boolean getActiveFlag() {
 		return activeFlag;
