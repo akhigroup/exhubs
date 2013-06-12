@@ -100,7 +100,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 	@Override
 	public User persist(User user) {
-		user.setUpdateDateTime(new Date());
+		if (user.getId() != null) {
+			user.setUpdateDateTime(new Date());
+		}
 		return userRepository.save(user);
 	}
 
