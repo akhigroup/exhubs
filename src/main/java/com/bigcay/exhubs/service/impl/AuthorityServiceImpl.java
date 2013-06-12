@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bigcay.exhubs.bean.GroupBean;
@@ -103,7 +104,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 	@Override
 	public Page<User> findPageableUsers(Integer pageNumber) {
-		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE);
+		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id");
 		return userRepository.findAll(pageRequest);
 	}
 
