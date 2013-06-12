@@ -12,13 +12,13 @@ function showUsers(pageNumber) {
 	});
 };
 
-function changeUserStatus(userId, activeFlag, currPageNum) {
+function changeUserStatus(updateId, activeFlag, currPageNum) {
 
 	cleanAjaxMessage();
 
 	var updateUserActiveFlagUri = "/rest/users/update_active_flag";
 	$.getJSON(updateUserActiveFlagUri, {
-		userId : userId,
+		updateId : updateId,
 		activeFlag : activeFlag
 	}).done(function(obj) {
 		if (obj.success) {

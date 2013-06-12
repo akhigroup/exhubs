@@ -135,9 +135,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
-	public boolean updateUserActiveFlag(Integer userId, boolean activeFlag) {
+	public boolean updateUserActiveFlag(Integer updateId, boolean activeFlag) {
 
-		User targetUser = userRepository.findOne(userId);
+		User targetUser = userRepository.findOne(updateId);
 
 		if (targetUser == null || targetUser.getActiveFlag().booleanValue() == activeFlag) {
 			return false;

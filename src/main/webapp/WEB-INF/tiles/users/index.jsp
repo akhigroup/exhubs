@@ -9,10 +9,10 @@
 
 <div class="container-fluid">
 	<div class="row-fluid">
-		<div class="span10">
+		<div class="span11">
 			<div id="users" class="panel"></div>
 		</div>
-		<div class="span2"></div>
+		<div class="span1"></div>
 	</div>
 	<div class="row-fluid">
 		<div class="span6">

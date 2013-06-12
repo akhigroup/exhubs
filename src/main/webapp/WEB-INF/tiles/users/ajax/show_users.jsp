@@ -64,7 +64,11 @@
 								onclick="changeUserStatus(${userBean.id}, true, ${currentIndex});">
 								<s:message code="global.info.btn.activate" />
 							</button>
-						</c:if></td>
+						</c:if>
+						<button class="btn btn-link btn-mini"
+							onclick="location.href='/user/edit/${userBean.id}'">
+							<s:message code="users.info.btn.edit" />
+						</button></td>
 				</tr>
 			</c:forEach>
 		</tbody>

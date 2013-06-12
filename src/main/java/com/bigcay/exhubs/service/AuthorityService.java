@@ -33,5 +33,5 @@ public interface AuthorityService {
 
 	User persist(User user);
 
-	boolean updateUserActiveFlag(Integer userId, boolean activeFlag);
+	boolean updateUserActiveFlag(Integer updateId, boolean activeFlag);
 }

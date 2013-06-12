@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -76,6 +77,27 @@ public class UserController extends BaseController {
 		return "users/add_user";
 	}
 
+	@RequestMapping(value = "user/edit/{editId}", method = RequestMethod.GET)
+	public String editUserGetHandler(Model model, @PathVariable Integer editId) {
+
+		logger.debug("UserController.editUserGetHandler is invoked.");
+
+		User editUser = authorityService.findUserById(editId);
+
+		UserFormBean userFormBean = new UserFormBean();
+		userFormBean.setUserId(editUser.getUserId());
+		userFormBean.setName(editUser.getName());
+		userFormBean.setPassword(editUser.getPassword());
+		userFormBean.setEmail(editUser.getEmail());
+		userFormBean.setGroupId(editUser.getGroup().getId());
+
+		List<GroupBean> groupBeans = authorityService.findAllGroupBeans();
+		model.addAttribute("userFormBean", userFormBean);
+		model.addAttribute("groupBeans", groupBeans);
+
+		return "users/edit_user";
+	}
+
 	@RequestMapping(value = "users/create", method = RequestMethod.POST)
 	public String addUserSubmitHandler(Model model, Locale locale,
 			@Valid @ModelAttribute("userFormBean") UserFormBean userFormBean, BindingResult result,
@@ -106,16 +128,44 @@ public class UserController extends BaseController {
 		}
 	}
 
+	@RequestMapping(value = "user/edit/{editId}", method = RequestMethod.POST)
+	public String editUserSubmitHandler(Model model, Locale locale, @PathVariable Integer editId,
+			@Valid @ModelAttribute("userFormBean") UserFormBean userFormBean, BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+
+		logger.debug("UserController.editUserSubmitHandler is invoked.");
+
+		if (result.hasErrors()) {
+			List<GroupBean> groupBeans = authorityService.findAllGroupBeans();
+			model.addAttribute("groupBeans", groupBeans);
+
+			return "users/edit_user";
+		} else {
+			User user = authorityService.findUserById(editId);
+			user.setName(userFormBean.getName());
+			user.setPassword(userFormBean.getPassword());
+			user.setEmail(userFormBean.getEmail());
+			user.setGroup(authorityService.findGroupById(userFormBean.getGroupId()));
+
+			authorityService.persist(user);
+
+			redirectAttributes
+					.addFlashAttribute("info", messageSource.getMessage("users.info.edit_user_success",
+							new String[] { user.getUserId() }, locale));
+			return "redirect:/users";
+		}
+	}
+
 	@RequestMapping("/rest/users/update_active_flag")
 	public @ResponseBody
-	Map<String, Object> updateActiveFlagRestHandler(Locale locale, @RequestParam("userId") Integer userId,
+	Map<String, Object> updateActiveFlagRestHandler(Locale locale, @RequestParam("updateId") Integer updateId,
 			@RequestParam("activeFlag") boolean activeFlag) {
 
 		logger.debug("UserController.updateActiveFlagRestHandler is invoked.");
 
 		Map<String, Object> responseMap = new HashMap<String, Object>();
 
-		if (authorityService.updateUserActiveFlag(userId, activeFlag)) {
+		if (authorityService.updateUserActiveFlag(updateId, activeFlag)) {
 			responseMap.put("success", true);
 		} else {
 			responseMap.put("success", false);
