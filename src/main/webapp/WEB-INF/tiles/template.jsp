@@ -22,10 +22,14 @@ body {
 </style>
 <script src="/resources/js/jquery.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
+<script src="/resources/js/main.js"></script>
 </head>
 <body>
 	<tiles:insertAttribute name="menu" />
 	<div id="container" class="container">
+	
+		<div id="ajax_success" class="alert alert-success" style="display: none;"></div>
+		<div id="ajax_error" class="alert alert-error" style="display: none;"></div>
 
 		<c:if test="${not empty info}">
 			<div class="alert alert-success">

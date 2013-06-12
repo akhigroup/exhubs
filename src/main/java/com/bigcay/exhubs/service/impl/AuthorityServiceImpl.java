@@ -127,4 +127,18 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return userBeans;
 	}
 
+	@Override
+	public boolean updateUserActiveFlag(Integer userId, boolean activeFlag) {
+
+		User targetUser = userRepository.findOne(userId);
+
+		if (targetUser == null || targetUser.getActiveFlag().booleanValue() == activeFlag) {
+			return false;
+		} else {
+			targetUser.setActiveFlag(activeFlag);
+			this.persist(targetUser);
+			return true;
+		}
+	}
+
 }

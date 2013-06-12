@@ -1,7 +1,9 @@
 package com.bigcay.exhubs.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -100,7 +102,25 @@ public class UserController extends BaseController {
 					messageSource.getMessage("users.info.add_user_success", new String[] { user.getUserId() }, locale));
 			return "redirect:/users";
 		}
+	}
 
+	@RequestMapping("/rest/users/update_active_flag")
+	public @ResponseBody
+	Map<String, Object> updateActiveFlagRestHandler(Locale locale, @RequestParam("userId") Integer userId,
+			@RequestParam("activeFlag") boolean activeFlag) {
+
+		logger.debug("UserController.updateActiveFlagRestHandler is invoked.");
+
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+
+		if (authorityService.updateUserActiveFlag(userId, activeFlag)) {
+			responseMap.put("success", true);
+		} else {
+			responseMap.put("success", false);
+			responseMap.put("error", messageSource.getMessage("global.error.unknown_error", null, locale));
+		}
+
+		return responseMap;
 	}
 
 	// not used yet

@@ -30,12 +30,11 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 		try {
 			domainUser = userRepository.findByUserId(username);
 
-			boolean enabled = true;
 			boolean accountNonExpired = true;
 			boolean credentialsNonExpired = true;
 			boolean accountNonLocked = true;
 
-			return new User(domainUser.getUserId(), domainUser.getPassword().toLowerCase(), enabled, accountNonExpired,
+			return new User(domainUser.getUserId(), domainUser.getPassword().toLowerCase(), domainUser.getActiveFlag(), accountNonExpired,
 					credentialsNonExpired, accountNonLocked, getAuthorities(domainUser.getGroup().getRoles()));
 		} catch (Exception e) {
 			throw new UsernameNotFoundException("User is not found!", e);
@@ -47,8 +46,6 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
 		for (Role role : roles) {
 			authorities.add(new SimpleGrantedAuthority(role.getName()));
-			
-			
 		}
 
 		return authorities;

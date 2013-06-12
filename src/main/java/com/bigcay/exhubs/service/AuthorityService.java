@@ -16,15 +16,15 @@ public interface AuthorityService {
 	User findUserById(Integer id);
 
 	List<UserBean> findAllUserBeans();
-	
+
 	Page<User> findPageableUsers(Integer pageNumber);
-	
+
 	List<UserBean> convertUsers(List<User> users);
 
 	Role findRoleById(Integer id);
 
 	List<Role> findAllRoles();
-	
+
 	Group findGroupById(Integer id);
 
 	List<GroupBean> findAllGroupBeans();
@@ -32,4 +32,6 @@ public interface AuthorityService {
 	List<RoleBean> findRoleBeansByGroupId(Integer groupId);
 
 	User persist(User user);
+
+	boolean updateUserActiveFlag(Integer userId, boolean activeFlag);
 }

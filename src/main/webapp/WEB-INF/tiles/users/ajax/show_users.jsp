@@ -35,6 +35,7 @@
 				<th><s:message code="users.info.users_email" /></th>
 				<th><s:message code="users.info.users_group" /></th>
 				<th><s:message code="users.info.users_status" /></th>
+				<th><s:message code="users.info.users_operation" /></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -48,6 +49,17 @@
 							<s:message code="global.info.active" />
 						</c:if> <c:if test="${not userBean.activeFlag}">
 							<s:message code="global.info.inactive" />
+						</c:if></td>
+					<td><c:if test="${userBean.activeFlag}">
+							<button class="btn btn-danger btn-mini"
+								onclick="changeUserStatus(${userBean.id}, false, ${currentIndex});">
+								<s:message code="global.info.btn.deactivate" />
+							</button>
+						</c:if> <c:if test="${not userBean.activeFlag}">
+							<button class="btn btn-success btn-mini"
+								onclick="changeUserStatus(${userBean.id}, true, ${currentIndex});">
+								<s:message code="global.info.btn.activate" />
+							</button>
 						</c:if></td>
 				</tr>
 			</c:forEach>

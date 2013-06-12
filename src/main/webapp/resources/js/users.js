@@ -11,3 +11,23 @@ function showUsers(pageNumber) {
 		}
 	});
 };
+
+function changeUserStatus(userId, activeFlag, currPageNum) {
+
+	cleanAjaxMessage();
+
+	var updateUserActiveFlagUri = "/rest/users/update_active_flag";
+	$.getJSON(updateUserActiveFlagUri, {
+		userId : userId,
+		activeFlag : activeFlag
+	}).done(function(obj) {
+		if (obj.success) {
+			showUsers(currPageNum == null ? 1 : currPageNum);
+		} else {
+			$('#ajax_error').html(obj.error).show();
+		}
+	}).fail(function(jqxhr, textStatus, error) {
+		var obj = jQuery.parseJSON(jqxhr.responseText);
+		$('#ajax_error').html(obj.error).show();
+	});
+};
