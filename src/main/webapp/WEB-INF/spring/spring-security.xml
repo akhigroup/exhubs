@@ -17,6 +17,9 @@
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
 		<intercept-url pattern="/denied" access="hasRole('ROLE_USER')" />
+		
+		<!-- only for testing -->
+		<intercept-url pattern="/demo" access="permitAll" />
 
 
 		<!-- My Account Module -->
