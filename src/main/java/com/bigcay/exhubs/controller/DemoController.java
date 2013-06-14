@@ -1,12 +1,21 @@
 package com.bigcay.exhubs.controller;
 
+import java.util.Locale;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bigcay.exhubs.form.UserFormBean;
 import com.bigcay.exhubs.model.QuestionAnswer;
 import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
@@ -22,8 +31,8 @@ public class DemoController {
 	@Autowired
 	private QuestionService questionService;
 
-	@RequestMapping(value = "/demo", method = RequestMethod.GET)
-	public String indexHandler() {
+	@RequestMapping(value = "demo", method = RequestMethod.GET)
+	public String indexHandler(Model model) {
 
 		logger.info("DemoController.indexHandler is invoked.");
 
@@ -55,14 +64,31 @@ public class DemoController {
 		for (QuestionHeader questionHeaderItem : questionSubject.getQuestionHeaders()) {
 			logger.debug("*** questionHeaderItem: " + questionHeaderItem.getId() + ","
 					+ questionHeaderItem.getDescription() + "," + questionHeaderItem.getScore());
-			
-			for(QuestionDetail questionDetail : questionHeaderItem.getQuestionDetails()) {
-				logger.debug("**** questionDetail:" + questionDetail.getContent() + ", sort_order:" + questionDetail.getSortOrder());
+
+			for (QuestionDetail questionDetail : questionHeaderItem.getQuestionDetails()) {
+				logger.debug("**** questionDetail:" + questionDetail.getContent() + ", sort_order:"
+						+ questionDetail.getSortOrder());
 			}
-			
 		}
 
+		model.addAttribute("userFormBean", new UserFormBean());
+
 		return "demo/index";
+	}
+
+	@RequestMapping(value = "demo", method = RequestMethod.POST)
+	public String demoSubmitHandler(Model model, Locale locale,
+			@Valid @ModelAttribute("userFormBean") UserFormBean userFormBean, BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+
+		logger.debug("DemoController.demoSubmitHandler is invoked.");
+
+		if (result.hasErrors()) {
+			return "demo/index";
+		} else {
+			redirectAttributes.addFlashAttribute("info", "success!");
+			return "redirect:/";
+		}
 	}
 
 }
