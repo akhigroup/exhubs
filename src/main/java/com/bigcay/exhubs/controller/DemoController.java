@@ -55,6 +55,11 @@ public class DemoController {
 		for (QuestionHeader questionHeaderItem : questionSubject.getQuestionHeaders()) {
 			logger.debug("*** questionHeaderItem: " + questionHeaderItem.getId() + ","
 					+ questionHeaderItem.getDescription() + "," + questionHeaderItem.getScore());
+			
+			for(QuestionDetail questionDetail : questionHeaderItem.getQuestionDetails()) {
+				logger.debug("**** questionDetail:" + questionDetail.getContent() + ", sort_order:" + questionDetail.getSortOrder());
+			}
+			
 		}
 
 		return "demo/index";
