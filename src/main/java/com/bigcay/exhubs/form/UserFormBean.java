@@ -1,24 +1,17 @@
 package com.bigcay.exhubs.form;
 
-import javax.validation.constraints.Min;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
 public class UserFormBean {
 
-	@NotEmpty
+	private Integer id;
+
 	private String userId;
 
-	@NotEmpty
 	private String name;
 
-	@NotEmpty
 	private String password;
 
-	@NotEmpty
 	private String email;
-	
-	@Min(1)
+
 	private Integer groupId;
 
 	public String getUserId() {
@@ -59,6 +52,14 @@ public class UserFormBean {
 
 	public void setGroupId(Integer groupId) {
 		this.groupId = groupId;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }

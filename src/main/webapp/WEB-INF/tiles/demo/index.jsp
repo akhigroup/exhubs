@@ -4,10 +4,16 @@
 
 <h1>This is a demo</h1>
 
+<c:set var="please_select">
+	<s:message code="global.info.please_select" />
+</c:set>
+
 <form:form id="form" class="form-horizontal" method="post"
 	modelAttribute="userFormBean">
 	<fieldset>
 		<legend> demo </legend>
+
+		<input type="hidden" name="id" value="${userFormBean.id}" />
 
 		<s:bind path="userId">
 			<div class="control-group ${status.error ? 'error' : '' }">
@@ -53,6 +59,23 @@
 						code="users.info.user_email" /></label>
 				<div class="controls">
 					<form:input class="input-xlarge" path="email" tabindex="4" />
+					<c:if test="${status.error}">
+						<span class="help-inline">${status.errorMessage}</span>
+					</c:if>
+				</div>
+			</div>
+		</s:bind>
+		
+		<s:bind path="groupId">
+			<div class="control-group ${status.error ? 'error' : '' }">
+				<label class="control-label" for="groupId"><s:message
+						code="users.info.user_group" /></label>
+				<div class="controls">
+					<form:select path="groupId" tabindex="5">
+						<form:option value="0" label="${please_select}" />
+						<form:options items="${groupBeans}" itemValue="id"
+							itemLabel="description" />
+					</form:select>
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>

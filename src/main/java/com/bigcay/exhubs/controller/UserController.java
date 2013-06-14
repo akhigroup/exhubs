@@ -17,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bigcay.exhubs.bean.GroupBean;
 import com.bigcay.exhubs.bean.UserBean;
 import com.bigcay.exhubs.form.UserFormBean;
+import com.bigcay.exhubs.form.UserFormBeanValidator;
 import com.bigcay.exhubs.global.GlobalManager;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.User;
@@ -43,6 +46,20 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private AuthorityService authorityService;
+	
+	@Autowired
+	private UserFormBeanValidator userFormBeanValidator;
+	
+	
+	@InitBinder("userFormBean")
+	protected void initUserFormBeanBinder(WebDataBinder binder) {
+		binder.setValidator(userFormBeanValidator);
+	}
+	
+	@ModelAttribute("groupBeans")
+	public List<GroupBean> getGroupBeans() {
+		return authorityService.findAllGroupBeans();
+	}
 
 	@RequestMapping("users")
 	public String usersIndexHandler() {
@@ -72,9 +89,7 @@ public class UserController extends BaseController {
 
 		logger.debug("UserController.addUserGetHandler is invoked.");
 
-		List<GroupBean> groupBeans = authorityService.findAllGroupBeans();
 		model.addAttribute("userFormBean", new UserFormBean());
-		model.addAttribute("groupBeans", groupBeans);
 
 		return "users/add_user";
 	}
@@ -87,15 +102,14 @@ public class UserController extends BaseController {
 		User editUser = authorityService.findUserById(editId);
 
 		UserFormBean userFormBean = new UserFormBean();
+		userFormBean.setId(editUser.getId());
 		userFormBean.setUserId(editUser.getUserId());
 		userFormBean.setName(editUser.getName());
 		userFormBean.setPassword(editUser.getPassword());
 		userFormBean.setEmail(editUser.getEmail());
 		userFormBean.setGroupId(editUser.getGroup().getId());
 
-		List<GroupBean> groupBeans = authorityService.findAllGroupBeans();
 		model.addAttribute("userFormBean", userFormBean);
-		model.addAttribute("groupBeans", groupBeans);
 
 		return "users/edit_user";
 	}
@@ -109,6 +123,7 @@ public class UserController extends BaseController {
 		Group editUserGroup = editUser.getGroup();
 
 		UserFormBean userFormBean = new UserFormBean();
+		userFormBean.setId(editUser.getId());
 		userFormBean.setUserId(editUser.getUserId());
 		userFormBean.setName(editUser.getName());
 		userFormBean.setPassword(editUser.getPassword());
@@ -134,9 +149,6 @@ public class UserController extends BaseController {
 		logger.debug("UserController.addUserSubmitHandler is invoked.");
 
 		if (result.hasErrors()) {
-			List<GroupBean> groupBeans = authorityService.findAllGroupBeans();
-			model.addAttribute("groupBeans", groupBeans);
-
 			return "users/add_user";
 		} else {
 			User user = new User();
@@ -164,9 +176,6 @@ public class UserController extends BaseController {
 		logger.debug("UserController.editUserSubmitHandler is invoked.");
 
 		if (result.hasErrors()) {
-			List<GroupBean> groupBeans = authorityService.findAllGroupBeans();
-			model.addAttribute("groupBeans", groupBeans);
-
 			return "users/edit_user";
 		} else {
 			User user = authorityService.findUserById(editId);

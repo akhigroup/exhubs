@@ -9,6 +9,7 @@
 			<s:message code="users.info.edit_my_account" />
 		</legend>
 
+		<input type="hidden" name="id" value="${userFormBean.id}" />
 		<input type="hidden" name="groupId" value="${groupBean.id}" />
 
 		<s:bind path="userId">

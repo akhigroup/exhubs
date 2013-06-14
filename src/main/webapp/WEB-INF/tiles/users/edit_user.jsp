@@ -13,6 +13,8 @@
 			<s:message code="users.info.edit_user" />
 		</legend>
 
+		<input type="hidden" name="id" value="${userFormBean.id}" />
+
 		<s:bind path="userId">
 			<div class="control-group ${status.error ? 'error' : '' }">
 				<label class="control-label" for="userId"><s:message
