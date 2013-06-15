@@ -21,5 +21,7 @@ public interface QuestionService {
 	QuestionDetail findQuestionDetailById(Integer id);
 	
 	List<QuestionType> findAllQuestionTypes();
+	
+	List<QuestionSubject> findAllQuestionSubjects();
 
 }

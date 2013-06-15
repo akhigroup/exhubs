@@ -65,4 +65,9 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionTypeRepository.findAll();
 	}
 
+	@Override
+	public List<QuestionSubject> findAllQuestionSubjects() {
+		return questionSubjectRepository.findAll();
+	}
+
 }

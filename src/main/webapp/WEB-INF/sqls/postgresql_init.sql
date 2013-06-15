@@ -35,8 +35,8 @@ create table groups (
 	primary key (id)
 );
 
-insert into groups (name, description) values ('GROUP_SYSTEM_ADMIN', 'System Admin Group');
-insert into groups (name, description) values ('GROUP_NORMAL_USER', 'Normal User Group');
+insert into groups (name, description) values ('GROUP_SYSTEM_ADMIN', '系统管理员组');
+insert into groups (name, description) values ('GROUP_NORMAL_USER', '普通用户组');
 
 
 /* 2. roles */
@@ -54,11 +54,11 @@ create table roles (
 	primary key (id)
 );
 
-insert into roles (name, description) values ('ROLE_USER', 'Registered User');
-insert into roles (name, description) values ('ROLE_USER_GROUP_MANAGER', 'User Group Manager');
-insert into roles (name, description) values ('ROLE_USER_MANAGER', 'User Manager');
-insert into roles (name, description) values ('ROLE_EXAM_MANAGER', 'Exam Manager');
-insert into roles (name, description) values ('ROLE_QUESTION_MANAGER', 'Question Manager');
+insert into roles (name, description) values ('ROLE_USER', '注册用户');
+insert into roles (name, description) values ('ROLE_USER_GROUP_MANAGER', '用户组管理');
+insert into roles (name, description) values ('ROLE_USER_MANAGER', '用户管理');
+insert into roles (name, description) values ('ROLE_EXAM_MANAGER', '考试管理');
+insert into roles (name, description) values ('ROLE_QUESTION_MANAGER', '题目管理');
 
 
 /* 3. group_role */
@@ -100,7 +100,7 @@ create table users (
     foreign key (group_id) references groups (id)
 );
 
-insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('admin', 'admin123', 'Super Admin', 'biminglei@gmail.com', 1, TRUE, '2013-06-01', null);
+insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('admin', 'admin123', '系统管理员', 'biminglei@gmail.com', 1, TRUE, '2013-06-01', null);
 insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('test', 'test123', 'Tester', 'biminglei@gmail.com', 2, FALSE, '2013-06-02', null);
 
 
@@ -120,11 +120,11 @@ create table question_types (
 	primary key (id)
 );
 
-insert into question_types (name, description) values ('SCQ', 'single choice question');
-insert into question_types (name, description) values ('MCQ', 'multiple choice question');
-insert into question_types (name, description) values ('TFQ', 'true false question');
-insert into question_types (name, description) values ('BFQ', 'blank filling question');
-insert into question_types (name, description) values ('EQ', 'essay question');
+insert into question_types (name, description) values ('SCQ', '单选题');
+insert into question_types (name, description) values ('MCQ', '多选题');
+insert into question_types (name, description) values ('TFQ', '判断题');
+insert into question_types (name, description) values ('BFQ', '填空题');
+insert into question_types (name, description) values ('EQ', '简答题');
 
 
 /* 6. question_subjects */

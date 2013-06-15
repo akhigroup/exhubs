@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bigcay.exhubs.model.QuestionSubject;
 import com.bigcay.exhubs.model.QuestionType;
 import com.bigcay.exhubs.service.QuestionService;
 
@@ -50,6 +51,18 @@ public class QuestionController extends BaseController {
 		logger.debug("QuestionController.questionRepoIndexHandler is invoked.");
 
 		return "questionrepos/index";
+	}
+
+	@RequestMapping("ajax/questionrepos/show_question_subjects")
+	public String showQuestionSubjectsAjaxHandler(Model model) {
+
+		logger.debug("QuestionController.showQuestionSubjectsAjaxHandler is invoked.");
+
+		List<QuestionSubject> questionSubjects = questionService.findAllQuestionSubjects();
+
+		model.addAttribute("questionSubjects", questionSubjects);
+
+		return "ajax/questionrepos/show_question_subjects";
 	}
 
 }

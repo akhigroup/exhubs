@@ -9,3 +9,15 @@ function showQuestionTypes() {
 		}
 	});
 };
+
+function showQuestionSubjects() {
+	$.ajax({
+		url : '/ajax/questionrepos/show_question_subjects',
+		data : {},
+		type : 'get',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			$('#questionSubjects').html(response);
+		}
+	});
+};
