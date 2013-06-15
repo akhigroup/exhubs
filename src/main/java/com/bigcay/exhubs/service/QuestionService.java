@@ -1,5 +1,8 @@
 package com.bigcay.exhubs.service;
 
+import java.util.List;
+
+import com.bigcay.exhubs.bean.QuestionTypeBean;
 import com.bigcay.exhubs.model.QuestionAnswer;
 import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
@@ -17,5 +20,7 @@ public interface QuestionService {
 	QuestionHeader findQuestionHeaderById(Integer id);
 	
 	QuestionDetail findQuestionDetailById(Integer id);
+	
+	List<QuestionTypeBean> findAllQuestionTypeBeans();
 
 }

@@ -1,16 +1,25 @@
+/* 0. initiation */
+
+drop database if exists exhubs;
 create database exhubs charset=utf8;
 
 use exhubs;
 
--- 0. initiation --
-drop table users; 
-drop table group_role;
-drop table roles; 
-drop table groups;
+/*
+drop table if exists question_details;
+drop table if exists question_subject_question_header;
+drop table if exists question_headers;
+drop table if exists question_answers;
+drop table if exists question_subjects;
+drop table if exists question_types;
+drop table if exists users; 
+drop table if exists group_role;
+drop table if exists roles; 
+drop table if exists groups;
+*/
 
--------------------------------------
 
--- 1. groups --
+/* 1. groups */
 create table groups (
 	id int not null auto_increment,
 	name varchar(32) not null,
@@ -22,7 +31,7 @@ insert into groups (name, description) values ('GROUP_SYSTEM_ADMIN', 'System Adm
 insert into groups (name, description) values ('GROUP_NORMAL_USER', 'Normal User Group');
 
 
--- 2. roles --
+/* 2. roles */
 create table roles (
 	id int not null auto_increment, 
 	name varchar(32) not null,
@@ -33,9 +42,11 @@ create table roles (
 insert into roles (name, description) values ('ROLE_USER', 'Registered User');
 insert into roles (name, description) values ('ROLE_USER_GROUP_MANAGER', 'User Group Manager');
 insert into roles (name, description) values ('ROLE_USER_MANAGER', 'User Manager');
+insert into roles (name, description) values ('ROLE_EXAM_MANAGER', 'Exam Manager');
+insert into roles (name, description) values ('ROLE_QUESTION_MANAGER', 'Question Manager');
 
 
--- 3. group_role --
+/* 3. group_role */
 create table group_role (
 	group_id int not null,
 	role_id int not null,
@@ -47,9 +58,11 @@ create table group_role (
 insert into group_role (group_id, role_id) values (1, 1);
 insert into group_role (group_id, role_id) values (1, 2);
 insert into group_role (group_id, role_id) values (1, 3);
+insert into group_role (group_id, role_id) values (1, 4);
+insert into group_role (group_id, role_id) values (1, 5);
 insert into group_role (group_id, role_id) values (2, 1);
 
--- 4. users --
+/* 4. users */
 create table users (
     id int not null auto_increment,
     userid varchar(32) not null,
@@ -65,12 +78,10 @@ create table users (
 );
 
 insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('admin', 'admin123', 'Super Admin', 'biminglei@gmail.com', 1, true, '2013-06-01', null);
-insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('test', 'test123', 'Tester', 'jokeservice@gmail.com', 2, false, '2013-06-02', null);
+insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('test', 'test123', 'Tester', 'biminglei@gmail.com', 2, false, '2013-06-02', null);
 
 
--------------------------------------------
-
--- 5. question_types --
+/* 5. question_types */
 create table question_types (
 	id int not null auto_increment,
 	name varchar(32) not null,
@@ -85,7 +96,7 @@ insert into question_types (name, description) values ('BFQ', 'blank filling que
 insert into question_types (name, description) values ('EQ', 'essay question');
 
 
--- 6. question_subjects --
+/* 6. question_subjects */
 create table question_subjects (
 	id int not null auto_increment,
 	content varchar(512) not null,
@@ -101,7 +112,7 @@ insert into question_subjects (content, total_score, question_type_id, user_id) 
 insert into question_subjects (content, total_score, question_type_id, user_id) values ('___ is the home of golf, and Reuters was founded in ___.', 10, 4, 1);
 
 
--- 7. question_answers --
+/* 7. question_answers */
 create table question_answers (
 	id int not null auto_increment,
 	binary_value int,
@@ -117,7 +128,7 @@ insert into question_answers (binary_value, short_text_value, long_text_value, c
 insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (null, '1851', null, null);
 
 
--- 8. question_headers --
+/* 8. question_headers */
 create table question_headers (
 	id int not null auto_increment,
 	description varchar(32),
@@ -135,7 +146,7 @@ insert into question_headers (description, score, question_type_id, question_ans
 insert into question_headers (description, score, question_type_id, question_answer_id) values (null, 5, 4, 4);
 
 
--- 9. question_subject_question_header --
+/* 9. question_subject_question_header */
 create table question_subject_question_header (
 	question_subject_id int not null,
 	question_header_id int not null,
@@ -150,7 +161,7 @@ insert into question_subject_question_header (question_subject_id, question_head
 insert into question_subject_question_header (question_subject_id, question_header_id) values (2, 4);
 
 
--- 10. question_details --
+/* 10. question_details */
 create table question_details (
 	id int not null auto_increment,
 	content varchar(64) not null,

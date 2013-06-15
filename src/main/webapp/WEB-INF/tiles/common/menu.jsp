@@ -19,6 +19,23 @@
 						<li><a href="/login"><s:message code="global.info.login" /></a></li>
 					</sec:authorize>
 
+					<sec:authorize access="hasAnyRole('ROLE_EXAM_MANAGER','ROLE_QUESTION_MANAGER')">
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown"> <s:message
+									code="global.info.exam_manage" /> <b class="caret"></b>
+						</a>
+							<ul class="dropdown-menu">
+								<sec:authorize access="hasRole('ROLE_QUESTION_MANAGER')">
+									<li><a href="/questiontypes"><s:message
+												code="global.info.question_type_setting" /></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('ROLE_QUESTION_MANAGER')">
+									<li><a href="/questionrepos"><s:message
+												code="global.info.question_repository_setting" /></a></li>
+								</sec:authorize>
+							</ul></li>
+					</sec:authorize>
+
 					<sec:authorize
 						access="hasAnyRole('ROLE_USER_MANAGER','ROLE_USER_GROUP_MANAGER')">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"

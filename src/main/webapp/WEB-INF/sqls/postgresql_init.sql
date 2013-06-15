@@ -1,4 +1,4 @@
--- 0. initiation --
+/* 0. initiation */
 
 drop table question_details;
 drop sequence question_details_id_seq;
@@ -19,9 +19,8 @@ drop sequence groups_id_seq;
 drop table roles;
 drop sequence roles_id_seq;
 
---------------------------------------
 
--- 1. groups --
+/* 1. groups */
 create sequence groups_id_seq
 	start with 1
 	increment BY 1
@@ -40,7 +39,7 @@ insert into groups (name, description) values ('GROUP_SYSTEM_ADMIN', 'System Adm
 insert into groups (name, description) values ('GROUP_NORMAL_USER', 'Normal User Group');
 
 
--- 2. roles --
+/* 2. roles */
 create sequence roles_id_seq
 	start with 1
 	increment BY 1
@@ -58,9 +57,11 @@ create table roles (
 insert into roles (name, description) values ('ROLE_USER', 'Registered User');
 insert into roles (name, description) values ('ROLE_USER_GROUP_MANAGER', 'User Group Manager');
 insert into roles (name, description) values ('ROLE_USER_MANAGER', 'User Manager');
+insert into roles (name, description) values ('ROLE_EXAM_MANAGER', 'Exam Manager');
+insert into roles (name, description) values ('ROLE_QUESTION_MANAGER', 'Question Manager');
 
 
--- 3. group_role --
+/* 3. group_role */
 create table group_role (
 	group_id int not null,
 	role_id int not null,
@@ -72,10 +73,12 @@ create table group_role (
 insert into group_role (group_id, role_id) values (1, 1);
 insert into group_role (group_id, role_id) values (1, 2);
 insert into group_role (group_id, role_id) values (1, 3);
+insert into group_role (group_id, role_id) values (1, 4);
+insert into group_role (group_id, role_id) values (1, 5);
 insert into group_role (group_id, role_id) values (2, 1);
 
 
--- 4. users --
+/* 4. users */
 create sequence users_id_seq
 	start with 1
 	increment BY 1
@@ -98,12 +101,11 @@ create table users (
 );
 
 insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('admin', 'admin123', 'Super Admin', 'biminglei@gmail.com', 1, TRUE, '2013-06-01', null);
-insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('test', 'test123', 'Tester', 'jokeservice@gmail.com', 2, FALSE, '2013-06-02', null);
+insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('test', 'test123', 'Tester', 'biminglei@gmail.com', 2, FALSE, '2013-06-02', null);
 
 
--------------------------------------------
 
--- 5. question_types --
+/* 5. question_types */
 create sequence question_types_id_seq
 	start with 1
 	increment BY 1
@@ -125,7 +127,7 @@ insert into question_types (name, description) values ('BFQ', 'blank filling que
 insert into question_types (name, description) values ('EQ', 'essay question');
 
 
--- 6. question_subjects --
+/* 6. question_subjects */
 create sequence question_subjects_id_seq
 	start with 1
 	increment BY 1
@@ -147,7 +149,7 @@ create table question_subjects (
 insert into question_subjects (content, total_score, question_type_id, user_id) values ('What is your favourite fruit and sport?', 2, 1, 1);
 
 
--- 7. question_answers --
+/* 7. question_answers */
 create sequence question_answers_id_seq
 	start with 1
 	increment BY 1
@@ -168,7 +170,7 @@ insert into question_answers (binary_value, short_text_value, long_text_value, c
 insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (2, null, null, null);
 
 
--- 8. question_headers --
+/* 8. question_headers */
 create sequence question_headers_id_seq
 	start with 1
 	increment BY 1
@@ -191,7 +193,7 @@ insert into question_headers (description, score, question_type_id, question_ans
 insert into question_headers (description, score, question_type_id, question_answer_id) values ('Choose a sport here:', 1, 1, 2);
 
 
--- 9. question_subject_question_header --
+/* 9. question_subject_question_header */
 create table question_subject_question_header (
 	question_subject_id int not null,
 	question_header_id int not null,
@@ -204,7 +206,7 @@ insert into question_subject_question_header (question_subject_id, question_head
 insert into question_subject_question_header (question_subject_id, question_header_id) values (1, 2);
 
 
--- 10. question_details --
+/* 10. question_details */
 create sequence question_details_id_seq
 	start with 1
 	increment BY 1
