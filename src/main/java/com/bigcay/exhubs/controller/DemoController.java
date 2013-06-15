@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.bigcay.exhubs.bean.GroupBean;
 import com.bigcay.exhubs.form.UserFormBean;
 import com.bigcay.exhubs.form.UserFormBeanValidator;
+import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.QuestionAnswer;
 import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
@@ -48,9 +48,9 @@ public class DemoController {
 		binder.setValidator(userFormBeanValidator);
 	}
 
-	@ModelAttribute("groupBeans")
-	public List<GroupBean> getGroupBeans() {
-		return authorityService.findAllGroupBeans();
+	@ModelAttribute("groups")
+	public List<Group> getAllGroups() {
+		return authorityService.findAllGroups();
 	}
 
 	@RequestMapping(value = "demo", method = RequestMethod.GET)

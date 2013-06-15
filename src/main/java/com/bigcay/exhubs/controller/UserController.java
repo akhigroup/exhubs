@@ -27,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.bigcay.exhubs.bean.GroupBean;
-import com.bigcay.exhubs.bean.UserBean;
 import com.bigcay.exhubs.form.UserFormBean;
 import com.bigcay.exhubs.form.UserFormBeanValidator;
 import com.bigcay.exhubs.global.GlobalManager;
@@ -56,9 +54,9 @@ public class UserController extends BaseController {
 		binder.setValidator(userFormBeanValidator);
 	}
 	
-	@ModelAttribute("groupBeans")
-	public List<GroupBean> getGroupBeans() {
-		return authorityService.findAllGroupBeans();
+	@ModelAttribute("groups")
+	public List<Group> getAllGroups() {
+		return authorityService.findAllGroups();
 	}
 
 	@RequestMapping("users")
@@ -75,9 +73,9 @@ public class UserController extends BaseController {
 		logger.debug("UserController.showUsersAjaxHandler is invoked.");
 
 		Page<User> userPage = authorityService.findPageableUsers(pageNumber - 1);
-		List<UserBean> userBeans = authorityService.convertUsers(userPage.getContent());
+		List<User> users = userPage.getContent();
 
-		model.addAttribute("userBeans", userBeans);
+		model.addAttribute("users", users);
 		// add pagination attributes
 		model.addAllAttributes(GlobalManager.getGlobalPageableMap(userPage));
 
@@ -130,13 +128,8 @@ public class UserController extends BaseController {
 		userFormBean.setEmail(editUser.getEmail());
 		userFormBean.setGroupId(editUser.getGroup().getId());
 
-		GroupBean groupBean = new GroupBean();
-		groupBean.setId(editUserGroup.getId());
-		groupBean.setName(editUserGroup.getName());
-		groupBean.setDescription(editUserGroup.getDescription());
-
 		model.addAttribute("userFormBean", userFormBean);
-		model.addAttribute("groupBean", groupBean);
+		model.addAttribute("editUserGroup", editUserGroup);
 
 		return "users/edit_my_account";
 	}
@@ -204,13 +197,7 @@ public class UserController extends BaseController {
 
 		if (result.hasErrors()) {
 			Group editUserGroup = editUser.getGroup();
-
-			GroupBean groupBean = new GroupBean();
-			groupBean.setId(editUserGroup.getId());
-			groupBean.setName(editUserGroup.getName());
-			groupBean.setDescription(editUserGroup.getDescription());
-
-			model.addAttribute("groupBean", groupBean);
+			model.addAttribute("editUserGroup", editUserGroup);
 
 			return "users/edit_my_account";
 		} else {

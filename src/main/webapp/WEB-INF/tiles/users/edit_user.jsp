@@ -74,7 +74,7 @@
 				<div class="controls">
 					<form:select path="groupId" tabindex="5">
 						<form:option value="0" label="${please_select}" />
-						<form:options items="${groupBeans}" itemValue="id"
+						<form:options items="${groups}" itemValue="id"
 							itemLabel="description" />
 					</form:select>
 					<c:if test="${status.error}">

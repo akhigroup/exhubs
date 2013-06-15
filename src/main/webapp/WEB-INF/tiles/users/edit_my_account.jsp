@@ -10,7 +10,7 @@
 		</legend>
 
 		<input type="hidden" name="id" value="${userFormBean.id}" />
-		<input type="hidden" name="groupId" value="${groupBean.id}" />
+		<input type="hidden" name="groupId" value="${editUserGroup.id}" />
 
 		<s:bind path="userId">
 			<div class="control-group ${status.error ? 'error' : '' }">
@@ -69,7 +69,7 @@
 					code="users.info.user_group" /></label>
 			<div class="controls">
 				<input class="input-xlarge" type="text" name="groupDescription"
-					value="${groupBean.description}" tabindex="5" readonly="true" />
+					value="${editUserGroup.description}" tabindex="5" readonly="true" />
 			</div>
 		</div>
 

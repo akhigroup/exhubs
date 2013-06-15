@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.bigcay.exhubs.bean.QuestionTypeBean;
+import com.bigcay.exhubs.model.QuestionType;
 import com.bigcay.exhubs.service.QuestionService;
 
 @Controller
@@ -37,9 +37,9 @@ public class QuestionController extends BaseController {
 
 		logger.debug("QuestionController.showQuestionTypesAjaxHandler is invoked.");
 
-		List<QuestionTypeBean> questionTypeBeans = questionService.findAllQuestionTypeBeans();
+		List<QuestionType> questionTypes = questionService.findAllQuestionTypes();
 
-		model.addAttribute("questionTypeBeans", questionTypeBeans);
+		model.addAttribute("questionTypes", questionTypes);
 
 		return "ajax/questiontypes/show_question_types";
 	}

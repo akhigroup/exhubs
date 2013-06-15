@@ -10,13 +10,13 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach var="groupBean" items="${groupBeans}">
+		<c:forEach var="group" items="${groups}">
 			<tr>
-				<td>${groupBean.name}</td>
-				<td>${groupBean.description}</td>
+				<td>${group.name}</td>
+				<td>${group.description}</td>
 				<td>
 					<button class="btn btn-link btn-mini"
-						onclick="location.href='/group/${groupBean.id}'">
+						onclick="location.href='/group/${group.id}'">
 						<s:message code="groups.info.groups_view" />
 					</button>
 				</td>

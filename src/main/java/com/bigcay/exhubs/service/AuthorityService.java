@@ -1,12 +1,10 @@
 package com.bigcay.exhubs.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 
-import com.bigcay.exhubs.bean.GroupBean;
-import com.bigcay.exhubs.bean.RoleBean;
-import com.bigcay.exhubs.bean.UserBean;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Role;
 import com.bigcay.exhubs.model.User;
@@ -17,11 +15,7 @@ public interface AuthorityService {
 	
 	User findUserByUserId(String userId);
 
-	List<UserBean> findAllUserBeans();
-
 	Page<User> findPageableUsers(Integer pageNumber);
-
-	List<UserBean> convertUsers(List<User> users);
 
 	Role findRoleById(Integer id);
 
@@ -29,9 +23,9 @@ public interface AuthorityService {
 
 	Group findGroupById(Integer id);
 
-	List<GroupBean> findAllGroupBeans();
+	List<Group> findAllGroups();
 
-	List<RoleBean> findRoleBeansByGroupId(Integer groupId);
+	Set<Role> findRolesByGroupId(Integer groupId);
 
 	User persist(User user);
 

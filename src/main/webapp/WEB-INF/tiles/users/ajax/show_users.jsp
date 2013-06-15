@@ -21,13 +21,13 @@
 	<s:message code="global.info.page_next" />
 </c:set>
 
-<c:if test="${fn:length(userBeans) == 0}">
+<c:if test="${fn:length(users) == 0}">
 	<div class="alert alert-info">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<s:message code="global.info.no_records" />
 	</div>
 </c:if>
-<c:if test="${fn:length(userBeans) > 0}">
+<c:if test="${fn:length(users) > 0}">
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -41,32 +41,32 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="userBean" items="${userBeans}">
+			<c:forEach var="user" items="${users}">
 				<tr>
-					<td>${userBean.userId}</td>
-					<td>${userBean.name}</td>
-					<td>${userBean.email}</td>
-					<td>${userBean.group.description}</td>
+					<td>${user.userId}</td>
+					<td>${user.name}</td>
+					<td>${user.email}</td>
+					<td>${user.group.description}</td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd"
-							value="${userBean.createDate}" /></td>
-					<td><c:if test="${userBean.activeFlag}">
+							value="${user.createDate}" /></td>
+					<td><c:if test="${user.activeFlag}">
 							<s:message code="global.info.active" />
-						</c:if> <c:if test="${not userBean.activeFlag}">
+						</c:if> <c:if test="${not user.activeFlag}">
 							<s:message code="global.info.inactive" />
 						</c:if></td>
-					<td><c:if test="${userBean.activeFlag}">
+					<td><c:if test="${user.activeFlag}">
 							<button class="btn btn-danger btn-mini"
-								onclick="changeUserStatus(${userBean.id}, false, ${currentIndex});">
+								onclick="changeUserStatus(${user.id}, false, ${currentIndex});">
 								<s:message code="global.info.btn.deactivate" />
 							</button>
-						</c:if> <c:if test="${not userBean.activeFlag}">
+						</c:if> <c:if test="${not user.activeFlag}">
 							<button class="btn btn-success btn-mini"
-								onclick="changeUserStatus(${userBean.id}, true, ${currentIndex});">
+								onclick="changeUserStatus(${user.id}, true, ${currentIndex});">
 								<s:message code="global.info.btn.activate" />
 							</button>
 						</c:if>
 						<button class="btn btn-link btn-mini"
-							onclick="location.href='/user/edit/${userBean.id}'">
+							onclick="location.href='/user/edit/${user.id}'">
 							<s:message code="users.info.btn.edit" />
 						</button></td>
 				</tr>

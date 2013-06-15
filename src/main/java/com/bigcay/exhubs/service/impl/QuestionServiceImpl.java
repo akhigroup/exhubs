@@ -1,12 +1,10 @@
 package com.bigcay.exhubs.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bigcay.exhubs.bean.QuestionTypeBean;
 import com.bigcay.exhubs.model.QuestionAnswer;
 import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
@@ -63,21 +61,8 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public List<QuestionTypeBean> findAllQuestionTypeBeans() {
-
-		List<QuestionTypeBean> questionTypeBeans = new ArrayList<QuestionTypeBean>();
-		List<QuestionType> questionTypes = questionTypeRepository.findAll();
-
-		for (QuestionType questionType : questionTypes) {
-			QuestionTypeBean questionTypeBean = new QuestionTypeBean();
-			questionTypeBean.setId(questionType.getId());
-			questionTypeBean.setName(questionType.getName());
-			questionTypeBean.setDescription(questionType.getDescription());
-
-			questionTypeBeans.add(questionTypeBean);
-		}
-
-		return questionTypeBeans;
+	public List<QuestionType> findAllQuestionTypes() {
+		return questionTypeRepository.findAll();
 	}
 
 }

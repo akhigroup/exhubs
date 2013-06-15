@@ -1,6 +1,5 @@
 package com.bigcay.exhubs.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -11,9 +10,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.bigcay.exhubs.bean.GroupBean;
-import com.bigcay.exhubs.bean.RoleBean;
-import com.bigcay.exhubs.bean.UserBean;
 import com.bigcay.exhubs.global.GlobalManager;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Role;
@@ -56,49 +52,6 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
-	public List<UserBean> findAllUserBeans() {
-		return this.convertUsers(userRepository.findAll());
-	}
-
-	@Override
-	public List<GroupBean> findAllGroupBeans() {
-
-		List<GroupBean> groupBeans = new ArrayList<GroupBean>();
-		List<Group> groups = groupRepository.findAll();
-
-		for (Group group : groups) {
-			GroupBean groupBean = new GroupBean();
-			groupBean.setId(group.getId());
-			groupBean.setName(group.getName());
-			groupBean.setDescription(group.getDescription());
-
-			groupBeans.add(groupBean);
-		}
-
-		return groupBeans;
-	}
-
-	@Override
-	public List<RoleBean> findRoleBeansByGroupId(Integer groupId) {
-
-		List<RoleBean> roleBeans = new ArrayList<RoleBean>();
-
-		Group group = groupRepository.findOne(groupId);
-		Set<Role> roles = group.getRoles();
-
-		for (Role role : roles) {
-			RoleBean roleBean = new RoleBean();
-			roleBean.setId(role.getId());
-			roleBean.setName(role.getName());
-			roleBean.setDescription(role.getDescription());
-
-			roleBeans.add(roleBean);
-		}
-
-		return roleBeans;
-	}
-
-	@Override
 	public User persist(User user) {
 		if (user.getId() != null) {
 			user.setUpdateDateTime(new Date());
@@ -110,28 +63,6 @@ public class AuthorityServiceImpl implements AuthorityService {
 	public Page<User> findPageableUsers(Integer pageNumber) {
 		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id");
 		return userRepository.findAll(pageRequest);
-	}
-
-	@Override
-	public List<UserBean> convertUsers(List<User> users) {
-
-		List<UserBean> userBeans = new ArrayList<UserBean>();
-
-		for (User user : users) {
-			UserBean userBean = new UserBean();
-			userBean.setId(user.getId());
-			userBean.setUserId(user.getUserId());
-			userBean.setName(user.getName());
-			userBean.setEmail(user.getEmail());
-			userBean.setGroup(user.getGroup());
-			userBean.setActiveFlag(user.getActiveFlag());
-			userBean.setCreateDate(user.getCreateDate());
-			userBean.setUpdateDateTime(user.getUpdateDateTime());
-
-			userBeans.add(userBean);
-		}
-
-		return userBeans;
 	}
 
 	@Override
@@ -151,6 +82,16 @@ public class AuthorityServiceImpl implements AuthorityService {
 	@Override
 	public User findUserByUserId(String userId) {
 		return userRepository.findByUserId(userId);
+	}
+
+	@Override
+	public Set<Role> findRolesByGroupId(Integer groupId) {
+		return groupRepository.findOne(groupId).getRoles();
+	}
+
+	@Override
+	public List<Group> findAllGroups() {
+		return groupRepository.findAll();
 	}
 
 }

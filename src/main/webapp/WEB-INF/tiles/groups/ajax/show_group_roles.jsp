@@ -10,10 +10,10 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach var="roleBean" items="${roleBeans}">
+		<c:forEach var="role" items="${roles}">
 			<tr>
-				<td>${roleBean.name}</td>
-				<td>${roleBean.description}</td>
+				<td>${role.name}</td>
+				<td>${role.description}</td>
 				<td>...</td>
 			</tr>
 		</c:forEach>

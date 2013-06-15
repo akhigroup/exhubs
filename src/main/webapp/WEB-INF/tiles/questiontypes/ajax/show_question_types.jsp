@@ -12,10 +12,10 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach var="questionTypeBean" items="${questionTypeBeans}">
+		<c:forEach var="questionType" items="${questionTypes}">
 			<tr>
-				<td>${questionTypeBean.name}</td>
-				<td>${questionTypeBean.description}</td>
+				<td>${questionType.name}</td>
+				<td>${questionType.description}</td>
 				<td>...</td>
 			</tr>
 		</c:forEach>

@@ -1,6 +1,7 @@
 package com.bigcay.exhubs.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.bigcay.exhubs.bean.GroupBean;
-import com.bigcay.exhubs.bean.RoleBean;
+import com.bigcay.exhubs.model.Group;
+import com.bigcay.exhubs.model.Role;
 import com.bigcay.exhubs.service.AuthorityService;
 
 @Controller
@@ -36,9 +37,9 @@ public class GroupController extends BaseController {
 
 		logger.debug("GroupController.showGroupsAjaxHandler is invoked.");
 
-		List<GroupBean> groupBeans = authorityService.findAllGroupBeans();
+		List<Group> groups = authorityService.findAllGroups();
 
-		model.addAttribute("groupBeans", groupBeans);
+		model.addAttribute("groups", groups);
 
 		return "ajax/groups/show_groups";
 	}
@@ -58,11 +59,9 @@ public class GroupController extends BaseController {
 
 		logger.debug("GroupController.showGroupRolesAjaxHandler is invoked.");
 		
-		logger.debug("groupId=" + groupId);
+		Set<Role> roles = authorityService.findRolesByGroupId(groupId);
 
-		List<RoleBean> roleBeans = authorityService.findRoleBeansByGroupId(groupId);
-
-		model.addAttribute("roleBeans", roleBeans);
+		model.addAttribute("roles", roles);
 
 		return "ajax/groups/show_group_roles";
 	}
