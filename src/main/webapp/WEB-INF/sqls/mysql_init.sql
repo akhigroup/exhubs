@@ -98,6 +98,7 @@ create table question_subjects (
 );
 
 insert into question_subjects (content, total_score, question_type_id, user_id) values ('What is your favourite fruit and sport?', 2, 1, 1);
+insert into question_subjects (content, total_score, question_type_id, user_id) values ('___ is the home of golf, and Reuters was founded in ___.', 10, 4, 1);
 
 
 -- 7. question_answers --
@@ -112,6 +113,8 @@ create table question_answers (
 
 insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (4, null, null, null);
 insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (2, null, null, null);
+insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (null, 'Scotland', null, null);
+insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (null, '1851', null, null);
 
 
 -- 8. question_headers --
@@ -128,6 +131,8 @@ create table question_headers (
 
 insert into question_headers (description, score, question_type_id, question_answer_id) values ('Choose a fruit here:', 1, 1, 1);
 insert into question_headers (description, score, question_type_id, question_answer_id) values ('Choose a sport here:', 1, 1, 2);
+insert into question_headers (description, score, question_type_id, question_answer_id) values (null, 5, 4, 3);
+insert into question_headers (description, score, question_type_id, question_answer_id) values (null, 5, 4, 4);
 
 
 -- 9. question_subject_question_header --
@@ -141,6 +146,8 @@ create table question_subject_question_header (
 
 insert into question_subject_question_header (question_subject_id, question_header_id) values (1, 1);
 insert into question_subject_question_header (question_subject_id, question_header_id) values (1, 2);
+insert into question_subject_question_header (question_subject_id, question_header_id) values (2, 3);
+insert into question_subject_question_header (question_subject_id, question_header_id) values (2, 4);
 
 
 -- 10. question_details --
@@ -161,6 +168,7 @@ insert into question_details (content, sort_order, question_header_id) values ('
 insert into question_details (content, sort_order, question_header_id) values ('tennis', 2, 2);
 insert into question_details (content, sort_order, question_header_id) values ('football', 3, 2);
 insert into question_details (content, sort_order, question_header_id) values ('golf', 4, 2);
-
+insert into question_details (content, sort_order, question_header_id) values ('', 1, 3);
+insert into question_details (content, sort_order, question_header_id) values ('', 2, 4);
 
 
