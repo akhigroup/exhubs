@@ -9,27 +9,57 @@
 
 <div class="container-fluid">
 	<div class="row-fluid">
-		<div class="span8">
+		<div class="span11">
 			<div id="questionSubject" class="panel">
-				subject id: ${questionSubject.id} <br /> question type:
-				${questionSubject.questionType.description} <br /> creator:
-				${questionSubject.user.userId} <br /> <br /> subject content:
-				${questionSubject.content} (total score:
-				${questionSubject.totalScore}) <br /> <br />
+				<s:message code="questionrepos.info.question_subject_id" />
+				: ${questionSubject.id} <br />
+				<s:message code="questionrepos.info.question_subjects_question_type" />
+				: ${questionSubject.questionType.description} <br />
+				<s:message code="questionrepos.info.question_subjects_creator" />
+				: ${questionSubject.user.userId} <br /> <br />
+				<s:message code="questionrepos.info.question_subjects_content" />
+				:<br /> ${questionSubject.content} (
+				<s:message code="questionrepos.info.question_subject_total_score"
+					arguments="${questionSubject.totalScore}" />
+				) <br /> <br />
 				<c:forEach var="questionHeader"
-					items="${questionSubject.questionHeaders}">
-					<c:if test="${questionHeader.questionType.name == 'SCQ'}">
-					description: ${questionHeader.description } (score: ${questionHeader.score })<br />
-					SCQ <br />
+					items="${questionSubject.questionHeaders}"
+					varStatus="question_header_status">
+					<c:if
+						test="${questionHeader.questionType.name == 'SCQ' or questionHeader.questionType.name == 'MCQ'}">
+					${question_header_status.index + 1}. ${questionHeader.description }<br />
+						<c:forEach var="questionDetail"
+							items="${questionHeader.questionDetails}"
+							varStatus="question_detail_status">
+						${questionChoices[question_detail_status.index]}. ${questionDetail.content}<br />
+						</c:forEach>
+						<s:message code="questionrepos.info.question_subject_answer" />: ${questionHeader.rightQuestionAnswer} (<s:message
+							code="questionrepos.info.question_subject_header_score"
+							arguments="${questionHeader.score}" />)<br />
+					</c:if>
+					<c:if test="${questionHeader.questionType.name == 'TFQ'}">
+					${question_header_status.index + 1}. ${questionHeader.description }<br />
+						<s:message code="questionrepos.info.question_subject_answer" />: ${questionHeader.rightQuestionAnswer} (<s:message
+							code="questionrepos.info.question_subject_header_score"
+							arguments="${questionHeader.score}" />)<br />
 					</c:if>
 					<c:if test="${questionHeader.questionType.name == 'BFQ'}">
-					description: ${questionHeader.description } (score: ${questionHeader.score })<br />
-					BFQ <br />
+					${question_header_status.index + 1}. ${questionHeader.description }<br />
+						<s:message code="questionrepos.info.question_subject_answer" />: ${questionHeader.rightQuestionAnswer} (<s:message
+							code="questionrepos.info.question_subject_header_score"
+							arguments="${questionHeader.score}" />)<br />
 					</c:if>
+					<c:if test="${questionHeader.questionType.name == 'EQ'}">
+					${question_header_status.index + 1}. ${questionHeader.description }<br />
+						<s:message code="questionrepos.info.question_subject_answer" />: ${questionHeader.rightQuestionAnswer} (<s:message
+							code="questionrepos.info.question_subject_header_score"
+							arguments="${questionHeader.score}" />)<br />
+					</c:if>
+					<br />
 				</c:forEach>
 			</div>
 		</div>
-		<div class="span4"></div>
+		<div class="span1"></div>
 	</div>
 </div>
 

@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.bigcay.exhubs.util.QuestionUtil;
+
 @Entity
 @Table(name = "question_headers")
 public class QuestionHeader {
@@ -92,6 +94,10 @@ public class QuestionHeader {
 
 	public void setQuestionAnswer(QuestionAnswer questionAnswer) {
 		this.questionAnswer = questionAnswer;
+	}
+
+	public String getRightQuestionAnswer() {
+		return QuestionUtil.getRightQuestionAnswer(this.questionType.getName(), this.getQuestionAnswer());
 	}
 
 }

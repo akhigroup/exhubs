@@ -107,8 +107,11 @@ create table question_subjects (
 	foreign key (user_id) references users (id)
 );
 
-insert into question_subjects (content, total_score, question_type_id, user_id) values ('What is your favourite fruit and sport?', 2, 1, 1);
-insert into question_subjects (content, total_score, question_type_id, user_id) values ('___ is the home of golf, and Reuters was founded in ___.', 10, 4, 1);
+insert into question_subjects (content, total_score, question_type_id, user_id) values ('电视新闻上常见巴勒斯坦总统阿拉法特等中东国家领导人，他们往往头上围着头巾，有的身着长袍。根据这段文字，回答小题。', 2, 1, 1);
+insert into question_subjects (content, total_score, question_type_id, user_id) values ('夜盲症是缺少维生素___；为了防治地方性甲状腺肿，应该食用含有___的食盐。', 10, 4, 1);
+insert into question_subjects (content, total_score, question_type_id, user_id) values ('某山地垂直自然带数多，垂直带谱完整。', 2, 2, 1);
+insert into question_subjects (content, total_score, question_type_id, user_id) values ('北京时间就是东八区的区时？', 1, 3, 1);
+insert into question_subjects (content, total_score, question_type_id, user_id) values ('近年来，相继发生的"毒奶粉","瘦肉精","地沟油"等恶性食品药品安全事件足以表明,诚信的缺失、道德的滑坡已经到了严重的地步，规范市场秩序势在必行。', 8, 5, 1);
 
 
 /* 7. question_answers */
@@ -121,10 +124,13 @@ create table question_answers (
 	primary key (id)
 );
 
-insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (4, null, null, null);
+insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (1, null, null, null);
 insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (2, null, null, null);
-insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (null, 'Scotland', null, null);
-insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (null, '1851', null, null);
+insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (null, 'A', null, null);
+insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (null, '碘', null, null);
+insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (5, null, null, null);
+insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (1, null, null, null);
+insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (null, null, '(1)国家运用经济手段，法律手段，行政手段实施宏观调控，以有效地弥补市场调节的缺陷。(4分); (2)引导企业诚信经营，建立健全以道德为支撑，法律为保障的社会信用制度，这是规范市场秩序的治本之策（4分）', null);
 
 
 /* 8. question_headers */
@@ -141,10 +147,13 @@ create table question_headers (
 	foreign key (question_answer_id) references question_answers (id)
 );
 
-insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values ('Choose a fruit here:', 1, 1, 1, 1);
-insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values ('Choose a sport here:', 1, 1, 1, 2);
-insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values (null, 5, 2, 4, 3);
-insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values (null, 5, 2, 4, 4);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values ('你认为这种服装是', 1, 1, 1, 1);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values ('你认为这种服装可以起的作用是', 1, 1, 1, 2);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values ('___', 5, 2, 4, 3);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values ('___', 5, 2, 4, 4);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values ('这说明该山地', 2, 3, 2, 5);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values ('请判断正误', 1, 4, 3, 6);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values ('对于国家来说，如何规范市场秩序？', 8, 5, 5, 7);
 
 
 /* 9. question_details */
@@ -157,15 +166,23 @@ create table question_details (
 	foreign key (question_header_id) references question_headers (id)
 );
 
-insert into question_details (content, sort_order, question_header_id) values ('Apple', 1, 1);
-insert into question_details (content, sort_order, question_header_id) values ('Orange', 2, 1);
-insert into question_details (content, sort_order, question_header_id) values ('Pear', 3, 1);
-insert into question_details (content, sort_order, question_header_id) values ('Grape', 4, 1);
-insert into question_details (content, sort_order, question_header_id) values ('swimming', 1, 2);
-insert into question_details (content, sort_order, question_header_id) values ('tennis', 2, 2);
-insert into question_details (content, sort_order, question_header_id) values ('football', 3, 2);
-insert into question_details (content, sort_order, question_header_id) values ('golf', 4, 2);
+insert into question_details (content, sort_order, question_header_id) values ('民族传统服装的象征', 1, 1);
+insert into question_details (content, sort_order, question_header_id) values ('一种军装', 2, 1);
+insert into question_details (content, sort_order, question_header_id) values ('完全是个人的爱好', 3, 1);
+insert into question_details (content, sort_order, question_header_id) values ('国际上流行的装饰', 4, 1);
+insert into question_details (content, sort_order, question_header_id) values ('遮风挡雨', 1, 2);
+insert into question_details (content, sort_order, question_header_id) values ('遮阳挡风', 2, 2);
+insert into question_details (content, sort_order, question_header_id) values ('保暖御寒', 3, 2);
+insert into question_details (content, sort_order, question_header_id) values ('抵御风雪', 4, 2);
 insert into question_details (content, sort_order, question_header_id) values ('', 1, 3);
 insert into question_details (content, sort_order, question_header_id) values ('', 2, 4);
+insert into question_details (content, sort_order, question_header_id) values ('纬度较低', 1, 5);
+insert into question_details (content, sort_order, question_header_id) values ('纬度较高', 2, 5);
+insert into question_details (content, sort_order, question_header_id) values ('海拔较高', 3, 5);
+insert into question_details (content, sort_order, question_header_id) values ('海拔较低', 4, 5);
+insert into question_details (content, sort_order, question_header_id) values ('正确', 1, 6);
+insert into question_details (content, sort_order, question_header_id) values ('错误', 2, 6);
+insert into question_details (content, sort_order, question_header_id) values ('', 1, 7);
+
 
 

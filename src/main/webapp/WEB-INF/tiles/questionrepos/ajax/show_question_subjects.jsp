@@ -23,7 +23,7 @@
 			<tr>
 				<td>${questionSubject.id}</td>
 				<td>${questionSubject.questionType.description}</td>
-				<td>${fn:substring(questionSubject.content, 0, 40)}...</td>
+				<td>${fn:substring(questionSubject.content, 0, 25)}...</td>
 				<td>${questionSubject.totalScore}</td>
 				<td>${questionSubject.user.userId}</td>
 				<td><button class="btn btn-link btn-mini"

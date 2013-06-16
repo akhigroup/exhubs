@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bigcay.exhubs.model.QuestionSubject;
 import com.bigcay.exhubs.model.QuestionType;
 import com.bigcay.exhubs.service.QuestionService;
+import com.bigcay.exhubs.util.QuestionUtil;
 
 @Controller
 public class QuestionController extends BaseController {
@@ -26,6 +28,11 @@ public class QuestionController extends BaseController {
 
 	private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
+	@ModelAttribute("questionChoices")
+	public String[] getAllQuestionChoices() {
+		return QuestionUtil.getQuestionChoices();
+	}
+	
 	@RequestMapping("questiontypes")
 	public String questionTypeIndexHandler() {
 
