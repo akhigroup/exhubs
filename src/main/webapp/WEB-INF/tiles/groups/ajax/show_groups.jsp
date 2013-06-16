@@ -17,7 +17,7 @@
 				<td>
 					<button class="btn btn-link btn-mini"
 						onclick="location.href='/group/${group.id}'">
-						<s:message code="groups.info.groups_view" />
+						<s:message code="blobal.info.btn.view" />
 					</button>
 				</td>
 			</tr>

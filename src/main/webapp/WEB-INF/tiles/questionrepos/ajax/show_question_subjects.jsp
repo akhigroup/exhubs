@@ -26,7 +26,10 @@
 				<td>${fn:substring(questionSubject.content, 0, 40)}...</td>
 				<td>${questionSubject.totalScore}</td>
 				<td>${questionSubject.user.userId}</td>
-				<td>...</td>
+				<td><button class="btn btn-link btn-mini"
+						onclick="location.href='/question_subject/${questionSubject.id}'">
+						<s:message code="blobal.info.btn.view" />
+					</button></td>
 			</tr>
 		</c:forEach>
 	</tbody>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bigcay.exhubs.model.QuestionSubject;
@@ -63,6 +64,18 @@ public class QuestionController extends BaseController {
 		model.addAttribute("questionSubjects", questionSubjects);
 
 		return "ajax/questionrepos/show_question_subjects";
+	}
+
+	@RequestMapping("question_subject/{questionSubjectId}")
+	public String selectQuestionSubjectHandler(Model model, @PathVariable Integer questionSubjectId) {
+
+		logger.debug("QuestionController.selectQuestionSubjectHandler is invoked.");
+
+		QuestionSubject questionSubject = questionService.findQuestionSubjectById(questionSubjectId);
+
+		model.addAttribute("questionSubject", questionSubject);
+
+		return "questionrepos/select_question_subject";
 	}
 
 }
