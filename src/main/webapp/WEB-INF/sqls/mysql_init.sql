@@ -7,7 +7,6 @@ use exhubs;
 
 /*
 drop table if exists question_details;
-drop table if exists question_subject_question_header;
 drop table if exists question_headers;
 drop table if exists question_answers;
 drop table if exists question_subjects;
@@ -133,35 +132,22 @@ create table question_headers (
 	id int not null auto_increment,
 	description varchar(32),
 	score int not null,
+	question_subject_id int not null,
 	question_type_id int not null,
 	question_answer_id int not null,
 	primary key (id),
+	foreign key (question_subject_id) references question_subjects (id),
 	foreign key (question_type_id) references question_types (id),
 	foreign key (question_answer_id) references question_answers (id)
 );
 
-insert into question_headers (description, score, question_type_id, question_answer_id) values ('Choose a fruit here:', 1, 1, 1);
-insert into question_headers (description, score, question_type_id, question_answer_id) values ('Choose a sport here:', 1, 1, 2);
-insert into question_headers (description, score, question_type_id, question_answer_id) values (null, 5, 4, 3);
-insert into question_headers (description, score, question_type_id, question_answer_id) values (null, 5, 4, 4);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values ('Choose a fruit here:', 1, 1, 1, 1);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values ('Choose a sport here:', 1, 1, 1, 2);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values (null, 5, 2, 4, 3);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values (null, 5, 2, 4, 4);
 
 
-/* 9. question_subject_question_header */
-create table question_subject_question_header (
-	question_subject_id int not null,
-	question_header_id int not null,
-	primary key (question_subject_id, question_header_id),
-	foreign key (question_subject_id) references question_subjects (id),
-	foreign key (question_header_id) references question_headers (id)
-);
-
-insert into question_subject_question_header (question_subject_id, question_header_id) values (1, 1);
-insert into question_subject_question_header (question_subject_id, question_header_id) values (1, 2);
-insert into question_subject_question_header (question_subject_id, question_header_id) values (2, 3);
-insert into question_subject_question_header (question_subject_id, question_header_id) values (2, 4);
-
-
-/* 10. question_details */
+/* 9. question_details */
 create table question_details (
 	id int not null auto_increment,
 	content varchar(64) not null,

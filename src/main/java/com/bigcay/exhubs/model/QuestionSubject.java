@@ -10,8 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -40,21 +38,9 @@ public class QuestionSubject {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@OneToMany(mappedBy = "questionSubject", fetch = FetchType.LAZY)
-	private Set<QuestionSubjectQuestionHeader> questionSubjectQuestionHeaders;
-
-	@ManyToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionSubject")
 	@OrderBy("id ASC")
-	@JoinTable(name = "question_subject_question_header", joinColumns = { @JoinColumn(name = "question_subject_id") }, inverseJoinColumns = { @JoinColumn(name = "question_header_id") })
 	private Set<QuestionHeader> questionHeaders = new HashSet<QuestionHeader>();
-
-	public Set<QuestionSubjectQuestionHeader> getQuestionSubjectQuestionHeaders() {
-		return questionSubjectQuestionHeaders;
-	}
-
-	public void setQuestionSubjectQuestionHeaders(Set<QuestionSubjectQuestionHeader> questionSubjectQuestionHeaders) {
-		this.questionSubjectQuestionHeaders = questionSubjectQuestionHeaders;
-	}
 
 	public Set<QuestionHeader> getQuestionHeaders() {
 		return questionHeaders;

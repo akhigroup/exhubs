@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -31,6 +30,10 @@ public class QuestionHeader {
 	@Column(name = "score")
 	private Integer score;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "question_subject_id")
+	private QuestionSubject questionSubject;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "question_type_id")
 	private QuestionType questionType;
@@ -42,28 +45,6 @@ public class QuestionHeader {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionHeader")
 	@OrderBy("sortOrder ASC")
 	private Set<QuestionDetail> questionDetails = new HashSet<QuestionDetail>();
-
-	@OneToMany(mappedBy = "questionHeader", fetch = FetchType.LAZY)
-	private Set<QuestionSubjectQuestionHeader> questionSubjectQuestionHeaders;
-
-	@ManyToMany(mappedBy = "questionHeaders", fetch = FetchType.LAZY)
-	private Set<QuestionSubject> questionSubject = new HashSet<QuestionSubject>();
-
-	public Set<QuestionSubjectQuestionHeader> getQuestionSubjectQuestionHeaders() {
-		return questionSubjectQuestionHeaders;
-	}
-
-	public void setQuestionSubjectQuestionHeaders(Set<QuestionSubjectQuestionHeader> questionSubjectQuestionHeaders) {
-		this.questionSubjectQuestionHeaders = questionSubjectQuestionHeaders;
-	}
-
-	public Set<QuestionSubject> getQuestionSubject() {
-		return questionSubject;
-	}
-
-	public void setQuestionSubject(Set<QuestionSubject> questionSubject) {
-		this.questionSubject = questionSubject;
-	}
 
 	public Set<QuestionDetail> getQuestionDetails() {
 		return questionDetails;

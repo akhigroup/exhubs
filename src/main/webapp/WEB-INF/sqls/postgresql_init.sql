@@ -2,7 +2,6 @@
 
 drop table question_details;
 drop sequence question_details_id_seq;
-drop table question_subject_question_header;
 drop table question_headers;
 drop sequence question_headers_id_seq;
 drop table question_answers;
@@ -147,6 +146,7 @@ create table question_subjects (
 );
 
 insert into question_subjects (content, total_score, question_type_id, user_id) values ('What is your favourite fruit and sport?', 2, 1, 1);
+insert into question_subjects (content, total_score, question_type_id, user_id) values ('___ is the home of golf, and Reuters was founded in ___.', 10, 4, 1);
 
 
 /* 7. question_answers */
@@ -168,6 +168,8 @@ create table question_answers (
 
 insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (4, null, null, null);
 insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (2, null, null, null);
+insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (null, 'Scotland', null, null);
+insert into question_answers (binary_value, short_text_value, long_text_value, comment) values (null, '1851', null, null);
 
 
 /* 8. question_headers */
@@ -182,31 +184,22 @@ create table question_headers (
 	id int not null default nextval('question_headers_id_seq'),
 	description varchar(32),
 	score int not null,
+	question_subject_id int not null,
 	question_type_id int not null,
 	question_answer_id int not null,
 	primary key (id),
+	foreign key (question_subject_id) references question_subjects (id),
 	foreign key (question_type_id) references question_types (id),
 	foreign key (question_answer_id) references question_answers (id)
 );
 
-insert into question_headers (description, score, question_type_id, question_answer_id) values ('Choose a fruit here:', 1, 1, 1);
-insert into question_headers (description, score, question_type_id, question_answer_id) values ('Choose a sport here:', 1, 1, 2);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values ('Choose a fruit here:', 1, 1, 1, 1);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values ('Choose a sport here:', 1, 1, 1, 2);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values (null, 5, 2, 4, 3);
+insert into question_headers (description, score, question_subject_id, question_type_id, question_answer_id) values (null, 5, 2, 4, 4);
 
 
-/* 9. question_subject_question_header */
-create table question_subject_question_header (
-	question_subject_id int not null,
-	question_header_id int not null,
-	primary key (question_subject_id, question_header_id),
-	foreign key (question_subject_id) references question_subjects (id),
-	foreign key (question_header_id) references question_headers (id)
-);
-
-insert into question_subject_question_header (question_subject_id, question_header_id) values (1, 1);
-insert into question_subject_question_header (question_subject_id, question_header_id) values (1, 2);
-
-
-/* 10. question_details */
+/* 9. question_details */
 create sequence question_details_id_seq
 	start with 1
 	increment BY 1
@@ -231,5 +224,7 @@ insert into question_details (content, sort_order, question_header_id) values ('
 insert into question_details (content, sort_order, question_header_id) values ('tennis', 2, 2);
 insert into question_details (content, sort_order, question_header_id) values ('football', 3, 2);
 insert into question_details (content, sort_order, question_header_id) values ('golf', 4, 2);
+insert into question_details (content, sort_order, question_header_id) values ('', 1, 3);
+insert into question_details (content, sort_order, question_header_id) values ('', 2, 4);
 
 
