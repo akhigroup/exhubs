@@ -26,6 +26,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
+import com.bigcay.exhubs.form.QuestionSubjectFormBean;
 import com.bigcay.exhubs.form.UserFormBean;
 import com.bigcay.exhubs.form.UserFormBeanValidator;
 import com.bigcay.exhubs.model.Group;
@@ -61,10 +62,20 @@ public class DemoController extends BaseController {
 		return authorityService.findAllGroups();
 	}
 
+	@ModelAttribute("questionTypes")
+	public List<QuestionType> getAllQuestionTypes() {
+		return questionService.findAllQuestionTypes();
+	}
+
 	@RequestMapping(value = "demo", method = RequestMethod.GET)
 	public String indexHandler(Model model) {
+		return "demo/index";
+	}
 
-		logger.info("DemoController.indexHandler is invoked.");
+	@RequestMapping(value = "demo/create_user", method = RequestMethod.GET)
+	public String createUserHandler(Model model) {
+
+		logger.info("DemoController.createUserHandler is invoked.");
 
 		QuestionType questionType = questionService.findQuestionTypeById(1);
 		logger.debug("-----------------------------------------");
@@ -103,21 +114,43 @@ public class DemoController extends BaseController {
 
 		model.addAttribute("userFormBean", new UserFormBean());
 
-		return "demo/index";
+		return "demo/create_user";
 	}
 
-	@RequestMapping(value = "demo", method = RequestMethod.POST)
-	public String demoSubmitHandler(Model model, Locale locale,
+	@RequestMapping(value = "demo/create_user", method = RequestMethod.POST)
+	public String createUserSubmitHandler(Model model, Locale locale,
 			@Valid @ModelAttribute("userFormBean") UserFormBean userFormBean, BindingResult result,
 			final RedirectAttributes redirectAttributes) {
 
-		logger.debug("DemoController.demoSubmitHandler is invoked.");
+		logger.debug("DemoController.createUserSubmitHandler is invoked.");
 
 		if (result.hasErrors()) {
-			return "demo/index";
+			return "demo/create_user";
 		} else {
 			redirectAttributes.addFlashAttribute("info", "success!");
 			return "redirect:/";
+		}
+	}
+
+	@RequestMapping(value = "demo/create_question", method = RequestMethod.GET)
+	public String createQuestionHandler(Model model) {
+
+		logger.info("DemoController.createQuestionHandler is invoked.");
+
+		model.addAttribute("questionSubjectFormBean", new QuestionSubjectFormBean());
+
+		return "demo/create_question";
+	}
+
+	@RequestMapping(value = "demo/create_question", method = RequestMethod.POST)
+	public String createQuestionSubmitHandler(Model model, Locale locale,
+			@Valid @ModelAttribute("questionSubjectFormBean") QuestionSubjectFormBean questionSubjectFormBean,
+			BindingResult result, final RedirectAttributes redirectAttributes) {
+		if (result.hasErrors()) {
+			return "demo/create_question";
+		} else {
+			redirectAttributes.addFlashAttribute("info", "success!");
+			return "redirect:/demo/create_question";
 		}
 	}
 
