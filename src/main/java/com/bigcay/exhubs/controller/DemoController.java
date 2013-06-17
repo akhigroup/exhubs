@@ -2,9 +2,15 @@ package com.bigcay.exhubs.controller;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +22,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 import com.bigcay.exhubs.form.UserFormBean;
 import com.bigcay.exhubs.form.UserFormBeanValidator;
@@ -30,7 +38,7 @@ import com.bigcay.exhubs.service.AuthorityService;
 import com.bigcay.exhubs.service.QuestionService;
 
 @Controller
-public class DemoController {
+public class DemoController extends BaseController {
 
 	private static final Logger logger = LoggerFactory.getLogger(DemoController.class);
 
@@ -113,4 +121,39 @@ public class DemoController {
 		}
 	}
 
+	@RequestMapping(value = "demo/export/groups", method = RequestMethod.GET)
+	public View exportGroups2ExcelHandler(Model model) {
+
+		View view = new AbstractExcelView() {
+
+			@Override
+			protected void buildExcelDocument(Map<String, Object> model, HSSFWorkbook workbook,
+					HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+				response.setHeader("Content-Disposition", "attachment; filename=\"groups.xls\"");
+				HSSFSheet sheet = workbook.createSheet("groups");
+
+				int rowNum = 0;
+				int idx = 0;
+
+				HSSFRow header = sheet.createRow(rowNum++);
+				header.createCell(idx++).setCellValue("id");
+				header.createCell(idx++).setCellValue("name");
+				header.createCell(idx++).setCellValue("description");
+
+				List<Group> groups = authorityService.findAllGroups();
+				HSSFRow row;
+
+				for (Group group : groups) {
+					idx = 0;
+					row = sheet.createRow(rowNum++);
+					row.createCell(idx++).setCellValue(group.getId());
+					row.createCell(idx++).setCellValue(group.getName());
+					row.createCell(idx++).setCellValue(group.getDescription());
+				}
+			}
+		};
+
+		return view;
+	}
 }
