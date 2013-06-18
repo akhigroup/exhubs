@@ -6,17 +6,17 @@
 	<label class="control-label">Question Description</label>
 	<div class="controls">
 		<input type="text" class="input-xlarge"
-			name="questionHeaderBean.description" />
+			name="questionHeaderBeans[0].description" />
 		<button type="button" class="btn btn-small">Add Answer</button>
 	</div>
 </div>
 
 <div class="control-group">
 	<label class="control-label"><input type="radio"
-		name="radioSelectedIndex" id="radio1" value="0"></label>
+		name="radioSelectedIndex" id="radio_0" value="0"></label>
 	<div class="controls">
 		<input type="text"
-			name="questionHeaderBean.questionDetailBeans[0].content"
+			name="questionHeaderBeans[0].questionDetailBeans[0].content"
 			class="input-large" />
 		<button type="button" class="btn btn-small btn-link">Remove</button>
 	</div>
@@ -24,10 +24,10 @@
 
 <div class="control-group">
 	<label class="control-label"><input type="radio"
-		name="radioSelectedIndex" id="radio2" value="1"></label>
+		name="radioSelectedIndex" id="radio_1" value="1"></label>
 	<div class="controls">
 		<input type="text"
-			name="questionHeaderBean.questionDetailBeans[1].content"
+			name="questionHeaderBeans[0].questionDetailBeans[1].content"
 			class="input-large" />
 		<button type="button" class="btn btn-small btn-link">Remove</button>
 	</div>
@@ -35,10 +35,10 @@
 
 <div class="control-group">
 	<label class="control-label"><input type="radio"
-		name="radioSelectedIndex" id="radio2" value="2"></label>
+		name="radioSelectedIndex" id="radio_2" value="2"></label>
 	<div class="controls">
 		<input type="text"
-			name="questionHeaderBean.questionDetailBeans[2].content"
+			name="questionHeaderBeans[0].questionDetailBeans[2].content"
 			class="input-large" />
 		<button type="button" class="btn btn-small btn-link">Remove</button>
 	</div>
@@ -46,10 +46,10 @@
 
 <div class="control-group">
 	<label class="control-label"><input type="radio"
-		name="radioSelectedIndex" id="radio4" value="3"></label>
+		name="radioSelectedIndex" id="radio_3" value="3"></label>
 	<div class="controls">
 		<input type="text"
-			name="questionHeaderBean.questionDetailBeans[3].content"
+			name="questionHeaderBeans[0].questionDetailBeans[3].content"
 			class="input-large" />
 		<button type="button" class="btn btn-small btn-link">Remove</button>
 	</div>
@@ -58,6 +58,7 @@
 <div class="control-group">
 	<label class="control-label" for="score">Score</label>
 	<div class="controls">
-		<input type="text" name="questionHeader.score" class="input-mini" />
+		<input type="text" name="questionHeaderBeans[0].score"
+			class="input-mini" />
 	</div>
 </div>

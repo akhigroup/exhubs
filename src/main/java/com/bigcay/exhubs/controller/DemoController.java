@@ -141,10 +141,12 @@ public class DemoController extends BaseController {
 
 		logger.info("DemoController.createQuestionHandler is invoked.");
 
+		List<QuestionHeaderBean> questionHeaderBeans = new ArrayList<QuestionHeaderBean>();
 		QuestionSubjectFormBean questionSubjectFormBean = new QuestionSubjectFormBean();
 		QuestionHeaderBean questionHeaderBean = new QuestionHeaderBean();
 		questionHeaderBean.setQuestionDetailBeans(new ArrayList<QuestionDetailBean>());
-		questionSubjectFormBean.setQuestionHeaderBean(questionHeaderBean);
+		questionHeaderBeans.add(questionHeaderBean);
+		questionSubjectFormBean.setQuestionHeaderBeans(questionHeaderBeans);
 
 		model.addAttribute("questionSubjectFormBean", questionSubjectFormBean);
 
@@ -169,22 +171,26 @@ public class DemoController extends BaseController {
 			logger.debug("* totalScore:" + questionSubjectFormBean.getTotalScore());
 			logger.debug("*-> radioSelectedIndex:" + questionSubjectFormBean.getRadioSelectedIndex());
 
-			QuestionHeaderBean questionHeaderBean = questionSubjectFormBean.getQuestionHeaderBean();
-			logger.debug("** questionHeaderBean.description:" + questionHeaderBean.getDescription());
+			List<QuestionHeaderBean> questionHeaderBeans = questionSubjectFormBean.getQuestionHeaderBeans();
 
-			if (questionHeaderBean != null) {
-				logger.debug("good news - questionHeaderBean is not null");
+			for (QuestionHeaderBean questionHeaderBean : questionHeaderBeans) {
+				logger.debug("** questionHeaderBean.description:" + questionHeaderBean.getDescription());
+				logger.debug("** questionHeaderBean.score:" + questionHeaderBean.getScore());
 
-				List<QuestionDetailBean> questionDetailBeans = questionHeaderBean.getQuestionDetailBeans();
-				for (QuestionDetailBean questionDetailBean : questionDetailBeans) {
-					logger.debug("### questionDetailBean:" + questionDetailBean.getId() + ","
-							+ questionDetailBean.getContent());
-				}
+				if (questionHeaderBean != null) {
+					logger.debug("good news - questionHeaderBean is not null");
 
-				if (questionSubjectFormBean.getRadioSelectedIndex() != null) {
-					QuestionDetailBean selectedQuestionDetailBean = questionDetailBeans.get(questionSubjectFormBean
-							.getRadioSelectedIndex());
-					logger.debug("**** selected answer is: " + selectedQuestionDetailBean.getContent());
+					List<QuestionDetailBean> questionDetailBeans = questionHeaderBean.getQuestionDetailBeans();
+					for (QuestionDetailBean questionDetailBean : questionDetailBeans) {
+						logger.debug("### questionDetailBean:" + questionDetailBean.getId() + ","
+								+ questionDetailBean.getContent());
+					}
+
+					if (questionSubjectFormBean.getRadioSelectedIndex() != null) {
+						QuestionDetailBean selectedQuestionDetailBean = questionDetailBeans.get(questionSubjectFormBean
+								.getRadioSelectedIndex());
+						logger.debug("**** selected answer is: " + selectedQuestionDetailBean.getContent());
+					}
 				}
 			}
 

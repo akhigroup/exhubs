@@ -56,7 +56,7 @@
 		<div id="sub_question_container"></div>
 
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary" tabindex="99">
+			<button type="submit" onclick="return validateForm();" class="btn btn-primary" tabindex="99">
 				Create Question</button>
 		</div>
 	</fieldset>
@@ -66,6 +66,14 @@
 	$(document).ready(function() {
 		questionTypeChanged();
 	});
+	
+	function validateQuestionSubjectForm() {
+		
+		
+		
+		alert('do not pass the validation!');
+		return true;
+	};
 
 	function questionTypeChanged() {
 		var questionTypeId = $('#questionTypeSelector').val();

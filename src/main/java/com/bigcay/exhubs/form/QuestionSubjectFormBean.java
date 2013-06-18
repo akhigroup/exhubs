@@ -1,5 +1,7 @@
 package com.bigcay.exhubs.form;
 
+import java.util.List;
+
 public class QuestionSubjectFormBean {
 
 	private Integer id;
@@ -10,16 +12,16 @@ public class QuestionSubjectFormBean {
 
 	private Integer questionTypeId;
 
-	private QuestionHeaderBean questionHeaderBean;
+	private List<QuestionHeaderBean> questionHeaderBeans;
 
 	private Integer radioSelectedIndex;
 
-	public QuestionHeaderBean getQuestionHeaderBean() {
-		return questionHeaderBean;
+	public List<QuestionHeaderBean> getQuestionHeaderBeans() {
+		return questionHeaderBeans;
 	}
 
-	public void setQuestionHeaderBean(QuestionHeaderBean questionHeaderBean) {
-		this.questionHeaderBean = questionHeaderBean;
+	public void setQuestionHeaderBeans(List<QuestionHeaderBean> questionHeaderBeans) {
+		this.questionHeaderBeans = questionHeaderBeans;
 	}
 
 	public Integer getId() {
