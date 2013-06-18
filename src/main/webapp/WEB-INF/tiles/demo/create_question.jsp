@@ -49,20 +49,11 @@
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
-					<button type="button" class="btn btn-small">Add Sub
-						Question</button>
 				</div>
 			</div>
 		</s:bind>
 
-		<div id="sub_question_container" class="control-group">
-			<div>
-				<label class="control-label">xxx Score</label>
-				<div class="controls">
-					<input type="text" class="input-large" />
-				</div>
-			</div>
-		</div>
+		<div id="sub_question_container"></div>
 
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary" tabindex="99">
@@ -72,11 +63,30 @@
 </form:form>
 
 <script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		questionTypeChanged();
+	});
+
 	function questionTypeChanged() {
 		var questionTypeId = $('#questionTypeSelector').val();
-		alert(questionTypeId);
-		
-		
-		
+		if (questionTypeId == 0) {
+			$('#sub_question_container').html('');
+		} else {
+			showSubQuestionArea(questionTypeId);
+		}
+	};
+
+	function showSubQuestionArea(questionTypeId) {
+		$.ajax({
+			url : '/ajax/demo/show_sub_question_area',
+			data : {
+				questionTypeId : questionTypeId
+			},
+			type : 'get',
+			cache : false,
+			success : function(response, textStatus, xhr) {
+				$('#sub_question_container').html(response);
+			}
+		});
 	};
 </script>

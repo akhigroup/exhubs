@@ -1,5 +1,6 @@
 package com.bigcay.exhubs.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -22,10 +23,13 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
+import com.bigcay.exhubs.form.QuestionDetailBean;
+import com.bigcay.exhubs.form.QuestionHeaderBean;
 import com.bigcay.exhubs.form.QuestionSubjectFormBean;
 import com.bigcay.exhubs.form.UserFormBean;
 import com.bigcay.exhubs.form.UserFormBeanValidator;
@@ -137,7 +141,12 @@ public class DemoController extends BaseController {
 
 		logger.info("DemoController.createQuestionHandler is invoked.");
 
-		model.addAttribute("questionSubjectFormBean", new QuestionSubjectFormBean());
+		QuestionSubjectFormBean questionSubjectFormBean = new QuestionSubjectFormBean();
+		QuestionHeaderBean questionHeaderBean = new QuestionHeaderBean();
+		questionHeaderBean.setQuestionDetailBeans(new ArrayList<QuestionDetailBean>());
+		questionSubjectFormBean.setQuestionHeaderBean(questionHeaderBean);
+
+		model.addAttribute("questionSubjectFormBean", questionSubjectFormBean);
 
 		return "demo/create_question";
 	}
@@ -147,10 +156,57 @@ public class DemoController extends BaseController {
 			@Valid @ModelAttribute("questionSubjectFormBean") QuestionSubjectFormBean questionSubjectFormBean,
 			BindingResult result, final RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
+
+			logger.debug("ERROR! TO-DO");
+
 			return "demo/create_question";
 		} else {
+			// debug
+
+			logger.debug("* id:" + questionSubjectFormBean.getId());
+			logger.debug("* questionTypeId:" + questionSubjectFormBean.getQuestionTypeId());
+			logger.debug("* content:" + questionSubjectFormBean.getContent());
+			logger.debug("* totalScore:" + questionSubjectFormBean.getTotalScore());
+			logger.debug("*-> radioSelectedIndex:" + questionSubjectFormBean.getRadioSelectedIndex());
+
+			QuestionHeaderBean questionHeaderBean = questionSubjectFormBean.getQuestionHeaderBean();
+			logger.debug("** questionHeaderBean.description:" + questionHeaderBean.getDescription());
+
+			if (questionHeaderBean != null) {
+				logger.debug("good news - questionHeaderBean is not null");
+
+				List<QuestionDetailBean> questionDetailBeans = questionHeaderBean.getQuestionDetailBeans();
+				for (QuestionDetailBean questionDetailBean : questionDetailBeans) {
+					logger.debug("### questionDetailBean:" + questionDetailBean.getId() + ","
+							+ questionDetailBean.getContent());
+				}
+
+				if (questionSubjectFormBean.getRadioSelectedIndex() != null) {
+					QuestionDetailBean selectedQuestionDetailBean = questionDetailBeans.get(questionSubjectFormBean
+							.getRadioSelectedIndex());
+					logger.debug("**** selected answer is: " + selectedQuestionDetailBean.getContent());
+				}
+			}
+
 			redirectAttributes.addFlashAttribute("info", "success!");
-			return "redirect:/demo/create_question";
+			return "redirect:/questionrepos";
+		}
+	}
+
+	@RequestMapping("ajax/demo/show_sub_question_area")
+	public String showSubQuestionAreaAjaxHandler(Model model, @RequestParam(required = true) Integer questionTypeId) {
+
+		logger.debug("GroupController.showGroupRolesAjaxHandler is invoked.");
+
+		QuestionType questionType = questionService.findQuestionTypeById(questionTypeId);
+
+		if ("SCQ".equalsIgnoreCase(questionType.getName())) {
+			return "ajax/demo/show_SCQ_area";
+		} else if ("MCQ".equalsIgnoreCase(questionType.getName())) {
+			return "ajax/demo/show_MCQ_area";
+		} else {
+			// TO-DO, handle error
+			return "ajax/demo/show_SCQ_area";
 		}
 	}
 

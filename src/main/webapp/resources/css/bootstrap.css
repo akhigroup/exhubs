@@ -1944,7 +1944,7 @@ legend + .control-group {
 }
 
 .form-horizontal .control-group {
-  margin-bottom: 20px;
+  margin-bottom: 10px; /* 2013/06/18 - LBI - changed from 20px to 10px */
   *zoom: 1;
 }
 

@@ -1,0 +1,47 @@
+package com.bigcay.exhubs.form;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class QuestionHeaderBean {
+
+	private Integer id;
+
+	private String description;
+
+	private Integer score;
+
+	private List<QuestionDetailBean> questionDetailBeans = new ArrayList<QuestionDetailBean>();
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+
+	public List<QuestionDetailBean> getQuestionDetailBeans() {
+		return questionDetailBeans;
+	}
+
+	public void setQuestionDetailBeans(List<QuestionDetailBean> questionDetailBeans) {
+		this.questionDetailBeans = questionDetailBeans;
+	}
+}
