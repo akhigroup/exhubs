@@ -206,49 +206,52 @@ public class DemoController extends BaseController {
 			questionSubject.setTotalScore(questionSubjectFormBean.getTotalScore());
 			questionSubject.setUser(editUser);
 
-			if ("SCQ".equalsIgnoreCase(questionType.getName())) {
-				List<QuestionHeaderBean> questionHeaderBeans = questionSubjectFormBean.getQuestionHeaderBeans();
-				Set<QuestionHeader> questionHeaders = new HashSet<QuestionHeader>();
+			List<QuestionHeaderBean> questionHeaderBeans = questionSubjectFormBean.getQuestionHeaderBeans();
+			Set<QuestionHeader> questionHeaders = new HashSet<QuestionHeader>();
 
-				for (QuestionHeaderBean questionHeaderBean : questionHeaderBeans) {
+			for (QuestionHeaderBean questionHeaderBean : questionHeaderBeans) {
 
-					QuestionHeader questionHeader = new QuestionHeader();
+				QuestionHeader questionHeader = new QuestionHeader();
 
-					QuestionAnswer questionAnswer = new QuestionAnswer();
+				QuestionAnswer questionAnswer = new QuestionAnswer();
 
-					int binaryValue = (int) Math.pow(2, (double) questionHeaderBean.getRadioSelectedIndex());
+				List<QuestionDetailBean> questionDetailBeans = questionHeaderBean.getQuestionDetailBeans();
 
-					questionAnswer.setBinaryValue(binaryValue);
+				Set<QuestionDetail> questionDetails = new HashSet<QuestionDetail>();
 
-					List<QuestionDetailBean> questionDetailBeans = questionHeaderBean.getQuestionDetailBeans();
+				int questionDetailIndex = 1;
+				int checkboxBinaryNum = 0;
+				for (QuestionDetailBean questionDetailBean : questionDetailBeans) {
+					QuestionDetail questionDetail = new QuestionDetail();
+					questionDetail.setContent(questionDetailBean.getContent());
+					questionDetail.setSortOrder(questionDetailIndex);
+					questionDetail.setQuestionHeader(questionHeader);
+					questionDetails.add(questionDetail);
 
-					Set<QuestionDetail> questionDetails = new HashSet<QuestionDetail>();
-
-					int questionDetailIndex = 1;
-					for (QuestionDetailBean questionDetailBean : questionDetailBeans) {
-						QuestionDetail questionDetail = new QuestionDetail();
-						questionDetail.setContent(questionDetailBean.getContent());
-						questionDetail.setSortOrder(questionDetailIndex);
-						questionDetail.setQuestionHeader(questionHeader);
-						questionDetails.add(questionDetail);
-
-						questionDetailIndex++;
+					if (questionDetailBean.getIsChecked() != null && questionDetailBean.getIsChecked().booleanValue()) {
+						checkboxBinaryNum += Math.pow(2, questionDetailIndex - 1);
 					}
 
-					questionHeader.setQuestionDetails(questionDetails);
-					questionHeader.setQuestionAnswer(questionAnswer);
-					questionHeader.setQuestionSubject(questionSubject);
-					questionHeader.setQuestionType(questionType);
-					questionHeader.setDescription(questionHeaderBean.getDescription());
-					questionHeader.setScore(questionHeaderBean.getScore());
-
-					questionHeaders.add(questionHeader);
-
-					questionSubject.setQuestionHeaders(questionHeaders);
+					questionDetailIndex++;
 				}
 
-			} else if ("MCQ".equalsIgnoreCase(questionType.getName())) {
+				if ("SCQ".equalsIgnoreCase(questionType.getName())) {
+					int binaryValue = (int) Math.pow(2, (double) questionHeaderBean.getRadioSelectedIndex());
+					questionAnswer.setBinaryValue(binaryValue);
+				} else if ("MCQ".equalsIgnoreCase(questionType.getName())) {
+					questionAnswer.setBinaryValue(checkboxBinaryNum);
+				}
 
+				questionHeader.setQuestionDetails(questionDetails);
+				questionHeader.setQuestionAnswer(questionAnswer);
+				questionHeader.setQuestionSubject(questionSubject);
+				questionHeader.setQuestionType(questionType);
+				questionHeader.setDescription(questionHeaderBean.getDescription());
+				questionHeader.setScore(questionHeaderBean.getScore());
+
+				questionHeaders.add(questionHeader);
+
+				questionSubject.setQuestionHeaders(questionHeaders);
 			}
 
 			// save here

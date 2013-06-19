@@ -7,7 +7,7 @@ public class QuestionDetailBean {
 	private String content;
 
 	private Integer sortOrder;
-	
+
 	private Boolean isChecked;
 
 	public Integer getId() {
