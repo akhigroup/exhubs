@@ -194,46 +194,6 @@ public class DemoController extends BaseController {
 
 			return "demo/create_question";
 		} else {
-			// debug
-			/*
-			 * logger.debug("* id:" + questionSubjectFormBean.getId());
-			 * logger.debug("* questionTypeId:" +
-			 * questionSubjectFormBean.getQuestionTypeId());
-			 * logger.debug("* content:" +
-			 * questionSubjectFormBean.getContent());
-			 * logger.debug("* totalScore:" +
-			 * questionSubjectFormBean.getTotalScore());
-			 * logger.debug("*-> radioSelectedIndex:" +
-			 * questionSubjectFormBean.getRadioSelectedIndex());
-			 * 
-			 * List<QuestionHeaderBean> questionHeaderBeans =
-			 * questionSubjectFormBean.getQuestionHeaderBeans();
-			 * 
-			 * for (QuestionHeaderBean questionHeaderBean : questionHeaderBeans)
-			 * { logger.debug("** questionHeaderBean.description:" +
-			 * questionHeaderBean.getDescription());
-			 * logger.debug("** questionHeaderBean.score:" +
-			 * questionHeaderBean.getScore());
-			 * 
-			 * if (questionHeaderBean != null) {
-			 * logger.debug("good news - questionHeaderBean is not null");
-			 * 
-			 * List<QuestionDetailBean> questionDetailBeans =
-			 * questionHeaderBean.getQuestionDetailBeans(); for
-			 * (QuestionDetailBean questionDetailBean : questionDetailBeans) {
-			 * logger.debug("### questionDetailBean:" +
-			 * questionDetailBean.getId() + "," +
-			 * questionDetailBean.getContent() + " - " +
-			 * questionDetailBean.getIsChecked()); }
-			 * 
-			 * if (questionSubjectFormBean.getRadioSelectedIndex() != null) {
-			 * QuestionDetailBean selectedQuestionDetailBean =
-			 * questionDetailBeans.get(questionSubjectFormBean
-			 * .getRadioSelectedIndex());
-			 * logger.debug("**** selected answer is: " +
-			 * selectedQuestionDetailBean.getContent()); } } }
-			 */
-
 			/* authorityService.findUserByUserId(principal.getName()); */
 			User editUser = authorityService.findUserById(1);
 
@@ -245,8 +205,6 @@ public class DemoController extends BaseController {
 			questionSubject.setQuestionType(questionType);
 			questionSubject.setTotalScore(questionSubjectFormBean.getTotalScore());
 			questionSubject.setUser(editUser);
-			
-			questionSubject = questionService.persist(questionSubject);
 
 			if ("SCQ".equalsIgnoreCase(questionType.getName())) {
 				List<QuestionHeaderBean> questionHeaderBeans = questionSubjectFormBean.getQuestionHeaderBeans();
@@ -257,7 +215,10 @@ public class DemoController extends BaseController {
 					QuestionHeader questionHeader = new QuestionHeader();
 
 					QuestionAnswer questionAnswer = new QuestionAnswer();
-					questionAnswer.setBinaryValue(1);
+
+					int binaryValue = (int) Math.pow(2, (double) questionHeaderBean.getRadioSelectedIndex());
+
+					questionAnswer.setBinaryValue(binaryValue);
 
 					List<QuestionDetailBean> questionDetailBeans = questionHeaderBean.getQuestionDetailBeans();
 
@@ -268,6 +229,7 @@ public class DemoController extends BaseController {
 						QuestionDetail questionDetail = new QuestionDetail();
 						questionDetail.setContent(questionDetailBean.getContent());
 						questionDetail.setSortOrder(questionDetailIndex);
+						questionDetail.setQuestionHeader(questionHeader);
 						questionDetails.add(questionDetail);
 
 						questionDetailIndex++;
@@ -277,18 +239,19 @@ public class DemoController extends BaseController {
 					questionHeader.setQuestionAnswer(questionAnswer);
 					questionHeader.setQuestionSubject(questionSubject);
 					questionHeader.setQuestionType(questionType);
+					questionHeader.setDescription(questionHeaderBean.getDescription());
 					questionHeader.setScore(questionHeaderBean.getScore());
 
 					questionHeaders.add(questionHeader);
-					
+
 					questionSubject.setQuestionHeaders(questionHeaders);
 				}
 
 			} else if ("MCQ".equalsIgnoreCase(questionType.getName())) {
 
 			}
-			
-			//save here
+
+			// save here
 			questionService.persist(questionSubject);
 
 			redirectAttributes.addFlashAttribute("info", "success!");

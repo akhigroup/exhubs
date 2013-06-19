@@ -14,8 +14,6 @@ public class QuestionSubjectFormBean {
 
 	private List<QuestionHeaderBean> questionHeaderBeans;
 
-	private Integer radioSelectedIndex;
-
 	public List<QuestionHeaderBean> getQuestionHeaderBeans() {
 		return questionHeaderBeans;
 	}
@@ -54,14 +52,6 @@ public class QuestionSubjectFormBean {
 
 	public void setQuestionTypeId(Integer questionTypeId) {
 		this.questionTypeId = questionTypeId;
-	}
-
-	public Integer getRadioSelectedIndex() {
-		return radioSelectedIndex;
-	}
-
-	public void setRadioSelectedIndex(Integer radioSelectedIndex) {
-		this.radioSelectedIndex = radioSelectedIndex;
 	}
 
 }
