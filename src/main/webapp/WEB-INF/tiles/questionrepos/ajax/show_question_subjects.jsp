@@ -30,7 +30,7 @@
 						onclick="location.href='/question_subject/${questionSubject.id}'">
 						<s:message code="blobal.info.btn.view" />
 					</button>
-					<button class="btn btn-link btn-mini"
+					<button class="btn btn-link btn-mini confirm_delete_question_subject"
 						onclick="deleteQuestionSubject(${questionSubject.id});">
 						<s:message code="blobal.info.btn.delete" />
 					</button></td>
@@ -38,3 +38,15 @@
 		</c:forEach>
 	</tbody>
 </table>
+
+<script type="text/javascript" charset="utf-8">
+$(".confirm_delete_question_subject").on("click", function(e) {
+	bootbox.confirm("Are you sure?", function(result) {
+		if (result == true) {
+			alert('true');
+		} else {
+			alert('false');
+		}
+	}); 
+});
+</script>

@@ -22,6 +22,7 @@ body {
 </style>
 <script src="/resources/js/jquery.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
+<script src="/resources/js/bootbox.min.js"></script>
 <script src="/resources/js/main.js"></script>
 </head>
 <body>
