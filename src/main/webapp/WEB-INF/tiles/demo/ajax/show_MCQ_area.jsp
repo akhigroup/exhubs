@@ -13,7 +13,8 @@
 
 <div class="control-group">
 	<label class="control-label"><input type="checkbox"
-		name="radioSelectedIndex" id="chkbox_0" value="0"></label>
+		name="questionHeaderBeans[0].questionDetailBeans[0].isChecked"
+		id="chkbox_0_0" value="true"></label>
 	<div class="controls">
 		<input type="text"
 			name="questionHeaderBeans[0].questionDetailBeans[0].content"
@@ -24,7 +25,8 @@
 
 <div class="control-group">
 	<label class="control-label"><input type="checkbox"
-		name="radioSelectedIndex" id="chkbox_1" value="1"></label>
+		name="questionHeaderBeans[0].questionDetailBeans[1].isChecked"
+		id="chkbox_0_1" value="true"></label>
 	<div class="controls">
 		<input type="text"
 			name="questionHeaderBeans[0].questionDetailBeans[1].content"
@@ -35,7 +37,8 @@
 
 <div class="control-group">
 	<label class="control-label"><input type="checkbox"
-		name="radioSelectedIndex" id="chkbox_2" value="2"></label>
+		name="questionHeaderBeans[0].questionDetailBeans[2].isChecked"
+		id="chkbox_0_2" value="true"></label>
 	<div class="controls">
 		<input type="text"
 			name="questionHeaderBeans[0].questionDetailBeans[2].content"
@@ -46,7 +49,8 @@
 
 <div class="control-group">
 	<label class="control-label"><input type="checkbox"
-		name="radioSelectedIndex" id="chkbox_3" value="3"></label>
+		name="questionHeaderBeans[0].questionDetailBeans[3].isChecked"
+		id="chkbox_0_3" value="true"></label>
 	<div class="controls">
 		<input type="text"
 			name="questionHeaderBeans[0].questionDetailBeans[3].content"

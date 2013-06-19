@@ -183,7 +183,7 @@ public class DemoController extends BaseController {
 					List<QuestionDetailBean> questionDetailBeans = questionHeaderBean.getQuestionDetailBeans();
 					for (QuestionDetailBean questionDetailBean : questionDetailBeans) {
 						logger.debug("### questionDetailBean:" + questionDetailBean.getId() + ","
-								+ questionDetailBean.getContent());
+								+ questionDetailBean.getContent() + " - " + questionDetailBean.getIsChecked());
 					}
 
 					if (questionSubjectFormBean.getRadioSelectedIndex() != null) {

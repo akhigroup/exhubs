@@ -7,6 +7,8 @@ public class QuestionDetailBean {
 	private String content;
 
 	private Integer sortOrder;
+	
+	private Boolean isChecked;
 
 	public Integer getId() {
 		return id;
@@ -30,6 +32,14 @@ public class QuestionDetailBean {
 
 	public void setSortOrder(Integer sortOrder) {
 		this.sortOrder = sortOrder;
+	}
+
+	public Boolean getIsChecked() {
+		return isChecked;
+	}
+
+	public void setIsChecked(Boolean isChecked) {
+		this.isChecked = isChecked;
 	}
 
 }
