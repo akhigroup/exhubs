@@ -94,4 +94,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return groupRepository.findAll();
 	}
 
+	@Override
+	public Group persist(Group group) {
+		return groupRepository.save(group);
+	}
+
 }

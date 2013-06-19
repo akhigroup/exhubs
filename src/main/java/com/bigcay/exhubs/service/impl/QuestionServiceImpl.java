@@ -70,4 +70,9 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionSubjectRepository.findAll();
 	}
 
+	@Override
+	public QuestionSubject persist(QuestionSubject questionSubject) {
+		return questionSubjectRepository.save(questionSubject);
+	}
+
 }

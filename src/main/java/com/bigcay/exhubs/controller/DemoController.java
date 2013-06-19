@@ -1,9 +1,12 @@
 package com.bigcay.exhubs.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +42,8 @@ import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
 import com.bigcay.exhubs.model.QuestionSubject;
 import com.bigcay.exhubs.model.QuestionType;
+import com.bigcay.exhubs.model.Role;
+import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
 import com.bigcay.exhubs.service.QuestionService;
 
@@ -73,6 +78,32 @@ public class DemoController extends BaseController {
 
 	@RequestMapping(value = "demo", method = RequestMethod.GET)
 	public String indexHandler(Model model) {
+		return "demo/index";
+	}
+
+	@RequestMapping(value = "demo/save_group", method = RequestMethod.GET)
+	public String cascadeSaveGroupHandler(Model model) {
+
+		Group newGroup = new Group();
+		newGroup.setName("Group1-name");
+		newGroup.setDescription("Group1-desc");
+
+		Set<Role> newRoles = new HashSet<Role>();
+		Role newRole = new Role();
+		newRole.setName("Role1-name");
+		newRole.setDescription("Role1-desc");
+		newRoles.add(newRole);
+
+		newGroup.setRoles(newRoles);
+
+		Group savedGroup = authorityService.persist(newGroup);
+
+		if (savedGroup != null) {
+			logger.debug("** group was saved successfully!");
+		} else {
+			logger.debug("** failed to save group ...");
+		}
+
 		return "demo/index";
 	}
 
@@ -156,7 +187,7 @@ public class DemoController extends BaseController {
 	@RequestMapping(value = "demo/create_question", method = RequestMethod.POST)
 	public String createQuestionSubmitHandler(Model model, Locale locale,
 			@Valid @ModelAttribute("questionSubjectFormBean") QuestionSubjectFormBean questionSubjectFormBean,
-			BindingResult result, final RedirectAttributes redirectAttributes) {
+			BindingResult result, final RedirectAttributes redirectAttributes, Principal principal) {
 		if (result.hasErrors()) {
 
 			logger.debug("ERROR! TO-DO");
@@ -164,35 +195,101 @@ public class DemoController extends BaseController {
 			return "demo/create_question";
 		} else {
 			// debug
+			/*
+			 * logger.debug("* id:" + questionSubjectFormBean.getId());
+			 * logger.debug("* questionTypeId:" +
+			 * questionSubjectFormBean.getQuestionTypeId());
+			 * logger.debug("* content:" +
+			 * questionSubjectFormBean.getContent());
+			 * logger.debug("* totalScore:" +
+			 * questionSubjectFormBean.getTotalScore());
+			 * logger.debug("*-> radioSelectedIndex:" +
+			 * questionSubjectFormBean.getRadioSelectedIndex());
+			 * 
+			 * List<QuestionHeaderBean> questionHeaderBeans =
+			 * questionSubjectFormBean.getQuestionHeaderBeans();
+			 * 
+			 * for (QuestionHeaderBean questionHeaderBean : questionHeaderBeans)
+			 * { logger.debug("** questionHeaderBean.description:" +
+			 * questionHeaderBean.getDescription());
+			 * logger.debug("** questionHeaderBean.score:" +
+			 * questionHeaderBean.getScore());
+			 * 
+			 * if (questionHeaderBean != null) {
+			 * logger.debug("good news - questionHeaderBean is not null");
+			 * 
+			 * List<QuestionDetailBean> questionDetailBeans =
+			 * questionHeaderBean.getQuestionDetailBeans(); for
+			 * (QuestionDetailBean questionDetailBean : questionDetailBeans) {
+			 * logger.debug("### questionDetailBean:" +
+			 * questionDetailBean.getId() + "," +
+			 * questionDetailBean.getContent() + " - " +
+			 * questionDetailBean.getIsChecked()); }
+			 * 
+			 * if (questionSubjectFormBean.getRadioSelectedIndex() != null) {
+			 * QuestionDetailBean selectedQuestionDetailBean =
+			 * questionDetailBeans.get(questionSubjectFormBean
+			 * .getRadioSelectedIndex());
+			 * logger.debug("**** selected answer is: " +
+			 * selectedQuestionDetailBean.getContent()); } } }
+			 */
 
-			logger.debug("* id:" + questionSubjectFormBean.getId());
-			logger.debug("* questionTypeId:" + questionSubjectFormBean.getQuestionTypeId());
-			logger.debug("* content:" + questionSubjectFormBean.getContent());
-			logger.debug("* totalScore:" + questionSubjectFormBean.getTotalScore());
-			logger.debug("*-> radioSelectedIndex:" + questionSubjectFormBean.getRadioSelectedIndex());
+			/* authorityService.findUserByUserId(principal.getName()); */
+			User editUser = authorityService.findUserById(1);
 
-			List<QuestionHeaderBean> questionHeaderBeans = questionSubjectFormBean.getQuestionHeaderBeans();
+			QuestionType questionType = questionService.findQuestionTypeById(questionSubjectFormBean
+					.getQuestionTypeId());
 
-			for (QuestionHeaderBean questionHeaderBean : questionHeaderBeans) {
-				logger.debug("** questionHeaderBean.description:" + questionHeaderBean.getDescription());
-				logger.debug("** questionHeaderBean.score:" + questionHeaderBean.getScore());
+			QuestionSubject questionSubject = new QuestionSubject();
+			questionSubject.setContent(questionSubjectFormBean.getContent());
+			questionSubject.setQuestionType(questionType);
+			questionSubject.setTotalScore(questionSubjectFormBean.getTotalScore());
+			questionSubject.setUser(editUser);
+			
+			questionSubject = questionService.persist(questionSubject);
 
-				if (questionHeaderBean != null) {
-					logger.debug("good news - questionHeaderBean is not null");
+			if ("SCQ".equalsIgnoreCase(questionType.getName())) {
+				List<QuestionHeaderBean> questionHeaderBeans = questionSubjectFormBean.getQuestionHeaderBeans();
+				Set<QuestionHeader> questionHeaders = new HashSet<QuestionHeader>();
+
+				for (QuestionHeaderBean questionHeaderBean : questionHeaderBeans) {
+
+					QuestionHeader questionHeader = new QuestionHeader();
+
+					QuestionAnswer questionAnswer = new QuestionAnswer();
+					questionAnswer.setBinaryValue(1);
 
 					List<QuestionDetailBean> questionDetailBeans = questionHeaderBean.getQuestionDetailBeans();
+
+					Set<QuestionDetail> questionDetails = new HashSet<QuestionDetail>();
+
+					int questionDetailIndex = 1;
 					for (QuestionDetailBean questionDetailBean : questionDetailBeans) {
-						logger.debug("### questionDetailBean:" + questionDetailBean.getId() + ","
-								+ questionDetailBean.getContent() + " - " + questionDetailBean.getIsChecked());
+						QuestionDetail questionDetail = new QuestionDetail();
+						questionDetail.setContent(questionDetailBean.getContent());
+						questionDetail.setSortOrder(questionDetailIndex);
+						questionDetails.add(questionDetail);
+
+						questionDetailIndex++;
 					}
 
-					if (questionSubjectFormBean.getRadioSelectedIndex() != null) {
-						QuestionDetailBean selectedQuestionDetailBean = questionDetailBeans.get(questionSubjectFormBean
-								.getRadioSelectedIndex());
-						logger.debug("**** selected answer is: " + selectedQuestionDetailBean.getContent());
-					}
+					questionHeader.setQuestionDetails(questionDetails);
+					questionHeader.setQuestionAnswer(questionAnswer);
+					questionHeader.setQuestionSubject(questionSubject);
+					questionHeader.setQuestionType(questionType);
+					questionHeader.setScore(questionHeaderBean.getScore());
+
+					questionHeaders.add(questionHeader);
+					
+					questionSubject.setQuestionHeaders(questionHeaders);
 				}
+
+			} else if ("MCQ".equalsIgnoreCase(questionType.getName())) {
+
 			}
+			
+			//save here
+			questionService.persist(questionSubject);
 
 			redirectAttributes.addFlashAttribute("info", "success!");
 			return "redirect:/questionrepos";
@@ -207,8 +304,10 @@ public class DemoController extends BaseController {
 		QuestionType questionType = questionService.findQuestionTypeById(questionTypeId);
 
 		if ("SCQ".equalsIgnoreCase(questionType.getName())) {
+			model.addAttribute("selectedQuestionTypeName", "SCQ");
 			return "ajax/demo/show_SCQ_area";
 		} else if ("MCQ".equalsIgnoreCase(questionType.getName())) {
+			model.addAttribute("selectedQuestionTypeName", "MCQ");
 			return "ajax/demo/show_MCQ_area";
 		} else {
 			// TO-DO, handle error

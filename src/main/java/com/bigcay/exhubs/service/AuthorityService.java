@@ -28,6 +28,8 @@ public interface AuthorityService {
 	Set<Role> findRolesByGroupId(Integer groupId);
 
 	User persist(User user);
+	
+	Group persist(Group group);
 
 	boolean updateUserActiveFlag(Integer updateId, boolean activeFlag);
 }

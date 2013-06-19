@@ -32,7 +32,7 @@
 			<div class="control-group ${status.error ? 'error' : '' }">
 				<label class="control-label" for="content">content</label>
 				<div class="controls">
-					<form:textarea rows="4" class="input-xlarge" path="content"
+					<form:textarea rows="3" class="input-xxlarge" path="content"
 						tabindex="2" />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
@@ -56,8 +56,8 @@
 		<div id="sub_question_container"></div>
 
 		<div class="form-actions">
-			<button type="submit" onclick="return validateForm();" class="btn btn-primary" tabindex="99">
-				Create Question</button>
+			<button type="submit" onclick="return validateQuestionSubjectForm();"
+				class="btn btn-primary" tabindex="99">Create Question</button>
 		</div>
 	</fieldset>
 </form:form>
@@ -66,13 +66,19 @@
 	$(document).ready(function() {
 		questionTypeChanged();
 	});
-	
+
 	function validateQuestionSubjectForm() {
-		
-		
-		
-		alert('do not pass the validation!');
-		return true;
+
+		cleanAjaxMessage();
+
+		var questionTypeId = $('#questionTypeSelector').val();
+		if (questionTypeId == 0) {
+			$('#ajax_error').html('Please choose a question type first!')
+					.show();
+			return false;
+		} else {
+			return true;
+		}
 	};
 
 	function questionTypeChanged() {

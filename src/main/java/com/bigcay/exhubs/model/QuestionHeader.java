@@ -3,6 +3,7 @@ package com.bigcay.exhubs.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,11 +41,11 @@ public class QuestionHeader {
 	@JoinColumn(name = "question_type_id")
 	private QuestionType questionType;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "question_answer_id")
 	private QuestionAnswer questionAnswer;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionHeader")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "questionHeader")
 	@OrderBy("sortOrder ASC")
 	private Set<QuestionDetail> questionDetails = new HashSet<QuestionDetail>();
 
@@ -100,4 +101,11 @@ public class QuestionHeader {
 		return QuestionUtil.getRightQuestionAnswer(this.questionType.getName(), this.getQuestionAnswer());
 	}
 
+	public QuestionSubject getQuestionSubject() {
+		return questionSubject;
+	}
+
+	public void setQuestionSubject(QuestionSubject questionSubject) {
+		this.questionSubject = questionSubject;
+	}
 }

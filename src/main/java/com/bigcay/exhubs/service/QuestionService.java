@@ -17,11 +17,13 @@ public interface QuestionService {
 	QuestionAnswer findQuestionAnswerById(Integer id);
 
 	QuestionHeader findQuestionHeaderById(Integer id);
-	
+
 	QuestionDetail findQuestionDetailById(Integer id);
-	
+
 	List<QuestionType> findAllQuestionTypes();
-	
+
 	List<QuestionSubject> findAllQuestionSubjects();
+
+	QuestionSubject persist(QuestionSubject questionSubject);
 
 }

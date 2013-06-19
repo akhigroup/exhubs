@@ -3,6 +3,7 @@ package com.bigcay.exhubs.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,7 +39,7 @@ public class QuestionSubject {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "questionSubject")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "questionSubject")
 	@OrderBy("id ASC")
 	private Set<QuestionHeader> questionHeaders = new HashSet<QuestionHeader>();
 
