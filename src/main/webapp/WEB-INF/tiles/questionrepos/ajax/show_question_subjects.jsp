@@ -29,6 +29,10 @@
 				<td><button class="btn btn-link btn-mini"
 						onclick="location.href='/question_subject/${questionSubject.id}'">
 						<s:message code="blobal.info.btn.view" />
+					</button>
+					<button class="btn btn-link btn-mini"
+						onclick="deleteQuestionSubject(${questionSubject.id});">
+						<s:message code="blobal.info.btn.delete" />
 					</button></td>
 			</tr>
 		</c:forEach>

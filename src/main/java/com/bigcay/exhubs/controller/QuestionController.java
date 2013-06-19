@@ -1,6 +1,9 @@
 package com.bigcay.exhubs.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bigcay.exhubs.model.QuestionSubject;
 import com.bigcay.exhubs.model.QuestionType;
@@ -32,7 +38,7 @@ public class QuestionController extends BaseController {
 	public String[] getAllQuestionChoices() {
 		return QuestionUtil.getQuestionChoices();
 	}
-	
+
 	@RequestMapping("questiontypes")
 	public String questionTypeIndexHandler() {
 
@@ -83,6 +89,24 @@ public class QuestionController extends BaseController {
 		model.addAttribute("questionSubject", questionSubject);
 
 		return "questionrepos/select_question_subject";
+	}
+
+	@RequestMapping(value = "/rest/questionrepos/delete_question_subject", method = RequestMethod.POST)
+	public @ResponseBody
+	Map<String, Object> deleteQuestionSubjectRestHandler(Locale locale, @RequestParam("deleteId") Integer deleteId) {
+
+		logger.debug("QuestionController.deleteQuestionSubjectRestHandler is invoked.");
+
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+
+		if (questionService.deleteQuestionSubject(deleteId)) {
+			responseMap.put("success", true);
+		} else {
+			responseMap.put("success", false);
+			responseMap.put("error", messageSource.getMessage("global.error.unknown_error", null, locale));
+		}
+
+		return responseMap;
 	}
 
 }

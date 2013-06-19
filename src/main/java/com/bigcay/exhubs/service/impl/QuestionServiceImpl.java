@@ -75,4 +75,11 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionSubjectRepository.save(questionSubject);
 	}
 
+	@Override
+	public boolean deleteQuestionSubject(Integer questionSubjectId) {
+		// TO-DO - additional conditions here
+		questionSubjectRepository.delete(questionSubjectId);
+		return true;
+	}
+
 }

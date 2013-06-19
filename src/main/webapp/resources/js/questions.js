@@ -21,3 +21,17 @@ function showQuestionSubjects() {
 		}
 	});
 };
+
+function deleteQuestionSubject(deleteId) {
+	$.ajax({
+		url : '/rest/questionrepos/delete_question_subject',
+		data : {
+			deleteId : deleteId
+		},
+		type : 'post',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			showQuestionSubjects();
+		}
+	});
+};

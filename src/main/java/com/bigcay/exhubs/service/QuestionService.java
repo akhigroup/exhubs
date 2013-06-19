@@ -26,4 +26,5 @@ public interface QuestionService {
 
 	QuestionSubject persist(QuestionSubject questionSubject);
 
+	boolean deleteQuestionSubject(Integer questionSubjectId);
 }
