@@ -3,3 +3,12 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <h1>This is a demo</h1>
+
+<div id="demo_msg_box"></div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$('#demo_msg_box').html('Exhubs');
+
+	});
+</script>

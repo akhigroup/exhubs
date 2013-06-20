@@ -42,12 +42,13 @@
 <script type="text/javascript" charset="utf-8">
 	$(".confirm_delete_question_subject").on("click", function(e) {
 		var deleteQuestionSubjectId = $(this).data('deleteQuestionSubjectId');
-		bootbox.confirm("Are you sure?", function(result) {
+		var confirmsMessage = "<s:message code='blobal.alert.are_you_sure'/>";
+
+		bootbox.confirm(confirmsMessage, function(result) {
 			if (result == true) {
 				deleteQuestionSubject(deleteQuestionSubjectId);
 			}
 		});
 	});
-
 	
 </script>
