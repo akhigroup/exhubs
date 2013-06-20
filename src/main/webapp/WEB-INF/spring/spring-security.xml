@@ -27,19 +27,19 @@
 		<intercept-url pattern="/users/edit_my_account" access="hasRole('ROLE_USER')" />
 
 
-		<!-- User Module -->
+		<!-- User Module 
 		<intercept-url pattern="/users" access="hasRole('ROLE_USER_MANAGER')" />
 		<intercept-url pattern="/users/*" access="hasRole('ROLE_USER_MANAGER')" />
 		<intercept-url pattern="/user/*" access="hasRole('ROLE_USER_MANAGER')" />
 		<intercept-url pattern="/ajax/users/*" access="hasRole('ROLE_USER_MANAGER')" />
-		<intercept-url pattern="/rest/users/*" access="hasRole('ROLE_USER_MANAGER')" />
+		<intercept-url pattern="/rest/users/*" access="hasRole('ROLE_USER_MANAGER')" />-->
 
 
 
-		<!-- Group Module -->
+		<!-- Group Module 
 		<intercept-url pattern="/groups" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
 		<intercept-url pattern="/group/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
-		<intercept-url pattern="/ajax/groups/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
+		<intercept-url pattern="/ajax/groups/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />-->
 
 
 		<!-- Site Index -->

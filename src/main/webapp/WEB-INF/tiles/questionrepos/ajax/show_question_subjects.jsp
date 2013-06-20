@@ -28,11 +28,11 @@
 				<td>${questionSubject.user.userId}</td>
 				<td><button class="btn btn-link btn-mini"
 						onclick="location.href='/question_subject/${questionSubject.id}'">
-						<s:message code="blobal.info.btn.view" />
+						<s:message code="global.info.btn.view" />
 					</button>
 					<button data-delete-question-subject-id="${questionSubject.id}"
 						class="btn btn-link btn-mini confirm_delete_question_subject">
-						<s:message code="blobal.info.btn.delete" />
+						<s:message code="global.info.btn.delete" />
 					</button></td>
 			</tr>
 		</c:forEach>
@@ -42,7 +42,7 @@
 <script type="text/javascript" charset="utf-8">
 	$(".confirm_delete_question_subject").on("click", function(e) {
 		var deleteQuestionSubjectId = $(this).data('deleteQuestionSubjectId');
-		var confirmsMessage = "<s:message code='blobal.alert.are_you_sure'/>";
+		var confirmsMessage = "<s:message code='global.alert.are_you_sure'/>";
 
 		bootbox.confirm(confirmsMessage, function(result) {
 			if (result == true) {

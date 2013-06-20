@@ -69,7 +69,7 @@
 					code="users.info.user_group" /></label>
 			<div class="controls">
 				<input class="input-xlarge" type="text" name="groupDescription"
-					value="${editUserGroup.description}" tabindex="5" readonly="true" />
+					value="${editUserGroup.description}" tabindex="5" readonly />
 			</div>
 		</div>
 
