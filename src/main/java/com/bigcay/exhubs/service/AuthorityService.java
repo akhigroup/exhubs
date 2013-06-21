@@ -32,4 +32,6 @@ public interface AuthorityService {
 	Group persist(Group group);
 
 	boolean updateUserActiveFlag(Integer updateId, boolean activeFlag);
+	
+	boolean deleteGroup(Integer groupId);
 }

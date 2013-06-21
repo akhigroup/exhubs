@@ -1,8 +1,10 @@
 package com.bigcay.exhubs.controller;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bigcay.exhubs.form.GroupFormBean;
@@ -127,4 +130,23 @@ public class GroupController extends BaseController {
 			return "redirect:/groups";
 		}
 	}
+	
+	@RequestMapping(value = "/rest/groups/delete_group", method = RequestMethod.POST)
+	public @ResponseBody
+	Map<String, Object> deleteGroupRestHandler(Locale locale, @RequestParam("deleteId") Integer deleteId) {
+
+		logger.debug("GroupController.deleteGroupRestHandler is invoked.");
+
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+
+		if (authorityService.deleteGroup(deleteId)) {
+			responseMap.put("success", true);
+		} else {
+			responseMap.put("success", false);
+			responseMap.put("error", messageSource.getMessage("global.error.unknown_error", null, locale));
+		}
+
+		return responseMap;
+	}
+
 }

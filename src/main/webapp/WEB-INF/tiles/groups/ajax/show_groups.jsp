@@ -19,8 +19,26 @@
 						onclick="location.href='/group/${group.id}'">
 						<s:message code="global.info.btn.view" />
 					</button>
+					<button data-delete-group-id="${group.id}"
+						class="btn btn-link btn-mini confirm_delete_group">
+						<s:message code="global.info.btn.delete" />
+					</button>
 				</td>
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
+
+<script type="text/javascript" charset="utf-8">
+	$(".confirm_delete_group").on("click", function(e) {
+		var deleteGorupId = $(this).data('deleteGroupId');
+		var confirmsMessage = "<s:message code='global.alert.are_you_sure'/>";
+
+		bootbox.confirm(confirmsMessage, function(result) {
+			if (result == true) {
+				deleteGroup(deleteGorupId);
+			}
+		});
+	});
+	
+</script>

@@ -35,7 +35,7 @@ public class Group {
 	@OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
 	private Set<GroupRole> groupRoles;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
 	@OrderBy("id ASC")
 	@JoinTable(name = "group_role", joinColumns = { @JoinColumn(name = "group_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	private Set<Role> roles = new HashSet<Role>();

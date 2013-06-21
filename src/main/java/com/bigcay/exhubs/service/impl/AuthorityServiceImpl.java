@@ -99,4 +99,11 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return groupRepository.save(group);
 	}
 
+	@Override
+	public boolean deleteGroup(Integer groupId) {
+		// TO-DO - additional conditions here
+		groupRepository.delete(groupId);
+		return false;
+	}
+
 }

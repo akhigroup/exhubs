@@ -23,3 +23,17 @@ function showGroupRoles(groupId) {
 		}
 	});
 };
+
+function deleteGroup(deleteId) {
+	$.ajax({
+		url : '/rest/groups/delete_group',
+		data : {
+			deleteId : deleteId
+		},
+		type : 'post',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			showGroups();
+		}
+	});
+};
