@@ -31,7 +31,12 @@ function deleteQuestionSubject(deleteId) {
 		type : 'post',
 		cache : false,
 		success : function(response, textStatus, xhr) {
-			showQuestionSubjects();
+			var obj = jQuery.parseJSON(xhr.responseText);
+			if (obj.success) {
+				showQuestionSubjects();
+			} else {
+				$('#ajax_error').html(obj.error).show();
+			}
 		}
 	});
 };

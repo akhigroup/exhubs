@@ -103,7 +103,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 	public boolean deleteGroup(Integer groupId) {
 		// TO-DO - additional conditions here
 		groupRepository.delete(groupId);
-		return false;
+		return true;
 	}
 
 }

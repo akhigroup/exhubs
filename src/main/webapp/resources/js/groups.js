@@ -33,7 +33,12 @@ function deleteGroup(deleteId) {
 		type : 'post',
 		cache : false,
 		success : function(response, textStatus, xhr) {
-			showGroups();
+			var obj = jQuery.parseJSON(xhr.responseText);
+			if (obj.success) {
+				showGroups();
+			} else {
+				$('#ajax_error').html(obj.error).show();
+			}
 		}
 	});
 };
