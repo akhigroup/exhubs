@@ -3,9 +3,11 @@ package com.bigcay.exhubs.service.impl;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bigcay.exhubs.common.GlobalManager;
+import com.bigcay.exhubs.common.ResultType;
+import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.form.GroupFormBean;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Role;
@@ -25,6 +29,9 @@ import com.bigcay.exhubs.service.AuthorityService;
 @Service
 @Transactional
 public class AuthorityServiceImpl implements AuthorityService {
+
+	@Autowired
+	MessageSource messageSource;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -104,10 +111,8 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
-	public boolean deleteGroup(Integer groupId) {
-		// TO-DO - additional conditions here
+	public void deleteGroup(Integer groupId) {
 		groupRepository.delete(groupId);
-		return true;
 	}
 
 	@Override
@@ -130,6 +135,23 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 		savedGroup.setRoles(selectedRoles);
 		return this.persist(savedGroup);
+	}
+
+	@Override
+	public ValidationResult validateBeforeDeleteGroup(Integer groupId, Locale locale) {
+
+		ValidationResult result = null;
+
+		List<User> groupAssociatedUsers = userRepository.findByGroup_Id(groupId);
+
+		if (groupAssociatedUsers != null && groupAssociatedUsers.size() > 0) {
+			result = new ValidationResult(ResultType.ERROR);
+			result.addErrorMessage(messageSource.getMessage("global.error.data_in_use", null, locale));
+		} else {
+			result = new ValidationResult(ResultType.SUCCESS);
+		}
+
+		return result;
 	}
 
 }

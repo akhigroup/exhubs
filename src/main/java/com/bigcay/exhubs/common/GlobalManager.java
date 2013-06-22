@@ -25,5 +25,5 @@ public class GlobalManager {
 
 		return pageableMap;
 	}
-
+	
 }

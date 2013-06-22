@@ -1,10 +1,12 @@
 package com.bigcay.exhubs.service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
 
+import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.form.GroupFormBean;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Role;
@@ -34,7 +36,9 @@ public interface AuthorityService {
 
 	boolean updateUserActiveFlag(Integer updateId, boolean activeFlag);
 	
-	boolean deleteGroup(Integer groupId);
+	ValidationResult validateBeforeDeleteGroup(Integer groupId, Locale locale);
+	
+	void deleteGroup(Integer groupId);
 	
 	Group saveNewGroup(GroupFormBean groupFormBean);
 }

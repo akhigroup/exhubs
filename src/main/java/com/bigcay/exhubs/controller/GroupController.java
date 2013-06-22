@@ -1,9 +1,7 @@
 package com.bigcay.exhubs.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -23,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bigcay.exhubs.common.ResponseResult;
+import com.bigcay.exhubs.common.ResultType;
+import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.form.GroupFormBean;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Role;
@@ -116,20 +117,18 @@ public class GroupController extends BaseController {
 
 	@RequestMapping(value = "/rest/groups/delete_group", method = RequestMethod.POST)
 	public @ResponseBody
-	Map<String, Object> deleteGroupRestHandler(Locale locale, @RequestParam("deleteId") Integer deleteId) {
+	ResponseResult deleteGroupRestHandler(Locale locale, @RequestParam("deleteId") Integer deleteId) {
 
 		logger.debug("GroupController.deleteGroupRestHandler is invoked.");
 
-		Map<String, Object> responseMap = new HashMap<String, Object>();
+		ValidationResult validationResult = authorityService.validateBeforeDeleteGroup(deleteId, locale);
 
-		if (authorityService.deleteGroup(deleteId)) {
-			responseMap.put("success", true);
-		} else {
-			responseMap.put("success", false);
-			responseMap.put("error", messageSource.getMessage("global.error.unknown_error", null, locale));
+		if (ResultType.SUCCESS == validationResult.getResultType()) {
+			authorityService.deleteGroup(deleteId);
 		}
 
-		return responseMap;
+		ResponseResult responseResult = new ResponseResult(validationResult);
+		return responseResult;
 	}
 
 }

@@ -1,7 +1,9 @@
 package com.bigcay.exhubs.service;
 
 import java.util.List;
+import java.util.Locale;
 
+import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.model.QuestionAnswer;
 import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
@@ -26,5 +28,7 @@ public interface QuestionService {
 
 	QuestionSubject persist(QuestionSubject questionSubject);
 
-	boolean deleteQuestionSubject(Integer questionSubjectId);
+	ValidationResult validateBeforeDeleteQuestionSubject(Integer questionSubjectId, Locale locale);
+	
+	void deleteQuestionSubject(Integer questionSubjectId);
 }

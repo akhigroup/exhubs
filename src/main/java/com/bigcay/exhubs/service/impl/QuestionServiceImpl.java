@@ -1,11 +1,14 @@
 package com.bigcay.exhubs.service.impl;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bigcay.exhubs.common.ResultType;
+import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.model.QuestionAnswer;
 import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
@@ -78,10 +81,16 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public boolean deleteQuestionSubject(Integer questionSubjectId) {
-		// TO-DO - additional conditions here
+	public void deleteQuestionSubject(Integer questionSubjectId) {
 		questionSubjectRepository.delete(questionSubjectId);
-		return true;
+	}
+
+	@Override
+	public ValidationResult validateBeforeDeleteQuestionSubject(Integer questionSubjectId, Locale locale) {
+		// TO-DO
+		
+		ValidationResult result = new ValidationResult(ResultType.SUCCESS);
+		return result;
 	}
 
 }

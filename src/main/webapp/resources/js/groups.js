@@ -34,10 +34,10 @@ function deleteGroup(deleteId) {
 		cache : false,
 		success : function(response, textStatus, xhr) {
 			var obj = jQuery.parseJSON(xhr.responseText);
-			if (obj.success) {
+			if (obj.resultType == 'SUCCESS') {
 				showGroups();
-			} else {
-				$('#ajax_error').html(obj.error).show();
+			} else if (obj.resultType == 'ERROR') {
+				$('#ajax_error').html(obj.errorMessage).show();
 			}
 		}
 	});
