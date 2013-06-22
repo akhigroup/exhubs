@@ -1,7 +1,6 @@
 package com.bigcay.exhubs.controller;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -107,30 +106,14 @@ public class GroupController extends BaseController {
 		if (result.hasErrors()) {
 			return "groups/add_group";
 		} else {
-			Group group = new Group();
-
-			group.setName(groupFormBean.getName());
-			group.setDescription(groupFormBean.getDescription());
-			group.setRoles(null);
-
-			Group savedGroup = authorityService.persist(group);
-
-			Set<Role> selectedRoles = new HashSet<Role>();
-
-			for (Integer roleId : groupFormBean.getRoleIds()) {
-				Role role = authorityService.findRoleById(roleId);
-				selectedRoles.add(role);
-			}
-
-			savedGroup.setRoles(selectedRoles);
-			authorityService.persist(savedGroup);
+			Group savedGroup = authorityService.saveNewGroup(groupFormBean);
 
 			redirectAttributes.addFlashAttribute("info", messageSource.getMessage("groups.info.add_group_success",
 					new String[] { savedGroup.getName() }, locale));
 			return "redirect:/groups";
 		}
 	}
-	
+
 	@RequestMapping(value = "/rest/groups/delete_group", method = RequestMethod.POST)
 	public @ResponseBody
 	Map<String, Object> deleteGroupRestHandler(Locale locale, @RequestParam("deleteId") Integer deleteId) {

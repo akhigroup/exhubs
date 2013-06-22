@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bigcay.exhubs.model.QuestionAnswer;
 import com.bigcay.exhubs.model.QuestionDetail;
@@ -18,6 +19,7 @@ import com.bigcay.exhubs.repository.QuestionTypeRepository;
 import com.bigcay.exhubs.service.QuestionService;
 
 @Service
+@Transactional
 public class QuestionServiceImpl implements QuestionService {
 
 	@Autowired

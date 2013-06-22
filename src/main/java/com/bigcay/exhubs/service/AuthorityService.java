@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.data.domain.Page;
 
+import com.bigcay.exhubs.form.GroupFormBean;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Role;
 import com.bigcay.exhubs.model.User;
@@ -34,4 +35,6 @@ public interface AuthorityService {
 	boolean updateUserActiveFlag(Integer updateId, boolean activeFlag);
 	
 	boolean deleteGroup(Integer groupId);
+	
+	Group saveNewGroup(GroupFormBean groupFormBean);
 }

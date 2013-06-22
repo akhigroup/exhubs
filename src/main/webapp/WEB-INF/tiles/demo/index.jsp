@@ -6,9 +6,15 @@
 
 <div id="demo_msg_box"></div>
 
+<form:form id="form" class="form-horizontal" method="post">
+	<button type="submit" class="btn btn-primary">Post Form</button>
+</form:form>
+
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		$('#demo_msg_box').html('Exhubs');
 
 	});
+
+	
 </script>

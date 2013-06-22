@@ -1,6 +1,7 @@
 package com.bigcay.exhubs.service.impl;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,7 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.bigcay.exhubs.form.GroupFormBean;
 import com.bigcay.exhubs.global.GlobalManager;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Role;
@@ -20,6 +23,7 @@ import com.bigcay.exhubs.repository.UserRepository;
 import com.bigcay.exhubs.service.AuthorityService;
 
 @Service
+@Transactional
 public class AuthorityServiceImpl implements AuthorityService {
 
 	@Autowired
@@ -104,6 +108,28 @@ public class AuthorityServiceImpl implements AuthorityService {
 		// TO-DO - additional conditions here
 		groupRepository.delete(groupId);
 		return true;
+	}
+
+	@Override
+	public Group saveNewGroup(GroupFormBean groupFormBean) {
+
+		Group group = new Group();
+
+		group.setName(groupFormBean.getName());
+		group.setDescription(groupFormBean.getDescription());
+		group.setRoles(null);
+
+		Group savedGroup = this.persist(group);
+
+		Set<Role> selectedRoles = new HashSet<Role>();
+
+		for (Integer roleId : groupFormBean.getRoleIds()) {
+			Role role = this.findRoleById(roleId);
+			selectedRoles.add(role);
+		}
+
+		savedGroup.setRoles(selectedRoles);
+		return this.persist(savedGroup);
 	}
 
 }
