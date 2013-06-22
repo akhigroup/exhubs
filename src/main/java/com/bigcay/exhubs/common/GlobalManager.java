@@ -1,4 +1,4 @@
-package com.bigcay.exhubs.global;
+package com.bigcay.exhubs.common;
 
 import java.util.HashMap;
 import java.util.Map;
