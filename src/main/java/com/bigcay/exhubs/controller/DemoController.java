@@ -31,6 +31,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
+import com.bigcay.exhubs.form.GroupFormBean;
 import com.bigcay.exhubs.form.QuestionDetailBean;
 import com.bigcay.exhubs.form.QuestionHeaderBean;
 import com.bigcay.exhubs.form.QuestionSubjectFormBean;
@@ -78,6 +79,23 @@ public class DemoController extends BaseController {
 
 	@RequestMapping(value = "demo", method = RequestMethod.GET)
 	public String indexHandler(Model model) {
+		return "demo/index";
+	}
+
+	@RequestMapping(value = "demo", method = RequestMethod.POST)
+	public String indexSubmitHandler(Model model) {
+
+		List<Integer> roleIds = new ArrayList<Integer>();
+		roleIds.add(1);
+		roleIds.add(2);
+
+		GroupFormBean groupFormBean = new GroupFormBean();
+		groupFormBean.setName("name1");
+		groupFormBean.setDescription("desc1");
+		groupFormBean.setRoleIds(roleIds);
+
+		authorityService.saveNewGroup(groupFormBean);
+
 		return "demo/index";
 	}
 
