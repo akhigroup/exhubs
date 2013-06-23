@@ -21,6 +21,7 @@ body {
 }
 </style>
 <script src="/resources/js/jquery.js"></script>
+<script src="/resources/js/jquery.alert_cleaner.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/bootbox.min.js"></script>
 <script src="/resources/js/main.js"></script>
@@ -28,7 +29,7 @@ body {
 <body>
 	<tiles:insertAttribute name="menu" />
 	<div id="container" class="container">
-	
+
 		<div id="ajax_success" class="alert alert-success" style="display: none;"></div>
 		<div id="ajax_error" class="alert alert-error" style="display: none;"></div>
 
@@ -50,4 +51,9 @@ body {
 	</div>
 	<tiles:insertAttribute name="footer" />
 </body>
+
+<script type="text/javascript" charset="utf-8">
+	$("#container").bindAlertCleanerClassName();
+</script>
+
 </html>
