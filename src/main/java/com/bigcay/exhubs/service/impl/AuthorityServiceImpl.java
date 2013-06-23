@@ -154,4 +154,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return result;
 	}
 
+	@Override
+	public Group findGroupByName(String name) {
+		return groupRepository.findByName(name);
+	}
+
 }

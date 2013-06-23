@@ -25,6 +25,8 @@ public interface AuthorityService {
 	List<Role> findAllRoles();
 
 	Group findGroupById(Integer id);
+	
+	Group findGroupByName(String name);
 
 	List<Group> findAllGroups();
 

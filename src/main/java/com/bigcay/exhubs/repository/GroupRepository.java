@@ -6,4 +6,6 @@ import com.bigcay.exhubs.model.Group;
 
 public interface GroupRepository extends JpaRepository<Group, Integer> {
 
+	Group findByName(String name);
+	
 }
