@@ -13,6 +13,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,7 @@ import com.bigcay.exhubs.common.ResponseResult;
 import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.form.GroupFormBean;
+import com.bigcay.exhubs.form.GroupFormBeanValidator;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Role;
 import com.bigcay.exhubs.service.AuthorityService;
@@ -40,6 +43,14 @@ public class GroupController extends BaseController {
 	@Autowired
 	private AuthorityService authorityService;
 
+	@Autowired
+	private GroupFormBeanValidator groupFormBeanValidator;
+	
+	@InitBinder("groupFormBean")
+	protected void initGroupFormBeanBinder(WebDataBinder binder) {
+		binder.setValidator(groupFormBeanValidator);
+	}
+	
 	@ModelAttribute("roles")
 	public List<Role> getAllRoles() {
 		return authorityService.findAllRoles();
