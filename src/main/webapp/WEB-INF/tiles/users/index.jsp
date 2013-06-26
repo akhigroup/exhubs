@@ -18,7 +18,7 @@
 		<div class="span6">
 			<button type="button" class="btn btn-primary"
 				onclick="location.href='/users/create'">
-				<s:message code="users.info.btn.add_user" />
+				<s:message code="global.info.btn.add" />
 			</button>
 		</div>
 		<div class="span6"></div>

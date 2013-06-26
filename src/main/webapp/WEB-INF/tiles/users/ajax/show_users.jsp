@@ -67,7 +67,7 @@
 						</c:if>
 						<button class="btn btn-link btn-mini"
 							onclick="location.href='/user/edit/${user.id}'">
-							<s:message code="users.info.btn.edit" />
+							<s:message code="global.info.btn.edit" />
 						</button></td>
 				</tr>
 			</c:forEach>

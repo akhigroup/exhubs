@@ -16,8 +16,8 @@
 				<td>${group.description}</td>
 				<td>
 					<button class="btn btn-link btn-mini"
-						onclick="location.href='/group/${group.id}'">
-						<s:message code="global.info.btn.view" />
+						onclick="location.href='/group/edit/${group.id}'">
+						<s:message code="global.info.btn.edit" />
 					</button>
 					<button data-delete-group-id="${group.id}"
 						class="btn btn-link btn-mini confirm_delete_group">

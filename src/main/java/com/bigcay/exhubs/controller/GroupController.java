@@ -1,5 +1,6 @@
 package com.bigcay.exhubs.controller;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -122,6 +123,54 @@ public class GroupController extends BaseController {
 
 			redirectAttributes.addFlashAttribute("info", messageSource.getMessage("groups.info.add_group_success",
 					new String[] { savedGroup.getName() }, locale));
+			return "redirect:/groups";
+		}
+	}
+	
+	@RequestMapping(value = "group/edit/{editId}", method = RequestMethod.GET)
+	public String editGroupGetHandler(Model model, @PathVariable Integer editId) {
+
+		logger.debug("GroupController.editGroupGetHandler is invoked.");
+
+		Group editGroup = authorityService.findGroupById(editId);
+
+		GroupFormBean groupFormBean = new GroupFormBean();
+		groupFormBean.setId(editGroup.getId());
+		groupFormBean.setName(editGroup.getName());
+		groupFormBean.setDescription(editGroup.getDescription());
+		groupFormBean.setRoleIds(editGroup.getRoleIds());
+
+		model.addAttribute("groupFormBean", groupFormBean);
+
+		return "groups/edit_group";
+	}
+	
+	@RequestMapping(value = "group/edit/{editId}", method = RequestMethod.POST)
+	public String editGroupSubmitHandler(Model model, Locale locale, @PathVariable Integer editId,
+			@Valid @ModelAttribute("groupFormBean") GroupFormBean groupFormBean, BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+
+		logger.debug("GroupController.editGroupSubmitHandler is invoked.");
+
+		if (result.hasErrors()) {
+			return "groups/edit_group";
+		} else {
+			Set<Role> selectedRoles = new HashSet<Role>();
+
+			for (Integer roleId : groupFormBean.getRoleIds()) {
+				Role role = authorityService.findRoleById(roleId);
+				selectedRoles.add(role);
+			}
+
+			Group group = authorityService.findGroupById(editId);
+			group.setName(groupFormBean.getName());
+			group.setDescription(groupFormBean.getDescription());
+			group.setRoles(selectedRoles);
+
+			authorityService.persist(group);
+
+			redirectAttributes.addFlashAttribute("info", messageSource.getMessage("groups.info.edit_group_success",
+					new String[] { group.getName() }, locale));
 			return "redirect:/groups";
 		}
 	}

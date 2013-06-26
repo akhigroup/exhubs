@@ -1,6 +1,8 @@
 package com.bigcay.exhubs.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -78,6 +80,16 @@ public class Group {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public List<Integer> getRoleIds() {
+		List<Integer> roleIds = new ArrayList<Integer>();
+
+		for (Role role : this.getRoles()) {
+			roleIds.add(role.getId());
+		}
+
+		return roleIds;
 	}
 
 }

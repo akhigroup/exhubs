@@ -18,7 +18,7 @@
 		<div class="span6">
 			<button type="button" class="btn btn-primary"
 				onclick="location.href='/groups/create'">
-				<s:message code="groups.info.btn.add_group" />
+				<s:message code="global.info.btn.add" />
 			</button>
 		</div>
 		<div class="span6"></div>

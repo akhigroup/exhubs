@@ -86,7 +86,7 @@
 
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary" tabindex="6">
-				<s:message code="users.info.btn.update_user" />
+				<s:message code="global.info.btn.update" />
 			</button>
 			<button type="button" class="btn" tabindex="7"
 				onclick="history.go(-1);">
