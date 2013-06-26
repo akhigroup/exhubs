@@ -38,8 +38,18 @@
 
 		<!-- Group Module 
 		<intercept-url pattern="/groups" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
+		<intercept-url pattern="/groups/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
 		<intercept-url pattern="/group/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
-		<intercept-url pattern="/ajax/groups/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />-->
+		<intercept-url pattern="/ajax/groups/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />
+		<intercept-url pattern="/rest/groups/*" access="hasRole('ROLE_USER_GROUP_MANAGER')" />-->
+		
+		<!-- Question Module 
+		<intercept-url pattern="/questiontypes" access="hasRole('ROLE_QUESTION_MANAGER')" />
+		<intercept-url pattern="/questionrepos" access="hasRole('ROLE_QUESTION_MANAGER')" />
+		<intercept-url pattern="/question_subject/*" access="hasRole('ROLE_QUESTION_MANAGER')" />
+		<intercept-url pattern="/ajax/questiontypes/*" access="hasRole('ROLE_QUESTION_MANAGER')" />
+		<intercept-url pattern="/ajax/questionrepos/*" access="hasRole('ROLE_QUESTION_MANAGER')" />
+		<intercept-url pattern="/rest/questionrepos/*" access="hasRole('ROLE_QUESTION_MANAGER')" />-->
 
 
 		<!-- Site Index -->
