@@ -27,10 +27,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
+import com.bigcay.exhubs.common.ResponseResult;
+import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.form.GroupFormBean;
 import com.bigcay.exhubs.form.QuestionDetailBean;
 import com.bigcay.exhubs.form.QuestionHeaderBean;
@@ -279,11 +282,25 @@ public class DemoController extends BaseController {
 			return "redirect:/questionrepos";
 		}
 	}
+	
+	@RequestMapping(value = "/rest/demo/validate_create_question_subject", method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseResult validateCreateQuestionSubjectRestHandler(Locale locale,
+			QuestionSubjectFormBean questionSubjectFormBean) {
+
+		logger.debug("DemoController.validateCreateQuestionSubjectRestHandler is invoked.");
+
+		ValidationResult validationResult = questionService.validateBeforeCreateQuestionSubject(
+				questionSubjectFormBean, locale);
+
+		ResponseResult responseResult = new ResponseResult(validationResult);
+		return responseResult;
+	}
 
 	@RequestMapping("ajax/demo/show_sub_question_area")
 	public String showSubQuestionAreaAjaxHandler(Model model, @RequestParam(required = true) Integer questionTypeId) {
 
-		logger.debug("GroupController.showGroupRolesAjaxHandler is invoked.");
+		logger.debug("DemoController.showGroupRolesAjaxHandler is invoked.");
 
 		QuestionType questionType = questionService.findQuestionTypeById(questionTypeId);
 

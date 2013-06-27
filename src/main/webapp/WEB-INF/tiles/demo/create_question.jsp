@@ -56,7 +56,7 @@
 		<div id="sub_question_container"></div>
 
 		<div class="form-actions">
-			<button type="submit" onclick="return validateQuestionSubjectForm();"
+			<button type="button" id="btnCreateQuestionSubject"
 				class="btn btn-primary" tabindex="99">Create Question</button>
 		</div>
 	</fieldset>
@@ -65,20 +65,46 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		questionTypeChanged();
+		
+		$("#btnCreateQuestionSubject").click(function(event) {
+			cleanAjaxMessage();
+			
+			if(validateQuestionSubjectForm()) {
+				$("#form").submit();
+			} else {
+				event.stopPropagation();
+			}
+		});
 	});
+	
 
 	function validateQuestionSubjectForm() {
-
-		cleanAjaxMessage();
-
+		var successFlag = true; 
+		
 		var questionTypeId = $('#questionTypeSelector').val();
 		if (questionTypeId == 0) {
-			$('#ajax_error').html('Please choose a question type first!')
-					.show();
-			return false;
+			$('#ajax_error').html('Please choose a question type first!').show();
+			successFlag = false;
 		} else {
-			return true;
+			var form = $('#form');
+			$.ajax({
+				url : '/rest/demo/validate_create_question_subject',
+				data : form.serialize(),
+				type : 'post',
+				async: false,
+				cache : false,
+				success : function(response, textStatus, xhr) {
+					var obj = jQuery.parseJSON(xhr.responseText);
+					if (obj.resultType == 'SUCCESS') {
+					} else if (obj.resultType == 'ERROR') {
+						$('#ajax_error').html(obj.errorMessage).show();
+						successFlag = false; 
+					}
+				}
+			});
 		}
+		
+		return successFlag;
 	};
 
 	function questionTypeChanged() {

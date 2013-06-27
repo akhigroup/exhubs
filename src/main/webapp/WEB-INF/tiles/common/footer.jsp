@@ -9,7 +9,7 @@
 				href="#"><s:message code="global.info.faq" /></a> <span
 				class="divider">/</span>
 			<s:message code="global.info.icons_from" />
-			<a href="/groups">Glyphicons</a> (
+			<a href="/demo/create_question">Glyphicons</a> (
 			<s:message code="global.info.online_user_number" />
 			: ${onlineUserNum})
 		</p>
