@@ -150,7 +150,8 @@ public class QuestionServiceImpl implements QuestionService {
 
 				List<QuestionDetailBean> questionDetailBeans = questionHeaderBean.getQuestionDetailBeans();
 
-				if ("SCQ".equalsIgnoreCase(questionTypeName) || "MCQ".equalsIgnoreCase(questionTypeName)) {
+				if ("SCQ".equalsIgnoreCase(questionTypeName) || "MCQ".equalsIgnoreCase(questionTypeName)
+						|| "TFQ".equalsIgnoreCase(questionTypeName)) {
 					if (questionDetailBeans == null || questionDetailBeans.size() == 0) {
 						result.setResultType(ResultType.ERROR);
 						result.addErrorMessage("Question Detail should not be empty!");
@@ -176,6 +177,13 @@ public class QuestionServiceImpl implements QuestionService {
 							result.addErrorMessage("SCQ - Please select the right option!");
 							return result;
 						}
+						
+						if ("TFQ".equalsIgnoreCase(questionTypeName)
+								&& questionHeaderBean.getRadioSelectedIndex() == null) {
+							result.setResultType(ResultType.ERROR);
+							result.addErrorMessage("TFQ - Please select the right option!");
+							return result;
+						}
 
 						if ("MCQ".equalsIgnoreCase(questionTypeName) && !chkboxSelectedFlag) {
 							result.setResultType(ResultType.ERROR);
@@ -183,6 +191,12 @@ public class QuestionServiceImpl implements QuestionService {
 							return result;
 						}
 
+					}
+				} else if ("BFQ".equalsIgnoreCase(questionTypeName) || "EQ".equalsIgnoreCase(questionTypeName)) {
+					if (questionHeaderBean.getTextAnswer() == null || questionHeaderBean.getTextAnswer().isEmpty()) {
+						result.setResultType(ResultType.ERROR);
+						result.addErrorMessage("Please input the right answer!");
+						return result;
 					}
 				}
 			}

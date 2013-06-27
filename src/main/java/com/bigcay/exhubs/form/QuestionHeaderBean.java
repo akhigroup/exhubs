@@ -14,6 +14,8 @@ public class QuestionHeaderBean {
 	private List<QuestionDetailBean> questionDetailBeans = new ArrayList<QuestionDetailBean>();
 	
 	private Integer radioSelectedIndex;
+	
+	private String textAnswer;
 
 	public Integer getId() {
 		return id;
@@ -53,5 +55,13 @@ public class QuestionHeaderBean {
 
 	public void setRadioSelectedIndex(Integer radioSelectedIndex) {
 		this.radioSelectedIndex = radioSelectedIndex;
+	}
+
+	public String getTextAnswer() {
+		return textAnswer;
+	}
+
+	public void setTextAnswer(String textAnswer) {
+		this.textAnswer = textAnswer;
 	}
 }

@@ -256,11 +256,27 @@ public class DemoController extends BaseController {
 					questionDetailIndex++;
 				}
 
-				if ("SCQ".equalsIgnoreCase(questionType.getName())) {
+				if ("SCQ".equalsIgnoreCase(questionType.getName()) || "TFQ".equalsIgnoreCase(questionType.getName())) {
 					int binaryValue = (int) Math.pow(2, (double) questionHeaderBean.getRadioSelectedIndex());
 					questionAnswer.setBinaryValue(binaryValue);
 				} else if ("MCQ".equalsIgnoreCase(questionType.getName())) {
 					questionAnswer.setBinaryValue(checkboxBinaryNum);
+				} else if ("BFQ".equalsIgnoreCase(questionType.getName())) {
+					questionAnswer.setShortTextValue(questionHeaderBean.getTextAnswer());
+
+					QuestionDetail questionDetail = new QuestionDetail();
+					questionDetail.setContent("");
+					questionDetail.setSortOrder(1);
+					questionDetail.setQuestionHeader(questionHeader);
+					questionDetails.add(questionDetail);
+				} else if ("EQ".equalsIgnoreCase(questionType.getName())) {
+					questionAnswer.setLongTextValue(questionHeaderBean.getTextAnswer());
+
+					QuestionDetail questionDetail = new QuestionDetail();
+					questionDetail.setContent("");
+					questionDetail.setSortOrder(1);
+					questionDetail.setQuestionHeader(questionHeader);
+					questionDetails.add(questionDetail);
 				}
 
 				questionHeader.setQuestionDetails(questionDetails);
@@ -282,7 +298,7 @@ public class DemoController extends BaseController {
 			return "redirect:/questionrepos";
 		}
 	}
-	
+
 	@RequestMapping(value = "/rest/demo/validate_create_question_subject", method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseResult validateCreateQuestionSubjectRestHandler(Locale locale,
@@ -305,13 +321,17 @@ public class DemoController extends BaseController {
 		QuestionType questionType = questionService.findQuestionTypeById(questionTypeId);
 
 		if ("SCQ".equalsIgnoreCase(questionType.getName())) {
-			model.addAttribute("selectedQuestionTypeName", "SCQ");
 			return "ajax/demo/show_SCQ_area";
 		} else if ("MCQ".equalsIgnoreCase(questionType.getName())) {
-			model.addAttribute("selectedQuestionTypeName", "MCQ");
 			return "ajax/demo/show_MCQ_area";
+		} else if ("TFQ".equalsIgnoreCase(questionType.getName())) {
+			return "ajax/demo/show_TFQ_area";
+		} else if ("BFQ".equalsIgnoreCase(questionType.getName())) {
+			return "ajax/demo/show_BFQ_area";
+		} else if ("EQ".equalsIgnoreCase(questionType.getName())) {
+			return "ajax/demo/show_EQ_area";
 		} else {
-			// TO-DO, handle error
+			// should not happen
 			return "ajax/demo/show_SCQ_area";
 		}
 	}

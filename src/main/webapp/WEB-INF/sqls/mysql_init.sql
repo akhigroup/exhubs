@@ -175,7 +175,7 @@ insert into question_details (content, sort_order, question_header_id) values ('
 insert into question_details (content, sort_order, question_header_id) values ('保暖御寒', 3, 2);
 insert into question_details (content, sort_order, question_header_id) values ('抵御风雪', 4, 2);
 insert into question_details (content, sort_order, question_header_id) values ('', 1, 3);
-insert into question_details (content, sort_order, question_header_id) values ('', 2, 4);
+insert into question_details (content, sort_order, question_header_id) values ('', 1, 4);
 insert into question_details (content, sort_order, question_header_id) values ('纬度较低', 1, 5);
 insert into question_details (content, sort_order, question_header_id) values ('纬度较高', 2, 5);
 insert into question_details (content, sort_order, question_header_id) values ('海拔较高', 3, 5);
