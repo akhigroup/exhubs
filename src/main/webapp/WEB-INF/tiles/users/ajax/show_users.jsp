@@ -3,24 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<c:url var="firstUrl" value="javascript:showUsers(1);" />
-<c:url var="lastUrl" value="javascript:showUsers(${totalPages});" />
-<c:url var="prevUrl" value="javascript:showUsers(${currentIndex - 1});" />
-<c:url var="nextUrl" value="javascript:showUsers(${currentIndex + 1});" />
-
-<c:set var="nav_first_page">
-	<s:message code="global.info.page_first" />
-</c:set>
-<c:set var="nav_last_page">
-	<s:message code="global.info.page_last" />
-</c:set>
-<c:set var="nav_prev_page">
-	<s:message code="global.info.page_previous" />
-</c:set>
-<c:set var="nav_next_page">
-	<s:message code="global.info.page_next" />
-</c:set>
-
 <c:if test="${fn:length(users) == 0}">
 	<div class="alert alert-info">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -75,6 +57,26 @@
 	</table>
 
 	<div class="pagination pagination-small">
+		<c:url var="firstUrl" value="javascript:${showRecordsJSFunc}(1);" />
+		<c:url var="lastUrl" value="javascript:${showRecordsJSFunc}(${totalPages});" />
+		<c:url var="prevUrl"
+			value="javascript:${showRecordsJSFunc}(${currentIndex - 1});" />
+		<c:url var="nextUrl"
+			value="javascript:${showRecordsJSFunc}(${currentIndex + 1});" />
+
+		<c:set var="nav_first_page">
+			<s:message code="global.info.page_first" />
+		</c:set>
+		<c:set var="nav_last_page">
+			<s:message code="global.info.page_last" />
+		</c:set>
+		<c:set var="nav_prev_page">
+			<s:message code="global.info.page_previous" />
+		</c:set>
+		<c:set var="nav_next_page">
+			<s:message code="global.info.page_next" />
+		</c:set>
+
 		<ul>
 			<c:choose>
 				<c:when test="${currentIndex == 1}">
@@ -87,7 +89,7 @@
 				</c:otherwise>
 			</c:choose>
 			<c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
-				<c:url var="pageUrl" value="javascript:showUsers(${i});" />
+				<c:url var="pageUrl" value="javascript:${showRecordsJSFunc}(${i});" />
 				<c:choose>
 					<c:when test="${i == currentIndex}">
 						<li class="active"><a href="${pageUrl}"><c:out
