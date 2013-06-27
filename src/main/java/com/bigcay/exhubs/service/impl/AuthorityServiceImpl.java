@@ -159,4 +159,10 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return groupRepository.findByName(name);
 	}
 
+	@Override
+	public Page<Group> findPageableGroups(Integer pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id");
+		return groupRepository.findAll(pageRequest);
+	}
+
 }

@@ -76,8 +76,8 @@ public class UserController extends BaseController {
 		List<User> users = userPage.getContent();
 
 		model.addAttribute("users", users);
-		model.addAttribute("showRecordsJSFunc", "showUsers");
 		// add pagination attributes
+		model.addAttribute("showRecordsJSFunc", "showUsers");
 		model.addAllAttributes(GlobalManager.getGlobalPageableMap(userPage));
 
 		return "ajax/users/show_users";

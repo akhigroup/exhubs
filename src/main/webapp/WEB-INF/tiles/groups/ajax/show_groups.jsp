@@ -29,6 +29,8 @@
 	</tbody>
 </table>
 
+<jsp:include page="/WEB-INF/tiles/common/pagination.jsp" />
+
 <script type="text/javascript" charset="utf-8">
 	$(".confirm_delete_group").on("click", function(e) {
 		var deleteGorupId = $(this).data('deleteGroupId');

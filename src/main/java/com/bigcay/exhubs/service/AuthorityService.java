@@ -29,6 +29,8 @@ public interface AuthorityService {
 	Group findGroupByName(String name);
 
 	List<Group> findAllGroups();
+	
+	Page<Group> findPageableGroups(Integer pageNumber);
 
 	Set<Role> findRolesByGroupId(Integer groupId);
 

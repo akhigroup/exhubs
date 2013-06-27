@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bigcay.exhubs.common.GlobalManager;
 import com.bigcay.exhubs.common.ResponseResult;
 import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
@@ -66,13 +68,17 @@ public class GroupController extends BaseController {
 	}
 
 	@RequestMapping("ajax/groups/show_groups")
-	public String showGroupsAjaxHandler(Model model) {
+	public String showGroupsAjaxHandler(Model model, @RequestParam("pageNumber") Integer pageNumber) {
 
 		logger.debug("GroupController.showGroupsAjaxHandler is invoked.");
 
-		List<Group> groups = authorityService.findAllGroups();
+		Page<Group> groupPage = authorityService.findPageableGroups(pageNumber - 1);
+		List<Group> groups = groupPage.getContent();
 
 		model.addAttribute("groups", groups);
+		// add pagination attributes
+		model.addAttribute("showRecordsJSFunc", "showGroups");
+		model.addAllAttributes(GlobalManager.getGlobalPageableMap(groupPage));
 
 		return "ajax/groups/show_groups";
 	}
