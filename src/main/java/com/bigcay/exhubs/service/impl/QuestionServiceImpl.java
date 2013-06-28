@@ -31,7 +31,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Autowired
 	MessageSource messageSource;
-	
+
 	@Autowired
 	private QuestionTypeRepository questionTypeRepository;
 
@@ -111,7 +111,8 @@ public class QuestionServiceImpl implements QuestionService {
 
 		if (questionSubjectFormBean.getQuestionTypeId() == null || questionSubjectFormBean.getQuestionTypeId() == 0) {
 			result.setResultType(ResultType.ERROR);
-			result.addErrorMessage("Please select a question type!");
+			result.addErrorMessage(messageSource
+					.getMessage("questionrepos.error.questionType.IsRequired", null, locale));
 			return result;
 		} else {
 			questionTypeName = this.findQuestionTypeById(questionSubjectFormBean.getQuestionTypeId()).getName();
@@ -119,20 +120,21 @@ public class QuestionServiceImpl implements QuestionService {
 
 		if (questionSubjectFormBean.getContent() == null || questionSubjectFormBean.getContent().isEmpty()) {
 			result.setResultType(ResultType.ERROR);
-			result.addErrorMessage("Question content should not be empty!");
+			result.addErrorMessage(messageSource.getMessage("questionrepos.error.content.NotEmpty", null, locale));
 			return result;
 		}
 
 		if (questionSubjectFormBean.getTotalScore() == null || questionSubjectFormBean.getTotalScore().intValue() == 0) {
 			result.setResultType(ResultType.ERROR);
-			result.addErrorMessage("Total score should not be empty!");
+			result.addErrorMessage(messageSource.getMessage("questionrepos.error.totalScore.NotEmpty", null, locale));
 			return result;
 		}
 
 		List<QuestionHeaderBean> questionHeaderBeans = questionSubjectFormBean.getQuestionHeaderBeans();
 		if (questionHeaderBeans == null || questionHeaderBeans.size() == 0) {
 			result.setResultType(ResultType.ERROR);
-			result.addErrorMessage("Question Header should not be empty!");
+			result.addErrorMessage(messageSource.getMessage("questionrepos.error.questionDescription.NotEmpty", null,
+					locale));
 			return result;
 		} else {
 			int questionHeaderScoreSum = 0;
@@ -140,13 +142,14 @@ public class QuestionServiceImpl implements QuestionService {
 			for (QuestionHeaderBean questionHeaderBean : questionHeaderBeans) {
 				if (questionHeaderBean.getDescription() == null || questionHeaderBean.getDescription().isEmpty()) {
 					result.setResultType(ResultType.ERROR);
-					result.addErrorMessage("Question Header Description should not be empty!");
+					result.addErrorMessage(messageSource.getMessage("questionrepos.error.detailDescription.NotEmpty",
+							null, locale));
 					return result;
 				}
 
 				if (questionHeaderBean.getScore() == null || questionHeaderBean.getScore() == 0) {
 					result.setResultType(ResultType.ERROR);
-					result.addErrorMessage("Question Header Score should not be empty!");
+					result.addErrorMessage(messageSource.getMessage("questionrepos.error.score.NotEmpty", null, locale));
 					return result;
 				} else {
 					questionHeaderScoreSum += questionHeaderBean.getScore();
@@ -158,7 +161,8 @@ public class QuestionServiceImpl implements QuestionService {
 						|| "TFQ".equalsIgnoreCase(questionTypeName)) {
 					if (questionDetailBeans == null || questionDetailBeans.size() == 0) {
 						result.setResultType(ResultType.ERROR);
-						result.addErrorMessage("Question Detail should not be empty!");
+						result.addErrorMessage(messageSource.getMessage("questionrepos.error.questionDetail.NotEmpty",
+								null, locale));
 						return result;
 					} else {
 						boolean chkboxSelectedFlag = false;
@@ -166,7 +170,8 @@ public class QuestionServiceImpl implements QuestionService {
 						for (QuestionDetailBean questionDetailBean : questionDetailBeans) {
 							if (questionDetailBean.getContent() == null || questionDetailBean.getContent().isEmpty()) {
 								result.setResultType(ResultType.ERROR);
-								result.addErrorMessage("Question Detail Content should not be empty!");
+								result.addErrorMessage(messageSource.getMessage(
+										"questionrepos.error.questionDetailContent.NotEmpty", null, locale));
 								return result;
 							}
 
@@ -178,20 +183,23 @@ public class QuestionServiceImpl implements QuestionService {
 						if ("SCQ".equalsIgnoreCase(questionTypeName)
 								&& questionHeaderBean.getRadioSelectedIndex() == null) {
 							result.setResultType(ResultType.ERROR);
-							result.addErrorMessage("SCQ - Please select the right option!");
+							result.addErrorMessage(messageSource.getMessage(
+									"questionrepos.error.rightAnswer.IsRequired", null, locale));
 							return result;
 						}
-						
+
 						if ("TFQ".equalsIgnoreCase(questionTypeName)
 								&& questionHeaderBean.getRadioSelectedIndex() == null) {
 							result.setResultType(ResultType.ERROR);
-							result.addErrorMessage("TFQ - Please select the right option!");
+							result.addErrorMessage(messageSource.getMessage(
+									"questionrepos.error.rightAnswer.IsRequired", null, locale));
 							return result;
 						}
 
 						if ("MCQ".equalsIgnoreCase(questionTypeName) && !chkboxSelectedFlag) {
 							result.setResultType(ResultType.ERROR);
-							result.addErrorMessage("MCQ - Please select the right option!");
+							result.addErrorMessage(messageSource.getMessage(
+									"questionrepos.error.rightAnswer.IsRequired", null, locale));
 							return result;
 						}
 
@@ -199,7 +207,8 @@ public class QuestionServiceImpl implements QuestionService {
 				} else if ("BFQ".equalsIgnoreCase(questionTypeName) || "EQ".equalsIgnoreCase(questionTypeName)) {
 					if (questionHeaderBean.getTextAnswer() == null || questionHeaderBean.getTextAnswer().isEmpty()) {
 						result.setResultType(ResultType.ERROR);
-						result.addErrorMessage("Please input the right answer!");
+						result.addErrorMessage(messageSource.getMessage("questionrepos.error.rightAnswer.IsRequired",
+								null, locale));
 						return result;
 					}
 				}
@@ -207,7 +216,8 @@ public class QuestionServiceImpl implements QuestionService {
 
 			if (questionSubjectFormBean.getTotalScore().intValue() != questionHeaderScoreSum) {
 				result.setResultType(ResultType.ERROR);
-				result.addErrorMessage("Total Socres & Item Scores do not match!");
+				result.addErrorMessage(messageSource.getMessage("questionrepos.error.totalScoreScoreSum.NotMatch",
+						null, locale));
 				return result;
 			}
 		}
