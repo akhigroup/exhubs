@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,9 @@ import com.bigcay.exhubs.service.QuestionService;
 @Transactional
 public class QuestionServiceImpl implements QuestionService {
 
+	@Autowired
+	MessageSource messageSource;
+	
 	@Autowired
 	private QuestionTypeRepository questionTypeRepository;
 

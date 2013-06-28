@@ -46,6 +46,7 @@
 		<!-- Question Module 
 		<intercept-url pattern="/questiontypes" access="hasRole('ROLE_QUESTION_MANAGER')" />
 		<intercept-url pattern="/questionrepos" access="hasRole('ROLE_QUESTION_MANAGER')" />
+		<intercept-url pattern="/questionrepos/*" access="hasRole('ROLE_QUESTION_MANAGER')" />
 		<intercept-url pattern="/question_subject/*" access="hasRole('ROLE_QUESTION_MANAGER')" />
 		<intercept-url pattern="/ajax/questiontypes/*" access="hasRole('ROLE_QUESTION_MANAGER')" />
 		<intercept-url pattern="/ajax/questionrepos/*" access="hasRole('ROLE_QUESTION_MANAGER')" />
