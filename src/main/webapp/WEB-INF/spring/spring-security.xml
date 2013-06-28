@@ -51,6 +51,13 @@
 		<intercept-url pattern="/ajax/questiontypes/*" access="hasRole('ROLE_QUESTION_MANAGER')" />
 		<intercept-url pattern="/ajax/questionrepos/*" access="hasRole('ROLE_QUESTION_MANAGER')" />
 		<intercept-url pattern="/rest/questionrepos/*" access="hasRole('ROLE_QUESTION_MANAGER')" />-->
+		
+		<!-- Exam Module 
+		<intercept-url pattern="/examtypes" access="hasRole('ROLE_EXAM_MANAGER')" />
+		<intercept-url pattern="/examtypes/*" access="hasRole('ROLE_EXAM_MANAGER')" />
+		<intercept-url pattern="/examtype/*" access="hasRole('ROLE_EXAM_MANAGER')" />
+		<intercept-url pattern="/ajax/examtypes/*" access="hasRole('ROLE_EXAM_MANAGER')" />
+		<intercept-url pattern="/rest/examtypes/*" access="hasRole('ROLE_EXAM_MANAGER')" />-->
 
 
 		<!-- Site Index -->

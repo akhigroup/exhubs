@@ -6,6 +6,7 @@ create database exhubs charset=utf8;
 use exhubs;
 
 /*
+drop table if exists exam_types;
 drop table if exists question_details;
 drop table if exists question_headers;
 drop table if exists question_answers;
@@ -185,4 +186,14 @@ insert into question_details (content, sort_order, question_header_id) values ('
 insert into question_details (content, sort_order, question_header_id) values ('', 1, 7);
 
 
+/* 10. exam_types */
+create table exam_types (
+	id int not null auto_increment,
+	name varchar(32) not null,
+	description varchar(32),
+	primary key (id)
+);
 
+insert into exam_types (name, description) values ('计算机', '计算机类');
+insert into exam_types (name, description) values ('地理', '地理类');
+insert into exam_types (name, description) values ('其他', '其他类');

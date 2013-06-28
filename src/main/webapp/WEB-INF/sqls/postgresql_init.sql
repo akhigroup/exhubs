@@ -1,4 +1,6 @@
 /* 0. initiation */
+/*drop table exam_types;
+drop sequence exam_types_id_seq;*/
 
 drop table question_details;
 drop sequence question_details_id_seq;
@@ -243,3 +245,22 @@ insert into question_details (content, sort_order, question_header_id) values ('
 insert into question_details (content, sort_order, question_header_id) values ('错误', 2, 6);
 insert into question_details (content, sort_order, question_header_id) values ('', 1, 7);
 
+
+/* 10. exam_types */
+create sequence exam_types_id_seq
+	start with 1
+	increment BY 1
+	no minvalue
+	no maxvalue
+	cache 1;
+
+create table exam_types (
+	id int not null default nextval('exam_types_id_seq'),
+	name varchar(32) not null,
+	description varchar(32),
+	primary key (id)
+);
+
+insert into exam_types (name, description) values ('计算机', '计算机类');
+insert into exam_types (name, description) values ('地理', '地理类');
+insert into exam_types (name, description) values ('其他', '其他类');
