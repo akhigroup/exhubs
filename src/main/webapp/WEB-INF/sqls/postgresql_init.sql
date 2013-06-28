@@ -1,7 +1,6 @@
 /* 0. initiation */
-/*drop table exam_types;
-drop sequence exam_types_id_seq;*/
-
+drop table exam_types;
+drop sequence exam_types_id_seq;
 drop table question_details;
 drop sequence question_details_id_seq;
 drop table question_headers;
