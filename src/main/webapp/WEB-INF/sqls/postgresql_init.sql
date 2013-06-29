@@ -1,6 +1,9 @@
 /* 0. initiation */
 drop table exam_types;
 drop sequence exam_types_id_seq;
+drop table question_subject_question_tag;
+drop table question_tags;
+drop sequence question_tags_id_seq;
 drop table question_details;
 drop sequence question_details_id_seq;
 drop table question_headers;
@@ -245,7 +248,32 @@ insert into question_details (content, sort_order, question_header_id) values ('
 insert into question_details (content, sort_order, question_header_id) values ('', 1, 7);
 
 
-/* 10. exam_types */
+/* 10. question_tags */
+create sequence question_tags_id_seq
+	start with 1
+	increment BY 1
+	no minvalue
+	no maxvalue
+	cache 1;
+
+create table question_tags (
+	id int not null default nextval('question_tags_id_seq'),
+	name varchar(32) not null,
+	primary key (id)
+);
+
+
+/* 11. question_subject_question_tag */
+create table question_subject_question_tag (
+	question_subject_id int not null,
+	question_tag_id int not null,
+	primary key (question_subject_id, question_tag_id),
+	foreign key (question_subject_id) references question_subjects (id),
+	foreign key (question_tag_id) references question_tags (id)
+);
+
+
+/* 12. exam_types */
 create sequence exam_types_id_seq
 	start with 1
 	increment BY 1
