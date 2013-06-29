@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.validation.Valid;
 
@@ -34,6 +35,7 @@ import com.bigcay.exhubs.model.QuestionAnswer;
 import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
 import com.bigcay.exhubs.model.QuestionSubject;
+import com.bigcay.exhubs.model.QuestionTag;
 import com.bigcay.exhubs.model.QuestionType;
 import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
@@ -57,6 +59,34 @@ public class QuestionController extends BaseController {
 	@ModelAttribute("questionChoices")
 	public String[] getAllQuestionChoices() {
 		return QuestionUtil.getQuestionChoices();
+	}
+
+	@ModelAttribute("tagNames")
+	public String getAllTagNames() {
+		// TO-DO
+		
+		List<QuestionTag> questionTags = questionService.findAllQuestionTags();
+
+		Set<String> tagNameSet = new TreeSet<String>();
+
+		for (QuestionTag questionTag : questionTags) {
+			tagNameSet.add(questionTag.getName());
+		}
+
+		StringBuilder sb = new StringBuilder(100);
+		sb.append("[");
+
+		if (tagNameSet.size() > 0) {
+			for (String tagName : tagNameSet) {
+				sb.append("\"" + tagName + "\"" + ",");
+			}
+
+			sb.deleteCharAt(sb.length() - 1);
+		}
+
+		sb.append("]");
+
+		return sb.toString();
 	}
 
 	@ModelAttribute("questionTypes")
@@ -225,10 +255,10 @@ public class QuestionController extends BaseController {
 
 			// save here
 			QuestionSubject savedQuestionSubject = questionService.persist(questionSubject);
-			
+
 			savedQuestionSubject.setQuestionTags(questionService.getAssociatedQuestionTags(questionSubjectFormBean
 					.splitTagsToArray()));
-			
+
 			questionService.persist(savedQuestionSubject);
 
 			redirectAttributes.addFlashAttribute("info",

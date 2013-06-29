@@ -53,7 +53,8 @@
 				<label class="control-label" for="tag"><s:message
 						code="questionrepos.info.label_tag" /></label>
 				<div class="controls">
-					<form:input class="input-xlarge" path="tag" tabindex="3" />
+					<form:input class="typeahead input-xlarge" autocomplete="off"
+						path="tag" tabindex="3" data-source='${tagNames}' />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
@@ -88,6 +89,8 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		questionTypeChanged();
+
+		$('.typeahead').bindCustomTypeAhead();
 
 		$("#btnCreateQuestionSubject").click(function(event) {
 			cleanAjaxMessage();

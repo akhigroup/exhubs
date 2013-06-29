@@ -39,4 +39,6 @@ public interface QuestionService {
 	
 	Set<QuestionTag> getAssociatedQuestionTags(String[] questionTagNameArray);
 	
+	List<QuestionTag> findAllQuestionTags();
+	
 }

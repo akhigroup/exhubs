@@ -251,4 +251,9 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionTags;
 	}
 
+	@Override
+	public List<QuestionTag> findAllQuestionTags() {
+		return questionTagRepository.findAll();
+	}
+
 }
