@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -42,6 +44,14 @@ public class QuestionSubject {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "questionSubject")
 	@OrderBy("id ASC")
 	private Set<QuestionHeader> questionHeaders = new HashSet<QuestionHeader>();
+
+	@OneToMany(mappedBy = "questionSubject", fetch = FetchType.LAZY)
+	private Set<QuestionSubjectQuestionTag> questionSubjectQuestionTags;
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OrderBy("id ASC")
+	@JoinTable(name = "question_subject_question_tag", joinColumns = { @JoinColumn(name = "question_subject_id") }, inverseJoinColumns = { @JoinColumn(name = "question_tag_id") })
+	private Set<QuestionTag> questionTags = new HashSet<QuestionTag>();
 
 	public Set<QuestionHeader> getQuestionHeaders() {
 		return questionHeaders;
@@ -89,6 +99,37 @@ public class QuestionSubject {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Set<QuestionSubjectQuestionTag> getQuestionSubjectQuestionTags() {
+		return questionSubjectQuestionTags;
+	}
+
+	public void setQuestionSubjectQuestionTags(Set<QuestionSubjectQuestionTag> questionSubjectQuestionTags) {
+		this.questionSubjectQuestionTags = questionSubjectQuestionTags;
+	}
+
+	public Set<QuestionTag> getQuestionTags() {
+		return questionTags;
+	}
+
+	public void setQuestionTags(Set<QuestionTag> questionTags) {
+		this.questionTags = questionTags;
+	}
+	
+	public String getAssembledTags() {
+		if (this.getQuestionTags() != null && this.getQuestionTags().size() > 0) {
+			StringBuilder sb = new StringBuilder(100);
+			
+			for (QuestionTag questionTag : this.getQuestionTags()) {
+				sb.append(questionTag.getName());
+				sb.append(",");
+			}
+			
+			return sb.substring(0, sb.length() - 1);
+		} else {
+			return null;
+		}
 	}
 
 }

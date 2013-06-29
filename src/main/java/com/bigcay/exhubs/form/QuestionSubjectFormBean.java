@@ -8,6 +8,8 @@ public class QuestionSubjectFormBean {
 
 	private String content;
 
+	private String tag;
+
 	private Integer totalScore;
 
 	private Integer questionTypeId;
@@ -54,4 +56,16 @@ public class QuestionSubjectFormBean {
 		this.questionTypeId = questionTypeId;
 	}
 
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
+	public String[] splitTagsToArray() {
+		return this.tag.split(",");
+	}
+	
 }

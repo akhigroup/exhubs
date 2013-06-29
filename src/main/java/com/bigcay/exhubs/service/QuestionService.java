@@ -2,6 +2,7 @@ package com.bigcay.exhubs.service;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.form.QuestionSubjectFormBean;
@@ -9,6 +10,7 @@ import com.bigcay.exhubs.model.QuestionAnswer;
 import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
 import com.bigcay.exhubs.model.QuestionSubject;
+import com.bigcay.exhubs.model.QuestionTag;
 import com.bigcay.exhubs.model.QuestionType;
 
 public interface QuestionService {
@@ -34,4 +36,7 @@ public interface QuestionService {
 	ValidationResult validateBeforeCreateQuestionSubject(QuestionSubjectFormBean questionSubjectFormBean, Locale locale);
 	
 	void deleteQuestionSubject(Integer questionSubjectId);
+	
+	Set<QuestionTag> getAssociatedQuestionTags(String[] questionTagNameArray);
+	
 }

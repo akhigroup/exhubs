@@ -48,12 +48,25 @@
 			</div>
 		</s:bind>
 
+		<s:bind path="tag">
+			<div class="control-group ${status.error ? 'error' : '' }">
+				<label class="control-label" for="tag"><s:message
+						code="questionrepos.info.label_tag" /></label>
+				<div class="controls">
+					<form:input class="input-xlarge" path="tag" tabindex="3" />
+					<c:if test="${status.error}">
+						<span class="help-inline">${status.errorMessage}</span>
+					</c:if>
+				</div>
+			</div>
+		</s:bind>
+
 		<s:bind path="totalScore">
 			<div class="control-group ${status.error ? 'error' : '' }">
 				<label class="control-label" for="totalScore"><s:message
 						code="questionrepos.info.label_total_score" /></label>
 				<div class="controls">
-					<form:input class="input-mini" path="totalScore" tabindex="3" />
+					<form:input class="input-mini" path="totalScore" tabindex="4" />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
@@ -120,7 +133,7 @@
 
 	function showSubQuestionArea(questionTypeId) {
 		$.ajax({
-			url : '/ajax/demo/show_sub_question_area',
+			url : '/ajax/questionrepos/show_sub_question_area',
 			data : {
 				questionTypeId : questionTypeId
 			},

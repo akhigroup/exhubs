@@ -45,7 +45,7 @@ public class QuestionController extends BaseController {
 
 	@Autowired
 	MessageSource messageSource;
-	
+
 	@Autowired
 	private AuthorityService authorityService;
 
@@ -58,7 +58,7 @@ public class QuestionController extends BaseController {
 	public String[] getAllQuestionChoices() {
 		return QuestionUtil.getQuestionChoices();
 	}
-	
+
 	@ModelAttribute("questionTypes")
 	public List<QuestionType> getAllQuestionTypes() {
 		return questionService.findAllQuestionTypes();
@@ -115,7 +115,7 @@ public class QuestionController extends BaseController {
 
 		return "questionrepos/select_question_subject";
 	}
-	
+
 	@RequestMapping(value = "questionrepos/create_question", method = RequestMethod.GET)
 	public String createQuestionHandler(Model model) {
 
@@ -132,14 +132,14 @@ public class QuestionController extends BaseController {
 
 		return "questionrepos/create_question";
 	}
-	
+
 	@RequestMapping(value = "questionrepos/create_question", method = RequestMethod.POST)
 	public String createQuestionSubmitHandler(Model model, Locale locale,
 			@Valid @ModelAttribute("questionSubjectFormBean") QuestionSubjectFormBean questionSubjectFormBean,
 			BindingResult result, final RedirectAttributes redirectAttributes, Principal principal) {
-		
+
 		logger.info("QuestionController.createQuestionSubmitHandler is invoked.");
-		
+
 		if (result.hasErrors()) {
 
 			logger.debug("ERROR! TO-DO");
@@ -157,6 +157,7 @@ public class QuestionController extends BaseController {
 			questionSubject.setQuestionType(questionType);
 			questionSubject.setTotalScore(questionSubjectFormBean.getTotalScore());
 			questionSubject.setUser(editUser);
+			questionSubject.setQuestionTags(null);
 
 			List<QuestionHeaderBean> questionHeaderBeans = questionSubjectFormBean.getQuestionHeaderBeans();
 			Set<QuestionHeader> questionHeaders = new HashSet<QuestionHeader>();
@@ -223,14 +224,19 @@ public class QuestionController extends BaseController {
 			}
 
 			// save here
-			questionService.persist(questionSubject);
+			QuestionSubject savedQuestionSubject = questionService.persist(questionSubject);
+			
+			savedQuestionSubject.setQuestionTags(questionService.getAssociatedQuestionTags(questionSubjectFormBean
+					.splitTagsToArray()));
+			
+			questionService.persist(savedQuestionSubject);
 
 			redirectAttributes.addFlashAttribute("info",
 					messageSource.getMessage("questionrepos.info.add_question_success", null, locale));
 			return "redirect:/questionrepos";
 		}
 	}
-	
+
 	@RequestMapping("ajax/questionrepos/show_sub_question_area")
 	public String showSubQuestionAreaAjaxHandler(Model model, @RequestParam(required = true) Integer questionTypeId) {
 
@@ -253,7 +259,7 @@ public class QuestionController extends BaseController {
 			return "ajax/questionrepos/show_SCQ_area";
 		}
 	}
-	
+
 	@RequestMapping(value = "/rest/questionrepos/validate_create_question_subject", method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseResult validateCreateQuestionSubjectRestHandler(Locale locale,

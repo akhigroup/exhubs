@@ -21,7 +21,9 @@
 				:<br /> ${questionSubject.content} (
 				<s:message code="questionrepos.info.question_subject_total_score"
 					arguments="${questionSubject.totalScore}" />
-				) <br /> <br />
+				) <br /> 
+				<s:message code="questionrepos.info.question_subject_tag" />: ${questionSubject.assembledTags}
+				<br /><br />
 				<c:forEach var="questionHeader"
 					items="${questionSubject.questionHeaders}"
 					varStatus="question_header_status">

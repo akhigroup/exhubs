@@ -7,6 +7,8 @@ use exhubs;
 
 /*
 drop table if exists exam_types;
+drop table if exists question_subject_question_tag;
+drop table if exists question_tags;
 drop table if exists question_details;
 drop table if exists question_headers;
 drop table if exists question_answers;
@@ -186,7 +188,25 @@ insert into question_details (content, sort_order, question_header_id) values ('
 insert into question_details (content, sort_order, question_header_id) values ('', 1, 7);
 
 
-/* 10. exam_types */
+/* 10. question_tags */
+create table question_tags (
+	id int not null auto_increment,
+	name varchar(32) not null,
+	primary key (id)
+);
+
+
+/* 11. question_subject_question_tag */
+create table question_subject_question_tag (
+	question_subject_id int not null,
+	question_tag_id int not null,
+	primary key (question_subject_id, question_tag_id),
+	foreign key (question_subject_id) references question_subjects (id),
+	foreign key (question_tag_id) references question_tags (id)
+);
+
+
+/* 12. exam_types */
 create table exam_types (
 	id int not null auto_increment,
 	name varchar(32) not null,

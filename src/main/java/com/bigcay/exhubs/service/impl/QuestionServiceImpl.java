@@ -1,7 +1,9 @@
 package com.bigcay.exhubs.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -17,11 +19,13 @@ import com.bigcay.exhubs.model.QuestionAnswer;
 import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
 import com.bigcay.exhubs.model.QuestionSubject;
+import com.bigcay.exhubs.model.QuestionTag;
 import com.bigcay.exhubs.model.QuestionType;
 import com.bigcay.exhubs.repository.QuestionAnswerRepository;
 import com.bigcay.exhubs.repository.QuestionDetailRepository;
 import com.bigcay.exhubs.repository.QuestionHeaderRepository;
 import com.bigcay.exhubs.repository.QuestionSubjectRepository;
+import com.bigcay.exhubs.repository.QuestionTagRepository;
 import com.bigcay.exhubs.repository.QuestionTypeRepository;
 import com.bigcay.exhubs.service.QuestionService;
 
@@ -46,6 +50,9 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Autowired
 	private QuestionDetailRepository questionDetailRepository;
+	
+	@Autowired
+	private QuestionTagRepository questionTagRepository;
 
 	@Override
 	public QuestionType findQuestionTypeById(Integer id) {
@@ -223,6 +230,25 @@ public class QuestionServiceImpl implements QuestionService {
 		}
 
 		return result;
+	}
+
+	@Override
+	public Set<QuestionTag> getAssociatedQuestionTags(String[] questionTagNameArray) {
+
+		Set<QuestionTag> questionTags = new HashSet<QuestionTag>();
+
+		for (String questionTagName : questionTagNameArray) {
+			if (!questionTagName.trim().isEmpty()) {
+				QuestionTag questionTag = questionTagRepository.findByName(questionTagName.trim());
+				if (questionTag == null) {
+					questionTag = new QuestionTag();
+					questionTag.setName(questionTagName.trim());
+				}
+				questionTags.add(questionTag);
+			}
+		}
+
+		return questionTags;
 	}
 
 }
