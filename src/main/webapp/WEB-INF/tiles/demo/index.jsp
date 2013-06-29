@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+	
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -8,13 +11,15 @@
 
 <form:form id="form" class="form-horizontal" method="post">
 	<button type="submit" class="btn btn-primary">Post Form</button>
+	
+	<input name="tag" class="input-xlarge typeahead" data-source='["中国","美国","china","BMW"]'/>
 </form:form>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		$('#demo_msg_box').html('Exhubs');
-
+		
+		$('.typeahead').bindCustomTypeAhead();
 	});
 
-	
 </script>
