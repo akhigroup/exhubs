@@ -30,3 +30,17 @@ function deleteExamType(deleteId) {
 		}
 	});
 };
+
+function showExamPapers(pageNumber) {
+	$.ajax({
+		url : '/ajax/exampapers/show_exam_papers',
+		data : {
+			pageNumber : pageNumber == null ? 1 : pageNumber
+		},
+		type : 'get',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			$('#examPapers').html(response);
+		}
+	});
+};

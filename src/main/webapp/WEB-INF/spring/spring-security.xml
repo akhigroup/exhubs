@@ -57,7 +57,12 @@
 		<intercept-url pattern="/examtypes/*" access="hasRole('ROLE_EXAM_MANAGER')" />
 		<intercept-url pattern="/examtype/*" access="hasRole('ROLE_EXAM_MANAGER')" />
 		<intercept-url pattern="/ajax/examtypes/*" access="hasRole('ROLE_EXAM_MANAGER')" />
-		<intercept-url pattern="/rest/examtypes/*" access="hasRole('ROLE_EXAM_MANAGER')" />-->
+		<intercept-url pattern="/rest/examtypes/*" access="hasRole('ROLE_EXAM_MANAGER')" />
+		<intercept-url pattern="/exampapers" access="hasRole('ROLE_EXAM_MANAGER')" />
+		<intercept-url pattern="/exampapers/*" access="hasRole('ROLE_EXAM_MANAGER')" />
+		<intercept-url pattern="/exampaper/*" access="hasRole('ROLE_EXAM_MANAGER')" />
+		<intercept-url pattern="/ajax/exampapers/*" access="hasRole('ROLE_EXAM_MANAGER')" />
+		<intercept-url pattern="/rest/exampapers/*" access="hasRole('ROLE_EXAM_MANAGER')" />-->
 
 
 		<!-- Site Index -->

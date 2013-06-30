@@ -22,5 +22,7 @@ public interface ExamService {
 	
 	void deleteExamType(Integer examTypeId);
 	
+	Page<ExamPaper> findPageableExamPapers(Integer pageNumber);
+	
 	ExamPaper persist(ExamPaper examPaper);
 }

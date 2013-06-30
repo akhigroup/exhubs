@@ -37,6 +37,10 @@
 									<li><a href="/examtypes"><s:message
 												code="global.info.exam_type_setting" /></a></li>
 								</sec:authorize>
+								<sec:authorize access="hasRole('ROLE_EXAM_MANAGER')">
+									<li><a href="/exampapers"><s:message
+												code="global.info.exam_paper_setting" /></a></li>
+								</sec:authorize>
 							</ul></li>
 					</sec:authorize>
 

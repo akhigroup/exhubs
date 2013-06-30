@@ -67,4 +67,10 @@ public class ExamServiceImpl implements ExamService {
 		return examPaperRepository.save(examPaper);
 	}
 
+	@Override
+	public Page<ExamPaper> findPageableExamPapers(Integer pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id");
+		return examPaperRepository.findAll(pageRequest);
+	}
+
 }

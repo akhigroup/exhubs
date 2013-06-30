@@ -29,6 +29,7 @@ import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.form.ExamTypeFormBean;
 import com.bigcay.exhubs.form.ExamTypeFormBeanValidator;
+import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
 import com.bigcay.exhubs.service.ExamService;
 
@@ -144,6 +145,30 @@ public class ExamController extends BaseController {
 					"examtypes.info.edit_exam_type_success", new String[] { examType.getName() }, locale));
 			return "redirect:/examtypes";
 		}
+	}
+	
+	@RequestMapping("exampapers")
+	public String examPapersIndexHandler() {
+
+		logger.debug("ExamController.examPapersIndexHandler is invoked.");
+
+		return "exampapers/index";
+	}
+	
+	@RequestMapping("ajax/exampapers/show_exam_papers")
+	public String showExamPapersAjaxHandler(Model model, @RequestParam("pageNumber") Integer pageNumber) {
+
+		logger.debug("ExamController.showExamPapersAjaxHandler is invoked.");
+
+		Page<ExamPaper> examPaperPage = examService.findPageableExamPapers(pageNumber - 1);
+		List<ExamPaper> examPapers = examPaperPage.getContent();
+
+		model.addAttribute("examPapers", examPapers);
+		// add pagination attributes
+		model.addAttribute("showRecordsJSFunc", "showExamPapers");
+		model.addAllAttributes(GlobalManager.getGlobalPageableMap(examPaperPage));
+
+		return "ajax/exampapers/show_exam_papers";
 	}
 
 	@RequestMapping(value = "/rest/examtypes/delete_exam_type", method = RequestMethod.POST)
