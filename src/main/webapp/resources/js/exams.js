@@ -44,3 +44,22 @@ function showExamPapers(pageNumber) {
 		}
 	});
 };
+
+function deleteExamPaper(deleteId) {
+	$.ajax({
+		url : '/rest/exampapers/delete_exam_paper',
+		data : {
+			deleteId : deleteId
+		},
+		type : 'post',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			var obj = jQuery.parseJSON(xhr.responseText);
+			if (obj.resultType == 'SUCCESS') {
+				showExamPapers();
+			} else if (obj.resultType == 'ERROR') {
+				$('#ajax_error').html(obj.errorMessage).show();
+			}
+		}
+	});
+};

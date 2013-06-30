@@ -1,5 +1,6 @@
 package com.bigcay.exhubs.service.impl;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ExamServiceImpl implements ExamService {
 
 	@Autowired
 	private ExamTypeRepository examTypeRepository;
-	
+
 	@Autowired
 	private ExamPaperRepository examPaperRepository;
 
@@ -71,6 +72,34 @@ public class ExamServiceImpl implements ExamService {
 	public Page<ExamPaper> findPageableExamPapers(Integer pageNumber) {
 		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id");
 		return examPaperRepository.findAll(pageRequest);
+	}
+
+	@Override
+	public ExamPaper findExamPaperByName(String name) {
+		return examPaperRepository.findByName(name);
+	}
+
+	@Override
+	public List<ExamType> findAllExamTypes() {
+		return examTypeRepository.findAll();
+	}
+
+	@Override
+	public ExamPaper findExamPaperById(Integer id) {
+		return examPaperRepository.findOne(id);
+	}
+
+	@Override
+	public ValidationResult validateBeforeDeleteExamPaper(Integer examPaperId, Locale locale) {
+		// TO-DO
+
+		ValidationResult result = new ValidationResult(ResultType.SUCCESS);
+		return result;
+	}
+
+	@Override
+	public void deleteExamPaper(Integer examPaperId) {
+		examPaperRepository.delete(examPaperId);
 	}
 
 }

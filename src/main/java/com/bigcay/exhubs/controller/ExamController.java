@@ -1,5 +1,7 @@
 package com.bigcay.exhubs.controller;
 
+import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,10 +29,14 @@ import com.bigcay.exhubs.common.GlobalManager;
 import com.bigcay.exhubs.common.ResponseResult;
 import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
+import com.bigcay.exhubs.form.ExamPaperFormBean;
+import com.bigcay.exhubs.form.ExamPaperFormBeanValidator;
 import com.bigcay.exhubs.form.ExamTypeFormBean;
 import com.bigcay.exhubs.form.ExamTypeFormBeanValidator;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
+import com.bigcay.exhubs.model.User;
+import com.bigcay.exhubs.service.AuthorityService;
 import com.bigcay.exhubs.service.ExamService;
 
 @Controller
@@ -45,11 +51,27 @@ public class ExamController extends BaseController {
 	private ExamService examService;
 
 	@Autowired
+	private AuthorityService authorityService;
+
+	@Autowired
 	private ExamTypeFormBeanValidator examTypeFormBeanValidator;
+
+	@Autowired
+	private ExamPaperFormBeanValidator examPaperFormBeanValidator;
 
 	@InitBinder("examTypeFormBean")
 	protected void initExamTypeFormBeanBinder(WebDataBinder binder) {
 		binder.setValidator(examTypeFormBeanValidator);
+	}
+
+	@InitBinder("examPaperFormBean")
+	protected void initExamPaperFormBeanBinder(WebDataBinder binder) {
+		binder.setValidator(examPaperFormBeanValidator);
+	}
+
+	@ModelAttribute("examTypes")
+	public List<ExamType> getAllExamTypes() {
+		return examService.findAllExamTypes();
 	}
 
 	@RequestMapping("examtypes")
@@ -108,7 +130,7 @@ public class ExamController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "examtypes/edit/{editId}", method = RequestMethod.GET)
+	@RequestMapping(value = "examtype/edit/{editId}", method = RequestMethod.GET)
 	public String editExamTypeGetHandler(Model model, @PathVariable Integer editId) {
 
 		logger.debug("ExamController.editExamTypeGetHandler is invoked.");
@@ -125,7 +147,7 @@ public class ExamController extends BaseController {
 		return "examtypes/edit_exam_type";
 	}
 
-	@RequestMapping(value = "examtypes/edit/{editId}", method = RequestMethod.POST)
+	@RequestMapping(value = "examtype/edit/{editId}", method = RequestMethod.POST)
 	public String editExamTypeSubmitHandler(Model model, Locale locale, @PathVariable Integer editId,
 			@Valid @ModelAttribute("examTypeFormBean") ExamTypeFormBean examTypeFormBean, BindingResult result,
 			final RedirectAttributes redirectAttributes) {
@@ -146,7 +168,7 @@ public class ExamController extends BaseController {
 			return "redirect:/examtypes";
 		}
 	}
-	
+
 	@RequestMapping("exampapers")
 	public String examPapersIndexHandler() {
 
@@ -154,7 +176,7 @@ public class ExamController extends BaseController {
 
 		return "exampapers/index";
 	}
-	
+
 	@RequestMapping("ajax/exampapers/show_exam_papers")
 	public String showExamPapersAjaxHandler(Model model, @RequestParam("pageNumber") Integer pageNumber) {
 
@@ -171,6 +193,90 @@ public class ExamController extends BaseController {
 		return "ajax/exampapers/show_exam_papers";
 	}
 
+	@RequestMapping(value = "exampapers/create", method = RequestMethod.GET)
+	public String addExamPaperGetHandler(Model model) {
+
+		logger.debug("ExamController.addExamPaperGetHandler is invoked.");
+
+		model.addAttribute("examPaperFormBean", new ExamPaperFormBean());
+
+		return "exampapers/add_exam_paper";
+	}
+
+	@RequestMapping(value = "exampapers/create", method = RequestMethod.POST)
+	public String addExamPaperSubmitHandler(Model model, Locale locale,
+			@Valid @ModelAttribute("examPaperFormBean") ExamPaperFormBean examPaperFormBean, BindingResult result,
+			final RedirectAttributes redirectAttributes, Principal principal) {
+
+		logger.debug("ExamController.addExamPaperSubmitHandler is invoked.");
+
+		if (result.hasErrors()) {
+			return "exampapers/add_exam_paper";
+		} else {
+			/* authorityService.findUserByUserId(principal.getName()); */
+			User editUser = authorityService.findUserById(1);
+
+			ExamPaper examPaper = new ExamPaper();
+			examPaper.setName(examPaperFormBean.getName());
+			examPaper.setDescription(examPaperFormBean.getDescription());
+			examPaper.setCreateDate(new Date());
+			examPaper.setActiveFlag(true);
+			examPaper.setUser(editUser);
+			examPaper.setExamType(examService.findExamTypeById(examPaperFormBean.getExamTypeId()));
+
+			examPaper = examService.persist(examPaper);
+
+			redirectAttributes.addFlashAttribute(
+					"info",
+					messageSource.getMessage("exampapers.info.add_exam_paper_success",
+							new String[] { examPaper.getName() }, locale));
+			return "redirect:/exampapers";
+		}
+	}
+
+	@RequestMapping(value = "exampaper/edit/{editId}", method = RequestMethod.GET)
+	public String editExamPaperGetHandler(Model model, @PathVariable Integer editId) {
+
+		logger.debug("ExamController.editExamPaperGetHandler is invoked.");
+
+		ExamPaper editExamPaper = examService.findExamPaperById(editId);
+
+		ExamPaperFormBean examPaperFormBean = new ExamPaperFormBean();
+		examPaperFormBean.setId(editExamPaper.getId());
+		examPaperFormBean.setName(editExamPaper.getName());
+		examPaperFormBean.setDescription(editExamPaper.getDescription());
+		examPaperFormBean.setExamTypeId(editExamPaper.getExamType().getId());
+
+		model.addAttribute("examPaperFormBean", examPaperFormBean);
+
+		return "exampapers/edit_exam_paper";
+	}
+
+	@RequestMapping(value = "exampaper/edit/{editId}", method = RequestMethod.POST)
+	public String editExamPageSubmitHandler(Model model, Locale locale, @PathVariable Integer editId,
+			@Valid @ModelAttribute("examPaperFormBean") ExamPaperFormBean examPaperFormBean, BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+
+		logger.debug("ExamController.editExamPageSubmitHandler is invoked.");
+
+		if (result.hasErrors()) {
+			return "exampapers/edit_exam_paper";
+		} else {
+			ExamPaper examPaper = examService.findExamPaperById(editId);
+			examPaper.setName(examPaperFormBean.getName());
+			examPaper.setDescription(examPaperFormBean.getDescription());
+			examPaper.setExamType(examService.findExamTypeById(examPaperFormBean.getExamTypeId()));
+
+			examService.persist(examPaper);
+
+			redirectAttributes.addFlashAttribute(
+					"info",
+					messageSource.getMessage("exampapers.info.edit_exam_paper_success",
+							new String[] { examPaper.getName() }, locale));
+			return "redirect:/exampapers";
+		}
+	}
+
 	@RequestMapping(value = "/rest/examtypes/delete_exam_type", method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseResult deleteExamTypeRestHandler(Locale locale, @RequestParam("deleteId") Integer deleteId) {
@@ -181,6 +287,22 @@ public class ExamController extends BaseController {
 
 		if (ResultType.SUCCESS == validationResult.getResultType()) {
 			examService.deleteExamType(deleteId);
+		}
+
+		ResponseResult responseResult = new ResponseResult(validationResult);
+		return responseResult;
+	}
+	
+	@RequestMapping(value = "/rest/exampapers/delete_exam_paper", method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseResult deleteExamPaperRestHandler(Locale locale, @RequestParam("deleteId") Integer deleteId) {
+
+		logger.debug("ExamController.deleteExamPaperRestHandler is invoked.");
+
+		ValidationResult validationResult = examService.validateBeforeDeleteExamPaper(deleteId, locale);
+
+		if (ResultType.SUCCESS == validationResult.getResultType()) {
+			examService.deleteExamPaper(deleteId);
 		}
 
 		ResponseResult responseResult = new ResponseResult(validationResult);

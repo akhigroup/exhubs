@@ -1,5 +1,6 @@
 package com.bigcay.exhubs.service;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.data.domain.Page;
@@ -18,11 +19,21 @@ public interface ExamService {
 
 	ExamType persist(ExamType examType);
 	
+	List<ExamType> findAllExamTypes();
+	
 	ValidationResult validateBeforeDeleteExamType(Integer examTypeId, Locale locale);
 	
 	void deleteExamType(Integer examTypeId);
 	
 	Page<ExamPaper> findPageableExamPapers(Integer pageNumber);
 	
+	ExamPaper findExamPaperById(Integer id);
+	
+	ExamPaper findExamPaperByName(String name);
+	
 	ExamPaper persist(ExamPaper examPaper);
+	
+	ValidationResult validateBeforeDeleteExamPaper(Integer examPaperId, Locale locale);
+	
+	void deleteExamPaper(Integer examPaperId);
 }

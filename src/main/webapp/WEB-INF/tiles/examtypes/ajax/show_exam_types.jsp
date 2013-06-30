@@ -25,7 +25,7 @@
 					<td>${examType.description}</td>
 					<td>
 						<button class="btn btn-link btn-mini"
-							onclick="location.href='/examtypes/edit/${examType.id}'">
+							onclick="location.href='/examtype/edit/${examType.id}'">
 							<s:message code="global.info.btn.edit" />
 						</button>
 						<button data-delete-exam-type-id="${examType.id}"
