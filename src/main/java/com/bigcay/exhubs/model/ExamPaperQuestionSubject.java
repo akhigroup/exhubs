@@ -1,5 +1,6 @@
 package com.bigcay.exhubs.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -15,6 +16,17 @@ public class ExamPaperQuestionSubject {
 
 	@Id
 	private QuestionSubject questionSubject;
+	
+	@Column(name = "sort_order")
+	private Integer sortOrder;
+
+	public Integer getSortOrder() {
+		return sortOrder;
+	}
+
+	public void setSortOrder(Integer sortOrder) {
+		this.sortOrder = sortOrder;
+	}
 
 	public ExamPaper getExamPaper() {
 		return examPaper;

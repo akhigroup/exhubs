@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bigcay.exhubs.common.GlobalManager;
 import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
+import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
+import com.bigcay.exhubs.repository.ExamPaperRepository;
 import com.bigcay.exhubs.repository.ExamTypeRepository;
 import com.bigcay.exhubs.service.ExamService;
 
@@ -22,6 +24,9 @@ public class ExamServiceImpl implements ExamService {
 
 	@Autowired
 	private ExamTypeRepository examTypeRepository;
+	
+	@Autowired
+	private ExamPaperRepository examPaperRepository;
 
 	@Override
 	public Page<ExamType> findPageableExamTypes(Integer pageNumber) {
@@ -55,6 +60,11 @@ public class ExamServiceImpl implements ExamService {
 	@Override
 	public void deleteExamType(Integer examTypeId) {
 		examTypeRepository.delete(examTypeId);
+	}
+
+	@Override
+	public ExamPaper persist(ExamPaper examPaper) {
+		return examPaperRepository.save(examPaper);
 	}
 
 }

@@ -2,6 +2,7 @@ package com.bigcay.exhubs.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -35,12 +36,12 @@ import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 import com.bigcay.exhubs.common.ResponseResult;
 import com.bigcay.exhubs.common.ValidationResult;
-import com.bigcay.exhubs.form.GroupFormBean;
 import com.bigcay.exhubs.form.QuestionDetailBean;
 import com.bigcay.exhubs.form.QuestionHeaderBean;
 import com.bigcay.exhubs.form.QuestionSubjectFormBean;
 import com.bigcay.exhubs.form.UserFormBean;
 import com.bigcay.exhubs.form.UserFormBeanValidator;
+import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.QuestionAnswer;
 import com.bigcay.exhubs.model.QuestionDetail;
@@ -50,6 +51,7 @@ import com.bigcay.exhubs.model.QuestionType;
 import com.bigcay.exhubs.model.Role;
 import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
+import com.bigcay.exhubs.service.ExamService;
 import com.bigcay.exhubs.service.QuestionService;
 
 @Controller
@@ -65,6 +67,9 @@ public class DemoController extends BaseController {
 
 	@Autowired
 	private QuestionService questionService;
+	
+	@Autowired
+	private ExamService examService;
 
 	@Autowired
 	private UserFormBeanValidator userFormBeanValidator;
@@ -92,16 +97,19 @@ public class DemoController extends BaseController {
 	@RequestMapping(value = "demo", method = RequestMethod.POST)
 	public String indexSubmitHandler(Model model) {
 
-		List<Integer> roleIds = new ArrayList<Integer>();
-		roleIds.add(1);
-		roleIds.add(2);
-
-		GroupFormBean groupFormBean = new GroupFormBean();
-		groupFormBean.setName("name1");
-		groupFormBean.setDescription("desc1");
-		groupFormBean.setRoleIds(roleIds);
-
-		authorityService.saveNewGroup(groupFormBean);
+		ExamPaper examPaper = new ExamPaper();
+		examPaper.setName("2013-地理-01");
+		examPaper.setDescription("2013地理期中考试");
+		examPaper.setCreateDate(new Date());
+		examPaper.setActiveFlag(true);
+		examPaper.setUser(authorityService.findUserById(1));
+		examPaper.setExamType(examService.findExamTypeById(1));
+		
+		examPaper = examService.persist(examPaper);
+		
+		examPaper.addQuestionSubject(questionService.findQuestionSubjectById(1), 2);
+		
+		examService.persist(examPaper);
 
 		return "demo/index";
 	}

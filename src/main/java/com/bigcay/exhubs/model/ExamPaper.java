@@ -44,8 +44,12 @@ public class ExamPaper {
 	@JoinColumn(name = "exam_type_id")
 	private ExamType examType;
 
-	@OneToMany(mappedBy = "examPaper", fetch = FetchType.LAZY)
-	private Set<ExamPaperQuestionSubject> examPaperQuestionSubjects;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	private User user;
+
+	@OneToMany(mappedBy = "examPaper", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	private Set<ExamPaperQuestionSubject> examPaperQuestionSubjects = new HashSet<ExamPaperQuestionSubject>();
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
 	@OrderBy("id ASC")
@@ -116,4 +120,20 @@ public class ExamPaper {
 		this.questionSubjects = questionSubjects;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void addQuestionSubject(QuestionSubject questionSubject, Integer sortOrder) {
+		ExamPaperQuestionSubject examPaperQuestionSubject = new ExamPaperQuestionSubject();
+		examPaperQuestionSubject.setExamPaper(this);
+		examPaperQuestionSubject.setQuestionSubject(questionSubject);
+		examPaperQuestionSubject.setSortOrder(sortOrder);
+
+		this.getExamPaperQuestionSubjects().add(examPaperQuestionSubject);
+	}
 }

@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.springframework.data.domain.Page;
 
 import com.bigcay.exhubs.common.ValidationResult;
+import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
 
 public interface ExamService {
@@ -20,4 +21,6 @@ public interface ExamService {
 	ValidationResult validateBeforeDeleteExamType(Integer examTypeId, Locale locale);
 	
 	void deleteExamType(Integer examTypeId);
+	
+	ExamPaper persist(ExamPaper examPaper);
 }

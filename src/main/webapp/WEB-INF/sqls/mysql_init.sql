@@ -238,6 +238,7 @@ create table exam_papers (
 create table exam_paper_question_subject (
 	exam_paper_id int not null,
 	question_subject_id int not null,
+	sort_order int not null,
 	primary key (exam_paper_id, question_subject_id),
 	foreign key (exam_paper_id) references exam_papers (id),
 	foreign key (question_subject_id) references question_subjects (id)
