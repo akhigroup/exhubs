@@ -53,6 +53,12 @@ public class QuestionSubject {
 	@JoinTable(name = "question_subject_question_tag", joinColumns = { @JoinColumn(name = "question_subject_id") }, inverseJoinColumns = { @JoinColumn(name = "question_tag_id") })
 	private Set<QuestionTag> questionTags = new HashSet<QuestionTag>();
 
+	@OneToMany(mappedBy = "questionSubject", fetch = FetchType.LAZY)
+	private Set<ExamPaperQuestionSubject> examPaperQuestionSubject;
+
+	@ManyToMany(mappedBy = "questionSubjects", fetch = FetchType.LAZY)
+	private Set<ExamPaper> examPapers = new HashSet<ExamPaper>();
+
 	public Set<QuestionHeader> getQuestionHeaders() {
 		return questionHeaders;
 	}
@@ -116,20 +122,36 @@ public class QuestionSubject {
 	public void setQuestionTags(Set<QuestionTag> questionTags) {
 		this.questionTags = questionTags;
 	}
-	
+
 	public String getAssembledTags() {
 		if (this.getQuestionTags() != null && this.getQuestionTags().size() > 0) {
 			StringBuilder sb = new StringBuilder(100);
-			
+
 			for (QuestionTag questionTag : this.getQuestionTags()) {
 				sb.append(questionTag.getName());
 				sb.append(",");
 			}
-			
+
 			return sb.substring(0, sb.length() - 1);
 		} else {
 			return null;
 		}
+	}
+
+	public Set<ExamPaperQuestionSubject> getExamPaperQuestionSubject() {
+		return examPaperQuestionSubject;
+	}
+
+	public void setExamPaperQuestionSubject(Set<ExamPaperQuestionSubject> examPaperQuestionSubject) {
+		this.examPaperQuestionSubject = examPaperQuestionSubject;
+	}
+
+	public Set<ExamPaper> getExamPapers() {
+		return examPapers;
+	}
+
+	public void setExamPapers(Set<ExamPaper> examPapers) {
+		this.examPapers = examPapers;
 	}
 
 }

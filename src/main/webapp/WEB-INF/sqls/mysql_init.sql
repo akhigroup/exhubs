@@ -217,3 +217,30 @@ create table exam_types (
 insert into exam_types (name, description) values ('计算机', '计算机类');
 insert into exam_types (name, description) values ('地理', '地理类');
 insert into exam_types (name, description) values ('其他', '其他类');
+
+
+/* 13. exam_papers */
+create table exam_papers (
+	id int not null auto_increment,
+	name varchar(32) not null,
+	description varchar(32),
+	create_date date not null,
+	active_flg boolean default 1,
+	user_id int not null,
+	exam_type_id int not null,
+	primary key (id),
+	foreign key (user_id) references users (id),
+	foreign key (exam_type_id) references exam_types (id)
+);
+
+
+/* 14. exam_paper_question_subject */
+create table exam_paper_question_subject (
+	exam_paper_id int not null,
+	question_subject_id int not null,
+	primary key (exam_paper_id, question_subject_id),
+	foreign key (exam_paper_id) references exam_papers (id),
+	foreign key (question_subject_id) references question_subjects (id)
+);
+
+
