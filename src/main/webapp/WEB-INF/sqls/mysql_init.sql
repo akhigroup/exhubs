@@ -6,6 +6,8 @@ create database exhubs charset=utf8;
 use exhubs;
 
 /*
+drop table if exists exam_paper_question_subject;
+drop table if exists exam_papers;
 drop table if exists exam_types;
 drop table if exists question_subject_question_tag;
 drop table if exists question_tags;
