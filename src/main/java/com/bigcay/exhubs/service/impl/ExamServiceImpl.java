@@ -109,10 +109,7 @@ public class ExamServiceImpl implements ExamService {
 
 	@Override
 	public List<QuestionSubject> findQuestionSubjectsByExamPaperId(Integer examPaperId) {
-		
-		// TO-DO - by exam paper id
-		
-		return questionSubjectRepository.findAll();
+		return questionSubjectRepository.findByExamPapers_Id(examPaperId);
 	}
 
 }

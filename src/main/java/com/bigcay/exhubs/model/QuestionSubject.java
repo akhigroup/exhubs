@@ -54,7 +54,7 @@ public class QuestionSubject {
 	private Set<QuestionTag> questionTags = new HashSet<QuestionTag>();
 
 	@OneToMany(mappedBy = "questionSubject", fetch = FetchType.EAGER, cascade = { CascadeType.ALL})
-	private Set<ExamPaperQuestionSubject> examPaperQuestionSubject;
+	private Set<ExamPaperQuestionSubject> examPaperQuestionSubjects;
 
 	@ManyToMany(mappedBy = "questionSubjects", fetch = FetchType.LAZY)
 	private Set<ExamPaper> examPapers = new HashSet<ExamPaper>();
@@ -138,12 +138,12 @@ public class QuestionSubject {
 		}
 	}
 
-	public Set<ExamPaperQuestionSubject> getExamPaperQuestionSubject() {
-		return examPaperQuestionSubject;
+	public Set<ExamPaperQuestionSubject> getExamPaperQuestionSubjects() {
+		return examPaperQuestionSubjects;
 	}
 
-	public void setExamPaperQuestionSubject(Set<ExamPaperQuestionSubject> examPaperQuestionSubject) {
-		this.examPaperQuestionSubject = examPaperQuestionSubject;
+	public void setExamPaperQuestionSubjects(Set<ExamPaperQuestionSubject> examPaperQuestionSubjects) {
+		this.examPaperQuestionSubjects = examPaperQuestionSubjects;
 	}
 
 	public Set<ExamPaper> getExamPapers() {
