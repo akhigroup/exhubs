@@ -36,8 +36,12 @@
 							<s:message code="global.info.inactive" />
 						</c:if></td>
 					<td>
+						<button class="btn btn-info btn-mini"
+							onclick="location.href='/exam_paper/${examPaper.id}'">
+							<s:message code="global.info.btn.arrange" />
+						</button>
 						<button class="btn btn-link btn-mini"
-							onclick="location.href='/exampaper/edit/${examPaper.id}'">
+							onclick="location.href='/exam_paper/edit/${examPaper.id}'">
 							<s:message code="global.info.btn.edit" />
 						</button>
 						<button data-delete-exam-paper-id="${examPaper.id}"

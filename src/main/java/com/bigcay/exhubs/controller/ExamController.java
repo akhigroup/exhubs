@@ -35,6 +35,7 @@ import com.bigcay.exhubs.form.ExamTypeFormBean;
 import com.bigcay.exhubs.form.ExamTypeFormBeanValidator;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
+import com.bigcay.exhubs.model.QuestionSubject;
 import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
 import com.bigcay.exhubs.service.ExamService;
@@ -234,7 +235,7 @@ public class ExamController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "exampaper/edit/{editId}", method = RequestMethod.GET)
+	@RequestMapping(value = "exam_paper/edit/{editId}", method = RequestMethod.GET)
 	public String editExamPaperGetHandler(Model model, @PathVariable Integer editId) {
 
 		logger.debug("ExamController.editExamPaperGetHandler is invoked.");
@@ -252,7 +253,7 @@ public class ExamController extends BaseController {
 		return "exampapers/edit_exam_paper";
 	}
 
-	@RequestMapping(value = "exampaper/edit/{editId}", method = RequestMethod.POST)
+	@RequestMapping(value = "exam_paper/edit/{editId}", method = RequestMethod.POST)
 	public String editExamPageSubmitHandler(Model model, Locale locale, @PathVariable Integer editId,
 			@Valid @ModelAttribute("examPaperFormBean") ExamPaperFormBean examPaperFormBean, BindingResult result,
 			final RedirectAttributes redirectAttributes) {
@@ -275,6 +276,29 @@ public class ExamController extends BaseController {
 							new String[] { examPaper.getName() }, locale));
 			return "redirect:/exampapers";
 		}
+	}
+	
+	@RequestMapping("exam_paper/{examPaperId}")
+	public String selectExamPaperHandler(Model model, @PathVariable Integer examPaperId) {
+
+		logger.debug("ExamController.selectExamPaperHandler is invoked.");
+
+		model.addAttribute("examPaperId", examPaperId);
+
+		return "exampapers/select_exam_paper";
+	}
+	
+	@RequestMapping("ajax/exampapers/show_associated_question_subjects")
+	public String showAssociatedQuestionSubjectsAjaxHandler(Model model,
+			@RequestParam("examPaperId") Integer examPaperId) {
+
+		logger.debug("ExamController.showAssociatedQuestionSubjectsAjaxHandler is invoked.");
+
+		List<QuestionSubject> associatedQuestionSubjects = examService.findQuestionSubjectsByExamPaperId(examPaperId);
+
+		model.addAttribute("associatedQuestionSubjects", associatedQuestionSubjects);
+
+		return "ajax/exampapers/show_associated_question_subjects";
 	}
 
 	@RequestMapping(value = "/rest/examtypes/delete_exam_type", method = RequestMethod.POST)

@@ -63,3 +63,18 @@ function deleteExamPaper(deleteId) {
 		}
 	});
 };
+
+
+function showAssociatedQuestionSubjects(examPaperId) {
+	$.ajax({
+		url : '/ajax/exampapers/show_associated_question_subjects',
+		data : {
+			examPaperId: examPaperId
+		},
+		type : 'get',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			$('#associatedQuestionSubjects').html(response);
+		}
+	});
+};

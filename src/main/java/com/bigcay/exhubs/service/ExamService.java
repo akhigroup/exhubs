@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
+import com.bigcay.exhubs.model.QuestionSubject;
 
 public interface ExamService {
 
@@ -36,4 +37,6 @@ public interface ExamService {
 	ValidationResult validateBeforeDeleteExamPaper(Integer examPaperId, Locale locale);
 	
 	void deleteExamPaper(Integer examPaperId);
+	
+	List<QuestionSubject> findQuestionSubjectsByExamPaperId(Integer examPaperId);
 }

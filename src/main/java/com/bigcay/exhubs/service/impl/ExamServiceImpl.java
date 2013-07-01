@@ -15,8 +15,10 @@ import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
+import com.bigcay.exhubs.model.QuestionSubject;
 import com.bigcay.exhubs.repository.ExamPaperRepository;
 import com.bigcay.exhubs.repository.ExamTypeRepository;
+import com.bigcay.exhubs.repository.QuestionSubjectRepository;
 import com.bigcay.exhubs.service.ExamService;
 
 @Service
@@ -28,6 +30,9 @@ public class ExamServiceImpl implements ExamService {
 
 	@Autowired
 	private ExamPaperRepository examPaperRepository;
+	
+	@Autowired
+	private QuestionSubjectRepository questionSubjectRepository;
 
 	@Override
 	public Page<ExamType> findPageableExamTypes(Integer pageNumber) {
@@ -100,6 +105,14 @@ public class ExamServiceImpl implements ExamService {
 	@Override
 	public void deleteExamPaper(Integer examPaperId) {
 		examPaperRepository.delete(examPaperId);
+	}
+
+	@Override
+	public List<QuestionSubject> findQuestionSubjectsByExamPaperId(Integer examPaperId) {
+		
+		// TO-DO - by exam paper id
+		
+		return questionSubjectRepository.findAll();
 	}
 
 }
