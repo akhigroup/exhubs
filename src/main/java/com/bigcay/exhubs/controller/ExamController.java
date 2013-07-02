@@ -39,6 +39,7 @@ import com.bigcay.exhubs.model.QuestionSubject;
 import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
 import com.bigcay.exhubs.service.ExamService;
+import com.bigcay.exhubs.service.QuestionService;
 
 @Controller
 public class ExamController extends BaseController {
@@ -53,6 +54,9 @@ public class ExamController extends BaseController {
 
 	@Autowired
 	private AuthorityService authorityService;
+	
+	@Autowired
+	private QuestionService questionService;
 
 	@Autowired
 	private ExamTypeFormBeanValidator examTypeFormBeanValidator;
@@ -299,6 +303,20 @@ public class ExamController extends BaseController {
 		model.addAttribute("associatedQuestionSubjects", associatedQuestionSubjects);
 
 		return "ajax/exampapers/show_associated_question_subjects";
+	}
+	
+	@RequestMapping("ajax/exampapers/show_potential_question_subjects")
+	public String showPotentialQuestionSubjectsAjaxHandler(Model model,
+			@RequestParam("examPaperId") Integer examPaperId) {
+
+		logger.debug("ExamController.showPotentialQuestionSubjectsAjaxHandler is invoked.");
+
+		// TO-DO
+		List<QuestionSubject> potentialQuestionSubjects = questionService.findAllQuestionSubjects();
+
+		model.addAttribute("potentialQuestionSubjects", potentialQuestionSubjects);
+
+		return "ajax/exampapers/show_potential_question_subjects";
 	}
 
 	@RequestMapping(value = "/rest/examtypes/delete_exam_type", method = RequestMethod.POST)

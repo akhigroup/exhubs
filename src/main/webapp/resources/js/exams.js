@@ -78,3 +78,17 @@ function showAssociatedQuestionSubjects(examPaperId) {
 		}
 	});
 };
+
+function showPotentialQuestionSubjects(examPaperId) {
+	$.ajax({
+		url : '/ajax/exampapers/show_potential_question_subjects',
+		data : {
+			examPaperId: examPaperId
+		},
+		type : 'get',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			$('#potentialQuestionSubjects').html(response);
+		}
+	});
+}
