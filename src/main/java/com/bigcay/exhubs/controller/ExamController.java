@@ -307,14 +307,18 @@ public class ExamController extends BaseController {
 	
 	@RequestMapping("ajax/exampapers/show_potential_question_subjects")
 	public String showPotentialQuestionSubjectsAjaxHandler(Model model,
-			@RequestParam("examPaperId") Integer examPaperId) {
+			@RequestParam("pageNumber") Integer pageNumber) {
 
 		logger.debug("ExamController.showPotentialQuestionSubjectsAjaxHandler is invoked.");
 
-		// TO-DO
-		List<QuestionSubject> potentialQuestionSubjects = questionService.findAllQuestionSubjects();
+		// TO-DO, Add filter to get potential question subjects
+		Page<QuestionSubject> potentialQuestionSubjectPage = questionService.findPageableQuestionSubjects(pageNumber - 1);
+		List<QuestionSubject> potentialQuestionSubjects = potentialQuestionSubjectPage.getContent();
 
 		model.addAttribute("potentialQuestionSubjects", potentialQuestionSubjects);
+		// add pagination attributes
+		model.addAttribute("showRecordsJSFunc", "showPotentialQuestionSubjects");
+		model.addAllAttributes(GlobalManager.getGlobalPageableMap(potentialQuestionSubjectPage));
 
 		return "ajax/exampapers/show_potential_question_subjects";
 	}

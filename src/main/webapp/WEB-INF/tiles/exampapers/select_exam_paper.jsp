@@ -9,7 +9,9 @@
 	</h4>
 </div>
 
-<h4>Potential Question Subjects: TO-DO</h4>
+<h4>
+	<s:message code="exampapers.info.potential_question_subjects" />
+</h4>
 
 <div class="container-fluid">
 	<div class="row-fluid">
@@ -20,7 +22,9 @@
 	</div>
 </div>
 
-<h4>Associated Question Subjects: TO-DO</h4>
+<h4>
+	<s:message code="exampapers.info.associated_question_subjects" />
+</h4>
 
 <div class="container-fluid">
 	<div class="row-fluid">
@@ -35,7 +39,7 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		var examPaperId = $('input[name=examPaperId]').val();
-		showPotentialQuestionSubjects(examPaperId);
+		showPotentialQuestionSubjects();
 		showAssociatedQuestionSubjects(examPaperId);
 	});
 </script>

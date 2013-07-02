@@ -28,3 +28,5 @@
 		</c:forEach>
 	</tbody>
 </table>
+
+<jsp:include page="/WEB-INF/tiles/common/pagination.jsp" />

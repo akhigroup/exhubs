@@ -79,11 +79,11 @@ function showAssociatedQuestionSubjects(examPaperId) {
 	});
 };
 
-function showPotentialQuestionSubjects(examPaperId) {
+function showPotentialQuestionSubjects(pageNumber) {
 	$.ajax({
 		url : '/ajax/exampapers/show_potential_question_subjects',
 		data : {
-			examPaperId: examPaperId
+			pageNumber : pageNumber == null ? 1 : pageNumber
 		},
 		type : 'get',
 		cache : false,
