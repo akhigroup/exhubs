@@ -53,7 +53,7 @@ public class QuestionSubject {
 	@JoinTable(name = "question_subject_question_tag", joinColumns = { @JoinColumn(name = "question_subject_id") }, inverseJoinColumns = { @JoinColumn(name = "question_tag_id") })
 	private Set<QuestionTag> questionTags = new HashSet<QuestionTag>();
 
-	@OneToMany(mappedBy = "questionSubject", fetch = FetchType.EAGER, cascade = { CascadeType.ALL})
+	@OneToMany(mappedBy = "questionSubject", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST})
 	private Set<ExamPaperQuestionSubject> examPaperQuestionSubjects;
 
 	@ManyToMany(mappedBy = "questionSubjects", fetch = FetchType.LAZY)
