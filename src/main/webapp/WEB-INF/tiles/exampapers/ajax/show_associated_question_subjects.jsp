@@ -11,7 +11,6 @@
 			<th><s:message code="exampapers.info.question_subjects_content" /></th>
 			<th><s:message
 					code="exampapers.info.question_subjects_total_score" /></th>
-			<th><s:message code="exampapers.info.question_subjects_creator" /></th>
 			<th><s:message
 					code="exampapers.info.question_subjects_operation" /></th>
 		</tr>
@@ -25,7 +24,6 @@
 				<td>${fn:substring(associatedQuestionSubject.content, 0,
 					25)}...</td>
 				<td>${associatedQuestionSubject.totalScore}</td>
-				<td>${associatedQuestionSubject.user.userId}</td>
 				<td>...</td>
 			</tr>
 		</c:forEach>

@@ -292,8 +292,6 @@ create table exam_types (
 );
 
 insert into exam_types (name, description) values ('计算机', '计算机类');
-insert into exam_types (name, description) values ('地理', '地理类');
-insert into exam_types (name, description) values ('其他', '其他类');
 
 
 /* 13. exam_papers */
@@ -317,6 +315,8 @@ create table exam_papers (
 	foreign key (exam_type_id) references exam_types (id)
 );
 
+insert into exam_papers (name, description, create_date, active_flg, user_id, exam_type_id) values ('计算机期中考试(2013)', '测试试卷', '2013-06-01', TRUE, 1, 1);
+
 
 /* 14. exam_paper_question_subject */
 create table exam_paper_question_subject (
@@ -327,3 +327,7 @@ create table exam_paper_question_subject (
 	foreign key (exam_paper_id) references exam_papers (id),
 	foreign key (question_subject_id) references question_subjects (id)
 );
+
+insert into exam_paper_question_subject (exam_paper_id, question_subject_id, sort_order) values (1, 1, 1);
+insert into exam_paper_question_subject (exam_paper_id, question_subject_id, sort_order) values (1, 2, 1);
+

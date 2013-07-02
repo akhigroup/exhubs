@@ -9,10 +9,10 @@
 
 <div class="container-fluid">
 	<div class="row-fluid">
-		<div class="span8">
+		<div class="span11">
 			<div id="examPapers" class="panel"></div>
 		</div>
-		<div class="span4"></div>
+		<div class="span1"></div>
 	</div>
 	<div class="row-fluid">
 		<div class="span6">
