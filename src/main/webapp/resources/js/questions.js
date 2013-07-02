@@ -10,10 +10,12 @@ function showQuestionTypes() {
 	});
 };
 
-function showQuestionSubjects() {
+function showQuestionSubjects(pageNumber) {
 	$.ajax({
 		url : '/ajax/questionrepos/show_question_subjects',
-		data : {},
+		data : {
+			pageNumber : pageNumber == null ? 1 : pageNumber
+		},
 		type : 'get',
 		cache : false,
 		success : function(response, textStatus, xhr) {

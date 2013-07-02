@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+
 import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.form.QuestionSubjectFormBean;
 import com.bigcay.exhubs.model.QuestionAnswer;
@@ -28,6 +30,8 @@ public interface QuestionService {
 	List<QuestionType> findAllQuestionTypes();
 
 	List<QuestionSubject> findAllQuestionSubjects();
+	
+	Page<QuestionSubject> findPageableQuestionSubjects(Integer pageNumber);
 
 	QuestionSubject persist(QuestionSubject questionSubject);
 

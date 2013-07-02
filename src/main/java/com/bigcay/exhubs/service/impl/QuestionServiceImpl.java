@@ -7,9 +7,13 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bigcay.exhubs.common.GlobalManager;
 import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.form.QuestionDetailBean;
@@ -254,6 +258,12 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public List<QuestionTag> findAllQuestionTags() {
 		return questionTagRepository.findAll();
+	}
+
+	@Override
+	public Page<QuestionSubject> findPageableQuestionSubjects(Integer pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id");
+		return questionSubjectRepository.findAll(pageRequest);
 	}
 
 }

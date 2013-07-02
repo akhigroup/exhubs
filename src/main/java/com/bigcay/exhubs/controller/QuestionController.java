@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bigcay.exhubs.common.GlobalManager;
 import com.bigcay.exhubs.common.ResponseResult;
 import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
@@ -123,13 +125,17 @@ public class QuestionController extends BaseController {
 	}
 
 	@RequestMapping("ajax/questionrepos/show_question_subjects")
-	public String showQuestionSubjectsAjaxHandler(Model model) {
+	public String showQuestionSubjectsAjaxHandler(Model model, @RequestParam("pageNumber") Integer pageNumber) {
 
 		logger.debug("QuestionController.showQuestionSubjectsAjaxHandler is invoked.");
 
-		List<QuestionSubject> questionSubjects = questionService.findAllQuestionSubjects();
-
+		Page<QuestionSubject> questionSubjectPage = questionService.findPageableQuestionSubjects(pageNumber - 1);
+		List<QuestionSubject> questionSubjects = questionSubjectPage.getContent();
+		
 		model.addAttribute("questionSubjects", questionSubjects);
+		// add pagination attributes
+		model.addAttribute("showRecordsJSFunc", "showQuestionSubjects");
+		model.addAllAttributes(GlobalManager.getGlobalPageableMap(questionSubjectPage));
 
 		return "ajax/questionrepos/show_question_subjects";
 	}
