@@ -6,6 +6,7 @@ create database exhubs charset=utf8;
 use exhubs;
 
 /*
+drop table if exists exam_events;
 drop table if exists exam_paper_question_subject;
 drop table if exists exam_papers;
 drop table if exists exam_types;
@@ -233,7 +234,7 @@ create table exam_papers (
 	foreign key (exam_type_id) references exam_types (id)
 );
 
-insert into exam_papers (name, description, create_date, active_flg, user_id, exam_type_id) values ('计算机期中考试(2013)', '测试试卷', '2013-06-01', true, 1, 1);
+insert into exam_papers (name, description, create_date, active_flg, user_id, exam_type_id) values ('计算机三级', '计算机三级', '2013-06-01', true, 1, 1);
 
 
 /* 14. exam_paper_question_subject */
@@ -248,4 +249,22 @@ create table exam_paper_question_subject (
 
 insert into exam_paper_question_subject (exam_paper_id, question_subject_id, sort_order) values (1, 1, 1);
 insert into exam_paper_question_subject (exam_paper_id, question_subject_id, sort_order) values (1, 2, 1);
+
+
+/* 15. exam_events */
+create table exam_events (
+	id int not null auto_increment,
+	name varchar(32) not null,
+	description varchar(32),
+	exam_paper_id int not null,
+	user_id int not null,
+	start_datetime timestamp not null,
+	duration int not null,
+	active_flg boolean default 1,
+	primary key (id),
+	foreign key (exam_paper_id) references exam_papers (id),
+	foreign key (user_id) references users (id)
+);
+
+insert into exam_events (name, description, exam_paper_id, user_id, start_datetime, duration, active_flg) values ('计算机期中考试(2013)', '高二计算机期中考试(2013)', 1, 1, '2013-07-01 09:00:00', 30, true);
 

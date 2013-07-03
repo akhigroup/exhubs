@@ -315,7 +315,7 @@ create table exam_papers (
 	foreign key (exam_type_id) references exam_types (id)
 );
 
-insert into exam_papers (name, description, create_date, active_flg, user_id, exam_type_id) values ('计算机期中考试(2013)', '测试试卷', '2013-06-01', TRUE, 1, 1);
+insert into exam_papers (name, description, create_date, active_flg, user_id, exam_type_id) values ('计算机三级', '计算机三级', '2013-06-01', TRUE, 1, 1);
 
 
 /* 14. exam_paper_question_subject */
