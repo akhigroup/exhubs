@@ -6,6 +6,7 @@ import java.util.Locale;
 import org.springframework.data.domain.Page;
 
 import com.bigcay.exhubs.common.ValidationResult;
+import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
 import com.bigcay.exhubs.model.QuestionSubject;
@@ -39,4 +40,6 @@ public interface ExamService {
 	void deleteExamPaper(Integer examPaperId);
 	
 	List<QuestionSubject> findQuestionSubjectsByExamPaperId(Integer examPaperId);
+	
+	Page<ExamEvent> findPageableExamEvents(Integer pageNumber);
 }

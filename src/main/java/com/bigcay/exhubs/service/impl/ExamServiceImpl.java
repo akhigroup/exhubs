@@ -13,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bigcay.exhubs.common.GlobalManager;
 import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
+import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
 import com.bigcay.exhubs.model.QuestionSubject;
+import com.bigcay.exhubs.repository.ExamEventRepository;
 import com.bigcay.exhubs.repository.ExamPaperRepository;
 import com.bigcay.exhubs.repository.ExamTypeRepository;
 import com.bigcay.exhubs.repository.QuestionSubjectRepository;
@@ -30,6 +32,9 @@ public class ExamServiceImpl implements ExamService {
 
 	@Autowired
 	private ExamPaperRepository examPaperRepository;
+	
+	@Autowired
+	private ExamEventRepository examEventRepository;
 	
 	@Autowired
 	private QuestionSubjectRepository questionSubjectRepository;
@@ -110,6 +115,12 @@ public class ExamServiceImpl implements ExamService {
 	@Override
 	public List<QuestionSubject> findQuestionSubjectsByExamPaperId(Integer examPaperId) {
 		return questionSubjectRepository.findByExamPapers_Id(examPaperId);
+	}
+
+	@Override
+	public Page<ExamEvent> findPageableExamEvents(Integer pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id");
+		return examEventRepository.findAll(pageRequest);
 	}
 
 }

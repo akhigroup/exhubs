@@ -33,6 +33,7 @@ import com.bigcay.exhubs.form.ExamPaperFormBean;
 import com.bigcay.exhubs.form.ExamPaperFormBeanValidator;
 import com.bigcay.exhubs.form.ExamTypeFormBean;
 import com.bigcay.exhubs.form.ExamTypeFormBeanValidator;
+import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
 import com.bigcay.exhubs.model.QuestionSubject;
@@ -322,6 +323,31 @@ public class ExamController extends BaseController {
 
 		return "ajax/exampapers/show_potential_question_subjects";
 	}
+	
+	@RequestMapping("examevents")
+	public String examEventsIndexHandler() {
+
+		logger.debug("ExamController.examEventsIndexHandler is invoked.");
+
+		return "examevents/index";
+	}
+	
+	@RequestMapping("ajax/examevents/show_exam_events")
+	public String showExamEventsAjaxHandler(Model model, @RequestParam("pageNumber") Integer pageNumber) {
+
+		logger.debug("ExamController.showExamEventsAjaxHandler is invoked.");
+
+		Page<ExamEvent> examEventPage = examService.findPageableExamEvents(pageNumber - 1);
+		List<ExamEvent> examEvents = examEventPage.getContent();
+
+		model.addAttribute("examEvents", examEvents);
+		// add pagination attributes
+		model.addAttribute("showRecordsJSFunc", "showExamEvents");
+		model.addAllAttributes(GlobalManager.getGlobalPageableMap(examEventPage));
+
+		return "ajax/examevents/show_exam_events";
+	}
+	
 
 	@RequestMapping(value = "/rest/examtypes/delete_exam_type", method = RequestMethod.POST)
 	public @ResponseBody

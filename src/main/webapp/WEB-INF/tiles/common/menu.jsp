@@ -41,6 +41,10 @@
 									<li><a href="/exampapers"><s:message
 												code="global.info.exam_paper_setting" /></a></li>
 								</sec:authorize>
+								<sec:authorize access="hasRole('ROLE_EXAM_MANAGER')">
+									<li><a href="/examevents"><s:message
+												code="global.info.exam_event_setting" /></a></li>
+								</sec:authorize>
 							</ul></li>
 					</sec:authorize>
 
