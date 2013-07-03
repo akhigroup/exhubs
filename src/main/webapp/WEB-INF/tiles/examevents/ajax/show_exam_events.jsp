@@ -19,6 +19,7 @@
 						code="examevents.info.examevents_exam_paper_name" /></th>
 				<th><s:message code="examevents.info.examevents_start_datetime" /></th>
 				<th><s:message code="examevents.info.examevents_duration" /></th>
+				<th><s:message code="examevents.info.examevents_user_id" /></th>
 				<th><s:message code="examevents.info.examevents_status" /></th>
 				<th><s:message code="examevents.info.examevents_operation" /></th>
 			</tr>
@@ -31,6 +32,7 @@
 					<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
 							value="${examEvent.startDateTime}" /></td>
 					<td>${examEvent.duration}</td>
+					<td>${examEvent.examPaper.user.userId}</td>
 					<td><c:if test="${examEvent.activeFlag}">
 							<s:message code="global.info.active" />
 						</c:if> <c:if test="${not examEvent.activeFlag}">
