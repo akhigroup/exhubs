@@ -14,8 +14,6 @@ public class ExamEventFormBean {
 
 	private Date startDateTime;
 
-	private Date endDateTime;
-
 	private Integer duration;
 
 	public Integer getId() {
@@ -56,14 +54,6 @@ public class ExamEventFormBean {
 
 	public void setStartDateTime(Date startDateTime) {
 		this.startDateTime = startDateTime;
-	}
-
-	public Date getEndDateTime() {
-		return endDateTime;
-	}
-
-	public void setEndDateTime(Date endDateTime) {
-		this.endDateTime = endDateTime;
 	}
 
 	public Integer getDuration() {

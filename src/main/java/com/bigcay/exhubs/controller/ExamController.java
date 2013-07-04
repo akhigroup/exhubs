@@ -29,6 +29,7 @@ import com.bigcay.exhubs.common.GlobalManager;
 import com.bigcay.exhubs.common.ResponseResult;
 import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
+import com.bigcay.exhubs.form.ExamEventFormBean;
 import com.bigcay.exhubs.form.ExamPaperFormBean;
 import com.bigcay.exhubs.form.ExamPaperFormBeanValidator;
 import com.bigcay.exhubs.form.ExamTypeFormBean;
@@ -78,6 +79,11 @@ public class ExamController extends BaseController {
 	@ModelAttribute("examTypes")
 	public List<ExamType> getAllExamTypes() {
 		return examService.findAllExamTypes();
+	}
+	
+	@ModelAttribute("examPapers")
+	public List<ExamPaper> getAllExamPapers() {
+		return examService.findAllExamPapers();
 	}
 
 	@RequestMapping("examtypes")
@@ -346,6 +352,50 @@ public class ExamController extends BaseController {
 		model.addAllAttributes(GlobalManager.getGlobalPageableMap(examEventPage));
 
 		return "ajax/examevents/show_exam_events";
+	}
+	
+	@RequestMapping(value = "examevents/create", method = RequestMethod.GET)
+	public String addExamEventGetHandler(Model model) {
+
+		logger.debug("ExamController.addExamEventGetHandler is invoked.");
+
+		model.addAttribute("examEventFormBean", new ExamEventFormBean());
+
+		return "examevents/add_exam_event";
+	}
+	
+	
+	@RequestMapping(value = "examevents/create", method = RequestMethod.POST)
+	public String addExamEventeSubmitHandler(Model model, Locale locale,
+			@Valid @ModelAttribute("examEventFormBean") ExamEventFormBean examEventFormBean, BindingResult result,
+			final RedirectAttributes redirectAttributes, Principal principal) {
+
+		logger.debug("ExamController.addExamEventeSubmitHandler is invoked.");
+
+		if (result.hasErrors()) {
+			return "examevents/add_exam_event";
+		} else {
+			/* authorityService.findUserByUserId(principal.getName()); */
+			User editUser = authorityService.findUserById(1);
+
+			ExamEvent examEvent = new ExamEvent();
+			examEvent.setName(examEventFormBean.getName());
+			examEvent.setDescription(examEventFormBean.getDescription());
+			examEvent.setExamPaper(examService.findExamPaperById(examEventFormBean.getExamPaperId()));
+			examEvent.setUser(editUser);
+			examEvent.setStartDateTime(new Date()); // TO-DO
+			examEvent.setEndDateTime(new Date()); // TO-DO
+			examEvent.setDuration(examEventFormBean.getDuration());
+			examEvent.setActiveFlag(true);
+
+			examEvent = examService.persist(examEvent);
+
+			redirectAttributes.addFlashAttribute(
+					"info",
+					messageSource.getMessage("examevents.info.add_exam_event_success",
+							new String[] { examEvent.getName() }, locale));
+			return "redirect:/examevents";
+		}
 	}
 	
 

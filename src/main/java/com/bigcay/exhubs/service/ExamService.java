@@ -27,6 +27,8 @@ public interface ExamService {
 	
 	void deleteExamType(Integer examTypeId);
 	
+	List<ExamPaper> findAllExamPapers();
+	
 	Page<ExamPaper> findPageableExamPapers(Integer pageNumber);
 	
 	ExamPaper findExamPaperById(Integer id);
@@ -42,4 +44,6 @@ public interface ExamService {
 	List<QuestionSubject> findQuestionSubjectsByExamPaperId(Integer examPaperId);
 	
 	Page<ExamEvent> findPageableExamEvents(Integer pageNumber);
+	
+	ExamEvent persist(ExamEvent examEvent);
 }

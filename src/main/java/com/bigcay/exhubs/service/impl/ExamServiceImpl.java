@@ -123,4 +123,14 @@ public class ExamServiceImpl implements ExamService {
 		return examEventRepository.findAll(pageRequest);
 	}
 
+	@Override
+	public List<ExamPaper> findAllExamPapers() {
+		return examPaperRepository.findAll();
+	}
+
+	@Override
+	public ExamEvent persist(ExamEvent examEvent) {
+		return examEventRepository.save(examEvent);
+	}
+
 }
