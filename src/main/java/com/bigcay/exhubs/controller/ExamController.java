@@ -502,5 +502,21 @@ public class ExamController extends BaseController {
 		ResponseResult responseResult = new ResponseResult(validationResult);
 		return responseResult;
 	}
+	
+	@RequestMapping(value = "/rest/examevents/delete_exam_event", method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseResult deleteExamEventRestHandler(Locale locale, @RequestParam("deleteId") Integer deleteId) {
+
+		logger.debug("ExamController.deleteExamEventRestHandler is invoked.");
+
+		ValidationResult validationResult = examService.validateBeforeDeleteExamEvent(deleteId, locale);
+
+		if (ResultType.SUCCESS == validationResult.getResultType()) {
+			examService.deleteExamEvent(deleteId);
+		}
+
+		ResponseResult responseResult = new ResponseResult(validationResult);
+		return responseResult;
+	}
 
 }

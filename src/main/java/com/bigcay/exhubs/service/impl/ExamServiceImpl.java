@@ -32,10 +32,10 @@ public class ExamServiceImpl implements ExamService {
 
 	@Autowired
 	private ExamPaperRepository examPaperRepository;
-	
+
 	@Autowired
 	private ExamEventRepository examEventRepository;
-	
+
 	@Autowired
 	private QuestionSubjectRepository questionSubjectRepository;
 
@@ -141,6 +141,19 @@ public class ExamServiceImpl implements ExamService {
 	@Override
 	public ExamEvent findExamEventById(Integer id) {
 		return examEventRepository.findOne(id);
+	}
+
+	@Override
+	public ValidationResult validateBeforeDeleteExamEvent(Integer examEventId, Locale locale) {
+		// TO-DO
+
+		ValidationResult result = new ValidationResult(ResultType.SUCCESS);
+		return result;
+	}
+
+	@Override
+	public void deleteExamEvent(Integer examEventId) {
+		examEventRepository.delete(examEventId);
 	}
 
 }

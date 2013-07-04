@@ -50,4 +50,8 @@ public interface ExamService {
 	ExamEvent findExamEventByName(String name);
 	
 	ExamEvent persist(ExamEvent examEvent);
+	
+	ValidationResult validateBeforeDeleteExamEvent(Integer examEventId, Locale locale);
+	
+	void deleteExamEvent(Integer examEventId);
 }
