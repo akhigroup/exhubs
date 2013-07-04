@@ -45,6 +45,8 @@ public interface ExamService {
 	
 	Page<ExamEvent> findPageableExamEvents(Integer pageNumber);
 	
+	ExamEvent findExamEventById(Integer id);
+	
 	ExamEvent findExamEventByName(String name);
 	
 	ExamEvent persist(ExamEvent examEvent);

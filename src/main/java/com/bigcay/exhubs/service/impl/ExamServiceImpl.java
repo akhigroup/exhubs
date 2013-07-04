@@ -138,4 +138,9 @@ public class ExamServiceImpl implements ExamService {
 		return examEventRepository.findByName(name);
 	}
 
+	@Override
+	public ExamEvent findExamEventById(Integer id) {
+		return examEventRepository.findOne(id);
+	}
+
 }

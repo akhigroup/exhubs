@@ -281,7 +281,7 @@ public class ExamController extends BaseController {
 	}
 
 	@RequestMapping(value = "exam_paper/edit/{editId}", method = RequestMethod.POST)
-	public String editExamPageSubmitHandler(Model model, Locale locale, @PathVariable Integer editId,
+	public String editExamPaperSubmitHandler(Model model, Locale locale, @PathVariable Integer editId,
 			@Valid @ModelAttribute("examPaperFormBean") ExamPaperFormBean examPaperFormBean, BindingResult result,
 			final RedirectAttributes redirectAttributes) {
 
@@ -413,6 +413,59 @@ public class ExamController extends BaseController {
 			redirectAttributes.addFlashAttribute(
 					"info",
 					messageSource.getMessage("examevents.info.add_exam_event_success",
+							new String[] { examEvent.getName() }, locale));
+			return "redirect:/examevents";
+		}
+	}
+	
+	@RequestMapping(value = "exam_event/edit/{editId}", method = RequestMethod.GET)
+	public String editExamEventGetHandler(Model model, @PathVariable Integer editId) {
+
+		logger.debug("ExamController.editExamEventGetHandler is invoked.");
+
+		ExamEvent editExamEvent = examService.findExamEventById(editId);
+
+		ExamEventFormBean examEventFormBean = new ExamEventFormBean();
+		examEventFormBean.setId(editExamEvent.getId());
+		examEventFormBean.setName(editExamEvent.getName());
+		examEventFormBean.setDescription(editExamEvent.getDescription());
+		examEventFormBean.setExamPaperId(editExamEvent.getExamPaper().getId());
+		examEventFormBean.setStartDateTime(editExamEvent.getStartDateTime());
+		examEventFormBean.setDuration(editExamEvent.getDuration());
+
+		model.addAttribute("examEventFormBean", examEventFormBean);
+
+		return "examevents/edit_exam_event";
+	}
+	
+	@RequestMapping(value = "exam_event/edit/{editId}", method = RequestMethod.POST)
+	public String editExamEventSubmitHandler(Model model, Locale locale, @PathVariable Integer editId,
+			@Valid @ModelAttribute("examEventFormBean") ExamEventFormBean examEventFormBean, BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+
+		logger.debug("ExamController.editExamEventSubmitHandler is invoked.");
+
+		if (result.hasErrors()) {
+			return "examevents/edit_exam_event";
+		} else {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(examEventFormBean.getStartDateTime());
+			cal.add(Calendar.MINUTE, examEventFormBean.getDuration());
+			Date calculatedEndDateTime = cal.getTime();
+
+			ExamEvent examEvent = examService.findExamEventById(editId);
+			examEvent.setName(examEventFormBean.getName());
+			examEvent.setDescription(examEventFormBean.getDescription());
+			examEvent.setExamPaper(examService.findExamPaperById(examEventFormBean.getExamPaperId()));
+			examEvent.setStartDateTime(examEventFormBean.getStartDateTime());
+			examEvent.setEndDateTime(calculatedEndDateTime);
+			examEvent.setDuration(examEventFormBean.getDuration());
+
+			examService.persist(examEvent);
+
+			redirectAttributes.addFlashAttribute(
+					"info",
+					messageSource.getMessage("examevents.info.edit_exam_event_success",
 							new String[] { examEvent.getName() }, locale));
 			return "redirect:/examevents";
 		}
