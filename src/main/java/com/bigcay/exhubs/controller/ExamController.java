@@ -29,7 +29,9 @@ import com.bigcay.exhubs.common.GlobalManager;
 import com.bigcay.exhubs.common.ResponseResult;
 import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
+import com.bigcay.exhubs.converter.DefaultDateEditor;
 import com.bigcay.exhubs.form.ExamEventFormBean;
+import com.bigcay.exhubs.form.ExamEventFormBeanValidator;
 import com.bigcay.exhubs.form.ExamPaperFormBean;
 import com.bigcay.exhubs.form.ExamPaperFormBeanValidator;
 import com.bigcay.exhubs.form.ExamTypeFormBean;
@@ -65,6 +67,9 @@ public class ExamController extends BaseController {
 
 	@Autowired
 	private ExamPaperFormBeanValidator examPaperFormBeanValidator;
+	
+	@Autowired
+	private ExamEventFormBeanValidator examEventFormBeanValidator;
 
 	@InitBinder("examTypeFormBean")
 	protected void initExamTypeFormBeanBinder(WebDataBinder binder) {
@@ -74,6 +79,16 @@ public class ExamController extends BaseController {
 	@InitBinder("examPaperFormBean")
 	protected void initExamPaperFormBeanBinder(WebDataBinder binder) {
 		binder.setValidator(examPaperFormBeanValidator);
+	}
+	
+	@InitBinder("examEventFormBean")
+	protected void initExamEventFormBeanBinder(WebDataBinder binder) {
+		binder.setValidator(examEventFormBeanValidator);
+	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new DefaultDateEditor());
 	}
 
 	@ModelAttribute("examTypes")
@@ -378,14 +393,12 @@ public class ExamController extends BaseController {
 			/* authorityService.findUserByUserId(principal.getName()); */
 			User editUser = authorityService.findUserById(1);
 
-			logger.warn("*!* startDatetime:" + examEventFormBean.getStartDateTime());
-			
 			ExamEvent examEvent = new ExamEvent();
 			examEvent.setName(examEventFormBean.getName());
 			examEvent.setDescription(examEventFormBean.getDescription());
 			examEvent.setExamPaper(examService.findExamPaperById(examEventFormBean.getExamPaperId()));
 			examEvent.setUser(editUser);
-			examEvent.setStartDateTime(new Date()); // TO-DO
+			examEvent.setStartDateTime(examEventFormBean.getStartDateTime()); // TO-DO
 			examEvent.setEndDateTime(new Date()); // TO-DO
 			examEvent.setDuration(examEventFormBean.getDuration());
 			examEvent.setActiveFlag(true);

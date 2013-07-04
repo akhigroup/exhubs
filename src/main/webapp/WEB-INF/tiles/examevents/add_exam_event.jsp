@@ -72,7 +72,7 @@
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
 				</div>
-				<form:input type="hidden" class="input-xlarge" path="startDateTime" />
+				<form:input type="hidden" class="input-xlarge" path="startDateTime"/>
 			</div>
 		</s:bind>
 

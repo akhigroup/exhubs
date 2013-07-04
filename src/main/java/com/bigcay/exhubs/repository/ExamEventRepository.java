@@ -6,4 +6,6 @@ import com.bigcay.exhubs.model.ExamEvent;
 
 public interface ExamEventRepository extends JpaRepository<ExamEvent, Integer> {
 
+	ExamEvent findByName(String name);
+	
 }

@@ -133,4 +133,9 @@ public class ExamServiceImpl implements ExamService {
 		return examEventRepository.save(examEvent);
 	}
 
+	@Override
+	public ExamEvent findExamEventByName(String name) {
+		return examEventRepository.findByName(name);
+	}
+
 }
