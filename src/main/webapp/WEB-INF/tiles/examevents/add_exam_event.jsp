@@ -39,7 +39,7 @@
 				</div>
 			</div>
 		</s:bind>
-		
+
 		<s:bind path="examPaperId">
 			<div class="control-group ${status.error ? 'error' : '' }">
 				<label class="control-label" for="examPaperId"><s:message
@@ -56,13 +56,32 @@
 				</div>
 			</div>
 		</s:bind>
-		
+
+		<s:bind path="startDateTime">
+			<div class="control-group ${status.error ? 'error' : '' }">
+				<label class="control-label" for="startDateTime"><s:message
+						code="examevents.info.examevents_start_datetime" /></label>
+				<div class="controls">
+					<div class="input-append date form_datetime"
+						data-link-field="startDateTime">
+						<input type="text" class="input-medium" value="" readonly>
+						<span class="add-on"><i class="icon-remove"></i></span> <span
+							class="add-on"><i class="icon-th"></i></span>
+					</div>
+					<c:if test="${status.error}">
+						<span class="help-inline">${status.errorMessage}</span>
+					</c:if>
+				</div>
+				<form:input type="hidden" class="input-xlarge" path="startDateTime" />
+			</div>
+		</s:bind>
+
 		<s:bind path="duration">
 			<div class="control-group ${status.error ? 'error' : '' }">
 				<label class="control-label" for="duration"><s:message
 						code="examevents.info.examevents_duration" /></label>
 				<div class="controls">
-					<form:input class="input-mini" path="duration" tabindex="4" />
+					<form:input class="input-mini" path="duration" tabindex="5" />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
@@ -71,9 +90,15 @@
 		</s:bind>
 
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary" tabindex="5">
+			<button type="submit" class="btn btn-primary" tabindex="6">
 				<s:message code="global.info.btn.add" />
 			</button>
 		</div>
 	</fieldset>
 </form:form>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		bindDateTimePicker();
+	});
+</script>

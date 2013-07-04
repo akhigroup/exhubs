@@ -13,6 +13,7 @@
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet"
 	media="screen" />
 <link href="/resources/css/core.css" rel="stylesheet" media="screen" />
+<link href="/resources/css/datetimepicker.css" rel="stylesheet" media="screen" />
 <link rel="shortcut icon" href="/resources/img/favicon.ico" />
 <style type="text/css">
 body {
@@ -24,6 +25,10 @@ body {
 <script src="/resources/js/jquery.alert_cleaner.js"></script>
 <script src="/resources/js/jquery.typeahead_binder.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
+<script src="/resources/js/bootstrap-datetimepicker.min.js"
+	charset="utf-8"></script>
+<script src="/resources/js/locales/bootstrap-datetimepicker.zh-CN.js"
+	charset="utf-8"></script>
 <script src="/resources/js/bootbox.min.js"></script>
 <script src="/resources/js/main.js"></script>
 </head>
@@ -33,6 +38,9 @@ body {
 
 		<div id="ajax_success" class="alert alert-success" style="display: none;"></div>
 		<div id="ajax_error" class="alert alert-error" style="display: none;"></div>
+
+		<input type="hidden" id="current_locale" name="current_locale"
+			value='<s:message code="global.config.locale"/>' />
 
 		<c:if test="${not empty info}">
 			<div class="alert alert-success">
@@ -54,7 +62,9 @@ body {
 </body>
 
 <script type="text/javascript" charset="utf-8">
-	$("#container").bindAlertCleanerClassName();
+	$(document).ready(function() {
+		$("#container").bindAlertCleanerClassName();
+	});
 </script>
 
 </html>

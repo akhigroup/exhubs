@@ -378,6 +378,8 @@ public class ExamController extends BaseController {
 			/* authorityService.findUserByUserId(principal.getName()); */
 			User editUser = authorityService.findUserById(1);
 
+			logger.warn("*!* startDatetime:" + examEventFormBean.getStartDateTime());
+			
 			ExamEvent examEvent = new ExamEvent();
 			examEvent.setName(examEventFormBean.getName());
 			examEvent.setDescription(examEventFormBean.getDescription());
