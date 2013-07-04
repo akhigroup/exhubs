@@ -1,6 +1,7 @@
 package com.bigcay.exhubs.controller;
 
 import java.security.Principal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -58,7 +59,7 @@ public class ExamController extends BaseController {
 
 	@Autowired
 	private AuthorityService authorityService;
-	
+
 	@Autowired
 	private QuestionService questionService;
 
@@ -67,7 +68,7 @@ public class ExamController extends BaseController {
 
 	@Autowired
 	private ExamPaperFormBeanValidator examPaperFormBeanValidator;
-	
+
 	@Autowired
 	private ExamEventFormBeanValidator examEventFormBeanValidator;
 
@@ -80,12 +81,12 @@ public class ExamController extends BaseController {
 	protected void initExamPaperFormBeanBinder(WebDataBinder binder) {
 		binder.setValidator(examPaperFormBeanValidator);
 	}
-	
+
 	@InitBinder("examEventFormBean")
 	protected void initExamEventFormBeanBinder(WebDataBinder binder) {
 		binder.setValidator(examEventFormBeanValidator);
 	}
-	
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new DefaultDateEditor());
@@ -95,7 +96,7 @@ public class ExamController extends BaseController {
 	public List<ExamType> getAllExamTypes() {
 		return examService.findAllExamTypes();
 	}
-	
+
 	@ModelAttribute("examPapers")
 	public List<ExamPaper> getAllExamPapers() {
 		return examService.findAllExamPapers();
@@ -303,7 +304,7 @@ public class ExamController extends BaseController {
 			return "redirect:/exampapers";
 		}
 	}
-	
+
 	@RequestMapping("exam_paper/{examPaperId}")
 	public String selectExamPaperHandler(Model model, @PathVariable Integer examPaperId) {
 
@@ -313,7 +314,7 @@ public class ExamController extends BaseController {
 
 		return "exampapers/select_exam_paper";
 	}
-	
+
 	@RequestMapping("ajax/exampapers/show_associated_question_subjects")
 	public String showAssociatedQuestionSubjectsAjaxHandler(Model model,
 			@RequestParam("examPaperId") Integer examPaperId) {
@@ -326,15 +327,15 @@ public class ExamController extends BaseController {
 
 		return "ajax/exampapers/show_associated_question_subjects";
 	}
-	
+
 	@RequestMapping("ajax/exampapers/show_potential_question_subjects")
-	public String showPotentialQuestionSubjectsAjaxHandler(Model model,
-			@RequestParam("pageNumber") Integer pageNumber) {
+	public String showPotentialQuestionSubjectsAjaxHandler(Model model, @RequestParam("pageNumber") Integer pageNumber) {
 
 		logger.debug("ExamController.showPotentialQuestionSubjectsAjaxHandler is invoked.");
 
 		// TO-DO, Add filter to get potential question subjects
-		Page<QuestionSubject> potentialQuestionSubjectPage = questionService.findPageableQuestionSubjects(pageNumber - 1);
+		Page<QuestionSubject> potentialQuestionSubjectPage = questionService
+				.findPageableQuestionSubjects(pageNumber - 1);
 		List<QuestionSubject> potentialQuestionSubjects = potentialQuestionSubjectPage.getContent();
 
 		model.addAttribute("potentialQuestionSubjects", potentialQuestionSubjects);
@@ -344,7 +345,7 @@ public class ExamController extends BaseController {
 
 		return "ajax/exampapers/show_potential_question_subjects";
 	}
-	
+
 	@RequestMapping("examevents")
 	public String examEventsIndexHandler() {
 
@@ -352,7 +353,7 @@ public class ExamController extends BaseController {
 
 		return "examevents/index";
 	}
-	
+
 	@RequestMapping("ajax/examevents/show_exam_events")
 	public String showExamEventsAjaxHandler(Model model, @RequestParam("pageNumber") Integer pageNumber) {
 
@@ -368,7 +369,7 @@ public class ExamController extends BaseController {
 
 		return "ajax/examevents/show_exam_events";
 	}
-	
+
 	@RequestMapping(value = "examevents/create", method = RequestMethod.GET)
 	public String addExamEventGetHandler(Model model) {
 
@@ -378,8 +379,7 @@ public class ExamController extends BaseController {
 
 		return "examevents/add_exam_event";
 	}
-	
-	
+
 	@RequestMapping(value = "examevents/create", method = RequestMethod.POST)
 	public String addExamEventeSubmitHandler(Model model, Locale locale,
 			@Valid @ModelAttribute("examEventFormBean") ExamEventFormBean examEventFormBean, BindingResult result,
@@ -393,13 +393,18 @@ public class ExamController extends BaseController {
 			/* authorityService.findUserByUserId(principal.getName()); */
 			User editUser = authorityService.findUserById(1);
 
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(examEventFormBean.getStartDateTime());
+			cal.add(Calendar.MINUTE, examEventFormBean.getDuration());
+			Date calculatedEndDateTime = cal.getTime();
+			
 			ExamEvent examEvent = new ExamEvent();
 			examEvent.setName(examEventFormBean.getName());
 			examEvent.setDescription(examEventFormBean.getDescription());
 			examEvent.setExamPaper(examService.findExamPaperById(examEventFormBean.getExamPaperId()));
 			examEvent.setUser(editUser);
-			examEvent.setStartDateTime(examEventFormBean.getStartDateTime()); // TO-DO
-			examEvent.setEndDateTime(new Date()); // TO-DO
+			examEvent.setStartDateTime(examEventFormBean.getStartDateTime());
+			examEvent.setEndDateTime(calculatedEndDateTime);
 			examEvent.setDuration(examEventFormBean.getDuration());
 			examEvent.setActiveFlag(true);
 
@@ -412,7 +417,6 @@ public class ExamController extends BaseController {
 			return "redirect:/examevents";
 		}
 	}
-	
 
 	@RequestMapping(value = "/rest/examtypes/delete_exam_type", method = RequestMethod.POST)
 	public @ResponseBody
@@ -429,7 +433,7 @@ public class ExamController extends BaseController {
 		ResponseResult responseResult = new ResponseResult(validationResult);
 		return responseResult;
 	}
-	
+
 	@RequestMapping(value = "/rest/exampapers/delete_exam_paper", method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseResult deleteExamPaperRestHandler(Locale locale, @RequestParam("deleteId") Integer deleteId) {
