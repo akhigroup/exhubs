@@ -54,4 +54,8 @@ public interface ExamService {
 	ValidationResult validateBeforeDeleteExamEvent(Integer examEventId, Locale locale);
 	
 	void deleteExamEvent(Integer examEventId);
+	
+	ValidationResult validateBeforeAssignQuestionSubject(Integer examPaperId, Integer questionSubjectId, Locale locale);
+	
+	void assignQuestionSubject(Integer examPaperId, Integer questionSubjectId);
 }

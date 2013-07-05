@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 public class GlobalManager {
 
 	public static final int DEFAULT_PAGE_SIZE = 5;
+	
+	public static final int SORT_ORDER_AUTO_INCREMENT = 1;
 
 	public static Map<String, Object> getGlobalPageableMap(Page<?> page) {
 

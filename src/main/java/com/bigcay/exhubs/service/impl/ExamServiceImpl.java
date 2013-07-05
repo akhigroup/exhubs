@@ -156,4 +156,24 @@ public class ExamServiceImpl implements ExamService {
 		examEventRepository.delete(examEventId);
 	}
 
+	@Override
+	public ValidationResult validateBeforeAssignQuestionSubject(Integer examPaperId, Integer questionSubjectId,
+			Locale locale) {
+		// TO-DO
+
+		ValidationResult result = new ValidationResult(ResultType.SUCCESS);
+		return result;
+	}
+
+	@Override
+	public void assignQuestionSubject(Integer examPaperId, Integer questionSubjectId) {
+
+		ExamPaper examPaper = examPaperRepository.findOne(examPaperId);
+		QuestionSubject questionSubject = questionSubjectRepository.findOne(questionSubjectId);
+
+		examPaper.addQuestionSubject(questionSubject, examPaper.getNextSortOrder());
+
+		this.persist(examPaper);
+	}
+
 }

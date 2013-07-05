@@ -503,6 +503,23 @@ public class ExamController extends BaseController {
 		return responseResult;
 	}
 	
+	@RequestMapping(value = "/rest/exampapers/assign_question_subject", method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseResult assignQuestionSubjectRestHandler(Locale locale, @RequestParam("examPaperId") Integer examPaperId, 
+			@RequestParam("questionSubjectId") Integer questionSubjectId) {
+
+		logger.debug("ExamController.deleteExamPaperRestHandler is invoked.");
+
+		ValidationResult validationResult = examService.validateBeforeAssignQuestionSubject(examPaperId, questionSubjectId, locale);
+
+		if (ResultType.SUCCESS == validationResult.getResultType()) {
+			examService.assignQuestionSubject(examPaperId, questionSubjectId);
+		}
+
+		ResponseResult responseResult = new ResponseResult(validationResult);
+		return responseResult;
+	}
+	
 	@RequestMapping(value = "/rest/examevents/delete_exam_event", method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseResult deleteExamEventRestHandler(Locale locale, @RequestParam("deleteId") Integer deleteId) {

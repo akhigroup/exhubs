@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.bigcay.exhubs.common.GlobalManager;
+
 @Entity
 @Table(name = "exam_papers")
 public class ExamPaper {
@@ -129,11 +131,25 @@ public class ExamPaper {
 	}
 
 	public void addQuestionSubject(QuestionSubject questionSubject, Integer sortOrder) {
+		
 		ExamPaperQuestionSubject examPaperQuestionSubject = new ExamPaperQuestionSubject();
 		examPaperQuestionSubject.setExamPaper(this);
 		examPaperQuestionSubject.setQuestionSubject(questionSubject);
 		examPaperQuestionSubject.setSortOrder(sortOrder);
 
 		this.getExamPaperQuestionSubjects().add(examPaperQuestionSubject);
+	}
+	
+	public int getNextSortOrder() {
+		int maxSortOrder = 0;
+
+		for (ExamPaperQuestionSubject examPaperQuestionSubject : this.getExamPaperQuestionSubjects()) {
+			if (examPaperQuestionSubject.getSortOrder() != null
+					&& examPaperQuestionSubject.getSortOrder() > maxSortOrder) {
+				maxSortOrder = examPaperQuestionSubject.getSortOrder();
+			}
+		}
+
+		return maxSortOrder + GlobalManager.SORT_ORDER_AUTO_INCREMENT;
 	}
 }
