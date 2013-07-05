@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <c:set var="please_select">
 	<s:message code="global.info.please_select" />
@@ -64,15 +65,18 @@
 				<div class="controls">
 					<div class="input-append date form_datetime"
 						data-link-field="startDateTime">
-						<input type="text" class="input-medium" value="" readonly>
-						<span class="add-on"><i class="icon-remove"></i></span> <span
-							class="add-on"><i class="icon-th"></i></span>
+						<input type="text" class="input-medium"
+							value='<fmt:formatDate pattern="yyyy-MM-dd HH:mm"
+							value="${examEventFormBean.startDateTime}" />'
+							readonly> <span class="add-on"><i
+							class="icon-remove"></i></span> <span class="add-on"><i
+							class="icon-th"></i></span>
 					</div>
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
 				</div>
-				<form:input type="hidden" class="input-xlarge" path="startDateTime"/>
+				<form:input type="hidden" class="input-xlarge" path="startDateTime" />
 			</div>
 		</s:bind>
 
