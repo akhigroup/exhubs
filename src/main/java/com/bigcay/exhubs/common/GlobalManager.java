@@ -10,6 +10,10 @@ public class GlobalManager {
 	public static final int DEFAULT_PAGE_SIZE = 5;
 
 	public static Map<String, Object> getGlobalPageableMap(Page<?> page) {
+		return GlobalManager.getGlobalPageableMap(page, "");
+	}
+	
+	public static Map<String, Object> getGlobalPageableMap(Page<?> page, String identifier) {
 
 		Map<String, Object> pageableMap = new HashMap<String, Object>();
 
@@ -18,10 +22,10 @@ public class GlobalManager {
 		int end = Math.min(begin + 10, page.getTotalPages());
 		int totalPages = page.getTotalPages();
 
-		pageableMap.put("currentIndex", current);
-		pageableMap.put("beginIndex", begin);
-		pageableMap.put("endIndex", end);
-		pageableMap.put("totalPages", totalPages);
+		pageableMap.put("currentIndex" + identifier, current);
+		pageableMap.put("beginIndex" + identifier, begin);
+		pageableMap.put("endIndex" + identifier, end);
+		pageableMap.put("totalPages" + identifier, totalPages);
 
 		return pageableMap;
 	}

@@ -1,6 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 
+TO-DO: ${param.identifier}
+
 <div class="pagination pagination-small">
 	<c:url var="firstUrl" value="javascript:${showRecordsJSFunc}(1);" />
 	<c:url var="lastUrl"

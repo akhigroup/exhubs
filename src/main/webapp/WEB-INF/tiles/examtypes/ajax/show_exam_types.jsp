@@ -38,7 +38,9 @@
 		</tbody>
 	</table>
 
-	<jsp:include page="/WEB-INF/tiles/common/pagination.jsp" />
+	<jsp:include page="/WEB-INF/tiles/common/pagination.jsp">
+		<jsp:param name="identifier" value=""/>
+	</jsp:include>
 </c:if>
 
 <script type="text/javascript" charset="utf-8">
