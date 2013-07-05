@@ -2,13 +2,13 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 
 <div class="pagination pagination-small">
-	<c:url var="firstUrl" value="javascript:${showRecordsJSFunc}(1);" />
+	<c:url var="firstUrl" value="javascript:${showRecordsJSFunc}(${prefixFuncParams}1);" />
 	<c:url var="lastUrl"
-		value="javascript:${showRecordsJSFunc}(${totalPages});" />
+		value="javascript:${showRecordsJSFunc}(${prefixFuncParams}${totalPages});" />
 	<c:url var="prevUrl"
-		value="javascript:${showRecordsJSFunc}(${currentIndex - 1});" />
+		value="javascript:${showRecordsJSFunc}(${prefixFuncParams}${currentIndex - 1});" />
 	<c:url var="nextUrl"
-		value="javascript:${showRecordsJSFunc}(${currentIndex + 1});" />
+		value="javascript:${showRecordsJSFunc}(${prefixFuncParams}${currentIndex + 1});" />
 
 	<c:set var="nav_first_page">
 		<s:message code="global.info.page_first" />
@@ -35,7 +35,7 @@
 			</c:otherwise>
 		</c:choose>
 		<c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
-			<c:url var="pageUrl" value="javascript:${showRecordsJSFunc}(${i});" />
+			<c:url var="pageUrl" value="javascript:${showRecordsJSFunc}(${prefixFuncParams}${i});" />
 			<c:choose>
 				<c:when test="${i == currentIndex}">
 					<li class="active"><a href="${pageUrl}"><c:out

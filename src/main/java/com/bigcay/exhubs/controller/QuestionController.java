@@ -135,6 +135,7 @@ public class QuestionController extends BaseController {
 		model.addAttribute("questionSubjects", questionSubjects);
 		// add pagination attributes
 		model.addAttribute("showRecordsJSFunc", "showQuestionSubjects");
+		model.addAttribute("prefixFuncParams", "");
 		model.addAllAttributes(GlobalManager.getGlobalPageableMap(questionSubjectPage));
 
 		return "ajax/questionrepos/show_question_subjects";
