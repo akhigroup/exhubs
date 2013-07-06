@@ -58,4 +58,8 @@ public interface ExamService {
 	ValidationResult validateBeforeAssignQuestionSubject(Integer examPaperId, Integer questionSubjectId, Locale locale);
 	
 	void assignQuestionSubject(Integer examPaperId, Integer questionSubjectId);
+	
+	ValidationResult validateBeforeDetachQuestionSubject(Integer examPaperId, Integer questionSubjectId, Locale locale);
+	
+	void detachQuestionSubject(Integer examPaperId, Integer questionSubjectId);
 }

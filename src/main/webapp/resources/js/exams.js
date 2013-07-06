@@ -113,6 +113,26 @@ function assignQuestionSubject(examPaperId, questionSubjectId) {
 	});
 };
 
+function detachQuestionSubject(examPaperId, questionSubjectId) {
+	$.ajax({
+		url : '/rest/exampapers/detach_question_subject',
+		data : {
+			examPaperId : examPaperId,
+			questionSubjectId : questionSubjectId
+		},
+		type : 'post',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			var obj = jQuery.parseJSON(xhr.responseText);
+			if (obj.resultType == 'SUCCESS') {
+				showAssociatedQuestionSubjects(examPaperId);
+			} else if (obj.resultType == 'ERROR') {
+				$('#ajax_error').html(obj.errorMessage).show();
+			}
+		}
+	});
+};
+
 function showExamEvents(pageNumber) {
 	$.ajax({
 		url : '/ajax/examevents/show_exam_events',

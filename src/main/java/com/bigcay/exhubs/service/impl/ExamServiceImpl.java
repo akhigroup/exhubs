@@ -176,4 +176,23 @@ public class ExamServiceImpl implements ExamService {
 		this.persist(examPaper);
 	}
 
+	@Override
+	public ValidationResult validateBeforeDetachQuestionSubject(Integer examPaperId, Integer questionSubjectId,
+			Locale locale) {
+		// TO-DO
+
+		ValidationResult result = new ValidationResult(ResultType.SUCCESS);
+		return result;
+	}
+
+	@Override
+	public void detachQuestionSubject(Integer examPaperId, Integer questionSubjectId) {
+
+		ExamPaper examPaper = examPaperRepository.findOne(examPaperId);
+
+		examPaper.removeQuestionSubjectById(questionSubjectId);
+
+		this.persist(examPaper);
+	}
+
 }

@@ -24,8 +24,26 @@
 				<td>${fn:substring(associatedQuestionSubject.content, 0,
 					25)}...</td>
 				<td>${associatedQuestionSubject.totalScore}</td>
-				<td>...</td>
+				<td><button
+						data-question-subject-id="${associatedQuestionSubject.id}"
+						class="btn btn-link btn-mini confirm_detach_question_subject">
+						<s:message code="global.info.btn.detach" />
+					</button></td>
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
+
+<script type="text/javascript" charset="utf-8">
+	$(".confirm_detach_question_subject").on("click", function(e) {
+		var questionSubjectId = $(this).data('questionSubjectId');
+		var examPaperId = $('input[name=examPaperId]').val();
+		var confirmsMessage = "<s:message code='global.alert.are_you_sure'/>";
+
+		bootbox.confirm(confirmsMessage, function(result) {
+			if (result == true) {
+				detachQuestionSubject(examPaperId, questionSubjectId);
+			}
+		});
+	});
+</script>

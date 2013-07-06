@@ -50,7 +50,7 @@ public class ExamPaper {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@OneToMany(mappedBy = "examPaper", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToMany(mappedBy = "examPaper", fetch = FetchType.EAGER, orphanRemoval=true, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<ExamPaperQuestionSubject> examPaperQuestionSubjects = new HashSet<ExamPaperQuestionSubject>();
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
@@ -139,6 +139,23 @@ public class ExamPaper {
 
 		this.getExamPaperQuestionSubjects().add(examPaperQuestionSubject);
 	}
+	
+	public void removeQuestionSubjectById(Integer questionSubjectId) {
+
+		ExamPaperQuestionSubject deleteExamPaperQuestionSubject = null;
+
+		for (ExamPaperQuestionSubject examPaperQuestionSubject : this.getExamPaperQuestionSubjects()) {
+			if (examPaperQuestionSubject.getQuestionSubject().getId().equals(questionSubjectId)) {
+				deleteExamPaperQuestionSubject = examPaperQuestionSubject;
+			}
+		}
+
+		if (deleteExamPaperQuestionSubject != null) {
+			this.getExamPaperQuestionSubjects().remove(deleteExamPaperQuestionSubject);
+		}
+
+	}
+	
 	
 	public int getNextSortOrder() {
 		int maxSortOrder = 0;
