@@ -70,15 +70,16 @@
 
 
 		<form-login login-page="/login" authentication-failure-url="/login/failure"
-			default-target-url="/login/success" />
+			default-target-url="/login/success"/>
 
 		<access-denied-handler error-page="/denied" />
 
 		<logout invalidate-session="true" logout-success-url="/" logout-url="/logout" />
 
-		<session-management invalid-session-url="/">
-			<concurrency-control max-sessions="1" error-if-maximum-exceeded="false" />
-		</session-management>
+	<session-management invalid-session-url="/">
+		<concurrency-control max-sessions="1" error-if-maximum-exceeded="false"
+			expired-url="/" />
+	</session-management>
 	</http>
 
 	<authentication-manager>
