@@ -1,5 +1,6 @@
 package com.bigcay.exhubs.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
@@ -114,6 +116,28 @@ public class DemoController extends BaseController {
 		return "demo/index";
 	}
 
+	@RequestMapping(value = "demo/upload", method = RequestMethod.GET)
+	public String uploadIndexHandler(Model model) {
+		return "demo/upload";
+	}
+	
+	@RequestMapping(value = "demo/upload", method = RequestMethod.POST)
+	public String uploadSubmitHandler(Model model, @RequestParam("name") String name,
+			@RequestParam("file") MultipartFile file) throws IOException {
+
+		logger.warn("** demo name: " + name);
+
+		if (!file.isEmpty()) {
+			byte[] bytes = file.getBytes();
+
+			logger.warn("** demo file bytes length: " + bytes.length);
+
+			return "redirect:/demo/upload";
+		} else {
+			return "demo/upload";
+		}
+	}
+	
 	@RequestMapping(value = "demo/save_group", method = RequestMethod.GET)
 	public String cascadeSaveGroupHandler(Model model) {
 
