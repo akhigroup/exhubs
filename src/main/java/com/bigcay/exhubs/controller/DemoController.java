@@ -123,12 +123,12 @@ public class DemoController extends BaseController {
 	
 	@RequestMapping(value = "demo/upload", method = RequestMethod.POST)
 	public String uploadSubmitHandler(Model model, @RequestParam("name") String name,
-			@RequestParam("file") MultipartFile file) throws IOException {
+			@RequestParam("file") MultipartFile multipartFile) throws IOException {
 
 		logger.warn("** demo name: " + name);
 
-		if (!file.isEmpty()) {
-			byte[] bytes = file.getBytes();
+		if (!multipartFile.isEmpty()) {
+			byte[] bytes = multipartFile.getBytes();
 
 			logger.warn("** demo file bytes length: " + bytes.length);
 
