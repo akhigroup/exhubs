@@ -6,7 +6,6 @@ create database exhubs charset=utf8;
 use exhubs;
 
 /*
-drop table if exists admission_tickets;
 drop table if exists exam_events;
 drop table if exists exam_paper_question_subject;
 drop table if exists exam_papers;
@@ -269,22 +268,4 @@ create table exam_events (
 );
 
 insert into exam_events (name, description, exam_paper_id, user_id, start_datetime, end_datetime, duration, active_flg) values ('计算机期中考试(2013)', '高二计算机期中考试(2013)', 1, 1, '2013-07-01 09:00:00', '2013-07-01 09:30:00', 30, true);
-
-
-/* 16. admission_tickets */
-create table admission_tickets (
-	id int not null auto_increment,
-	exam_card_number varchar(32) not null,
-	exam_card_password varchar(32) not null,
-	exam_event_id int not null,
-	participate_user_id int not null, 
-	create_date date not null,
-    update_datetime timestamp null,
-	primary key (id),
-	foreign key (exam_event_id) references exam_events (id),
-	foreign key (participate_user_id) references users (id)
-);
-
-insert into admission_tickets (exam_card_number, exam_card_password, exam_event_id, participate_user_id, create_date, update_datetime) values ('20130001', 'PASSWORD', 1, 1, '2013-07-01', null);
-insert into admission_tickets (exam_card_number, exam_card_password, exam_event_id, participate_user_id, create_date, update_datetime) values ('20130002', 'PASSWORD', 1, 2, '2013-07-02', null);
 
