@@ -117,19 +117,21 @@ insert into question_types (name, description) values ('EQ', '简答题');
 create table question_subjects (
 	id int not null auto_increment,
 	content varchar(512) not null,
+	image_id int,
 	total_score int not null,
 	question_type_id int not null,
 	user_id int not null,
 	primary key (id),
+	foreign key (image_id) references images (id),
 	foreign key (question_type_id) references question_types (id),
 	foreign key (user_id) references users (id)
 );
 
-insert into question_subjects (content, total_score, question_type_id, user_id) values ('电视新闻上常见巴勒斯坦总统阿拉法特等中东国家领导人，他们往往头上围着头巾，有的身着长袍。根据这段文字，回答小题。', 2, 1, 1);
-insert into question_subjects (content, total_score, question_type_id, user_id) values ('夜盲症是缺少维生素___；为了防治地方性甲状腺肿，应该食用含有___的食盐。', 10, 4, 1);
-insert into question_subjects (content, total_score, question_type_id, user_id) values ('某山地垂直自然带数多，垂直带谱完整。', 2, 2, 1);
-insert into question_subjects (content, total_score, question_type_id, user_id) values ('北京时间就是东八区的区时？', 1, 3, 1);
-insert into question_subjects (content, total_score, question_type_id, user_id) values ('近年来，相继发生的"毒奶粉","瘦肉精","地沟油"等恶性食品药品安全事件足以表明,诚信的缺失、道德的滑坡已经到了严重的地步，规范市场秩序势在必行。', 8, 5, 1);
+insert into question_subjects (content, image_id, total_score, question_type_id, user_id) values ('电视新闻上常见巴勒斯坦总统阿拉法特等中东国家领导人，他们往往头上围着头巾，有的身着长袍。根据这段文字，回答小题。', null, 2, 1, 1);
+insert into question_subjects (content, image_id, total_score, question_type_id, user_id) values ('夜盲症是缺少维生素___；为了防治地方性甲状腺肿，应该食用含有___的食盐。', null, 10, 4, 1);
+insert into question_subjects (content, image_id, total_score, question_type_id, user_id) values ('某山地垂直自然带数多，垂直带谱完整。', null, 2, 2, 1);
+insert into question_subjects (content, image_id, total_score, question_type_id, user_id) values ('北京时间就是东八区的区时？', null, 1, 3, 1);
+insert into question_subjects (content, image_id, total_score, question_type_id, user_id) values ('近年来，相继发生的"毒奶粉","瘦肉精","地沟油"等恶性食品药品安全事件足以表明,诚信的缺失、道德的滑坡已经到了严重的地步，规范市场秩序势在必行。', null, 8, 5, 1);
 
 
 /* 7. question_answers */

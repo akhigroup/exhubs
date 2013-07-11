@@ -1,7 +1,10 @@
 package com.bigcay.exhubs.controller;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -10,6 +13,7 @@ import java.util.TreeSet;
 
 import javax.validation.Valid;
 
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bigcay.exhubs.common.GlobalManager;
@@ -33,6 +38,7 @@ import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.form.QuestionDetailBean;
 import com.bigcay.exhubs.form.QuestionHeaderBean;
 import com.bigcay.exhubs.form.QuestionSubjectFormBean;
+import com.bigcay.exhubs.model.Image;
 import com.bigcay.exhubs.model.QuestionAnswer;
 import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
@@ -41,6 +47,7 @@ import com.bigcay.exhubs.model.QuestionTag;
 import com.bigcay.exhubs.model.QuestionType;
 import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
+import com.bigcay.exhubs.service.ImageService;
 import com.bigcay.exhubs.service.QuestionService;
 import com.bigcay.exhubs.util.QuestionUtil;
 
@@ -55,6 +62,9 @@ public class QuestionController extends BaseController {
 
 	@Autowired
 	private QuestionService questionService;
+	
+	@Autowired
+	private ImageService imageService;
 
 	private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
@@ -170,10 +180,11 @@ public class QuestionController extends BaseController {
 		return "questionrepos/create_question";
 	}
 
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "questionrepos/create_question", method = RequestMethod.POST)
-	public String createQuestionSubmitHandler(Model model, Locale locale,
+	public String createQuestionSubmitHandler(Model model, @RequestParam("file") MultipartFile multipartFile, Locale locale,
 			@Valid @ModelAttribute("questionSubjectFormBean") QuestionSubjectFormBean questionSubjectFormBean,
-			BindingResult result, final RedirectAttributes redirectAttributes, Principal principal) {
+			BindingResult result, final RedirectAttributes redirectAttributes, Principal principal) throws IOException {
 
 		logger.info("QuestionController.createQuestionSubmitHandler is invoked.");
 
@@ -191,6 +202,22 @@ public class QuestionController extends BaseController {
 
 			QuestionSubject questionSubject = new QuestionSubject();
 			questionSubject.setContent(questionSubjectFormBean.getContent());
+			
+			// persist Image to database and return imageId back
+			if (!multipartFile.isEmpty()) {
+				Blob blob = Hibernate.createBlob(multipartFile.getInputStream());
+
+				Image image = new Image();
+				image.setName(multipartFile.getName());
+				image.setContentType(multipartFile.getContentType());
+				image.setLength((int) multipartFile.getSize());
+				image.setContent(blob);
+				image.setCreateDate(new Date());
+
+				Image savedImage = imageService.persist(image);
+				questionSubject.setImageId(savedImage.getId());
+			}
+			
 			questionSubject.setQuestionType(questionType);
 			questionSubject.setTotalScore(questionSubjectFormBean.getTotalScore());
 			questionSubject.setUser(editUser);

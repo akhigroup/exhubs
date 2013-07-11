@@ -21,7 +21,11 @@
 				:<br /> ${questionSubject.content} (
 				<s:message code="questionrepos.info.question_subject_total_score"
 					arguments="${questionSubject.totalScore}" />
-				) <br /> 
+				) <br />
+				<c:if test="${not empty questionSubject.imageId}">
+					<img src="/image/${questionSubject.imageId}">
+					<br />
+				</c:if>
 				<s:message code="questionrepos.info.question_subject_tag" />: ${questionSubject.assembledTags}
 				<br /><br />
 				<c:forEach var="questionHeader"

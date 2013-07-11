@@ -29,6 +29,9 @@ public class QuestionSubject {
 
 	@Column(name = "content")
 	private String content;
+	
+	@Column(name = "image_id")
+	private Integer imageId; 
 
 	@Column(name = "total_score")
 	private Integer totalScore;
@@ -152,6 +155,14 @@ public class QuestionSubject {
 
 	public void setExamPapers(Set<ExamPaper> examPapers) {
 		this.examPapers = examPapers;
+	}
+	
+	public Integer getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(Integer imageId) {
+		this.imageId = imageId;
 	}
 
 }

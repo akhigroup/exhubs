@@ -7,7 +7,7 @@
 </c:set>
 
 <form:form id="form" class="form-horizontal" method="post"
-	modelAttribute="questionSubjectFormBean">
+	modelAttribute="questionSubjectFormBean" enctype="multipart/form-data">
 	<fieldset>
 		<legend>
 			<s:message code="questionrepos.info.add_question" />
@@ -48,13 +48,21 @@
 			</div>
 		</s:bind>
 
+		<div class="control-group">
+			<label class="control-label" for="content"><s:message
+					code="questionrepos.info.label_image" /></label>
+			<div class="controls">
+				<input type="file" name="file" tabindex="3" />
+			</div>
+		</div>
+
 		<s:bind path="tag">
 			<div class="control-group ${status.error ? 'error' : '' }">
 				<label class="control-label" for="tag"><s:message
 						code="questionrepos.info.label_tag" /></label>
 				<div class="controls">
 					<form:input class="typeahead input-xlarge" autocomplete="off"
-						path="tag" tabindex="3" data-source='${tagNames}' />
+						path="tag" tabindex="4" data-source='${tagNames}' />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
@@ -67,7 +75,7 @@
 				<label class="control-label" for="totalScore"><s:message
 						code="questionrepos.info.label_total_score" /></label>
 				<div class="controls">
-					<form:input class="input-mini" path="totalScore" tabindex="4" />
+					<form:input class="input-mini" path="totalScore" tabindex="5" />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
