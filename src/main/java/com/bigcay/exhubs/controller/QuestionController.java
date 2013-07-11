@@ -2,7 +2,6 @@ package com.bigcay.exhubs.controller;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -13,7 +12,6 @@ import java.util.TreeSet;
 
 import javax.validation.Valid;
 
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,7 +178,6 @@ public class QuestionController extends BaseController {
 		return "questionrepos/create_question";
 	}
 
-	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "questionrepos/create_question", method = RequestMethod.POST)
 	public String createQuestionSubmitHandler(Model model, @RequestParam("file") MultipartFile multipartFile, Locale locale,
 			@Valid @ModelAttribute("questionSubjectFormBean") QuestionSubjectFormBean questionSubjectFormBean,
@@ -205,13 +202,13 @@ public class QuestionController extends BaseController {
 			
 			// persist Image to database and return imageId back
 			if (!multipartFile.isEmpty()) {
-				Blob blob = Hibernate.createBlob(multipartFile.getInputStream());
+				//Blob blob = Hibernate.createBlob(multipartFile.getInputStream());
 
 				Image image = new Image();
 				image.setName(multipartFile.getName());
 				image.setContentType(multipartFile.getContentType());
 				image.setLength((int) multipartFile.getSize());
-				image.setContent(blob);
+				image.setContent(multipartFile.getBytes());
 				image.setCreateDate(new Date());
 
 				Image savedImage = imageService.persist(image);

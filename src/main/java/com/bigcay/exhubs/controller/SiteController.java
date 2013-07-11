@@ -2,8 +2,8 @@ package com.bigcay.exhubs.controller;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -66,11 +66,8 @@ public class SiteController extends BaseController {
 		BufferedOutputStream output = null;
 
 		try {
-			try {
-				input = new BufferedInputStream(image.getContent().getBinaryStream(), DEFAULT_BUFFER_SIZE);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			ByteArrayInputStream bis = new ByteArrayInputStream(image.getContent());
+			input = new BufferedInputStream(bis, DEFAULT_BUFFER_SIZE);
 			output = new BufferedOutputStream(response.getOutputStream(), DEFAULT_BUFFER_SIZE);
 
 			byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];

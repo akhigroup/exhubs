@@ -1,6 +1,5 @@
 package com.bigcay.exhubs.model;
 
-import java.sql.Blob;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -28,7 +27,7 @@ public class Image {
 
 	@Column(name = "content")
 	@Lob
-	private Blob content;
+	private byte[] content;
 
 	@Column(name = "length")
 	private Integer length;
@@ -68,20 +67,20 @@ public class Image {
 		this.length = length;
 	}
 
-	public Blob getContent() {
-		return content;
-	}
-
-	public void setContent(Blob content) {
-		this.content = content;
-	}
-
 	public Date getCreateDate() {
 		return createDate;
 	}
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public byte[] getContent() {
+		return content;
+	}
+
+	public void setContent(byte[] content) {
+		this.content = content;
 	}
 
 }

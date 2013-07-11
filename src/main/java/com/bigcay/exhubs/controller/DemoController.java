@@ -2,7 +2,6 @@ package com.bigcay.exhubs.controller;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -18,7 +17,6 @@ import javax.validation.Valid;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,7 +126,6 @@ public class DemoController extends BaseController {
 		return "demo/upload";
 	}
 
-	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "demo/upload", method = RequestMethod.POST)
 	public String uploadSubmitHandler(Model model, @RequestParam("name") String name,
 			@RequestParam("file") MultipartFile multipartFile) throws IOException {
@@ -137,13 +134,13 @@ public class DemoController extends BaseController {
 
 		if (!multipartFile.isEmpty()) {
 
-			Blob blob = Hibernate.createBlob(multipartFile.getInputStream());
+			//Blob blob = Hibernate.createBlob(multipartFile.getInputStream());
 
 			Image image = new Image();
 			image.setName(multipartFile.getName());
 			image.setContentType(multipartFile.getContentType());
 			image.setLength((int) multipartFile.getSize());
-			image.setContent(blob);
+			image.setContent(multipartFile.getBytes());
 			image.setCreateDate(new Date());
 
 			Image savedImage = imageService.persist(image);
