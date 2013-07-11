@@ -42,7 +42,7 @@ public class SiteController extends BaseController {
 	public void getImageHandler(Model model, @PathVariable("id") Integer imageId, HttpServletResponse response)
 			throws IOException {
 
-		logger.debug("SiteController.getImageHandler is invoked.");
+		//logger.debug("SiteController.getImageHandler is invoked.");
 
 		if (imageId == null) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND); // 404

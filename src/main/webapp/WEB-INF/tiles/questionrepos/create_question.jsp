@@ -52,7 +52,19 @@
 			<label class="control-label" for="content"><s:message
 					code="questionrepos.info.label_image" /></label>
 			<div class="controls">
-				<input type="file" name="file" tabindex="3" />
+				<div class="fileupload fileupload-new" data-provides="fileupload">
+					<div class="fileupload-preview thumbnail"
+						style="width: 400px; height: 240px;"></div>
+					<div>
+						<span class="btn btn-file"><span class="fileupload-new"><s:message
+									code="global.info.btn.select_image" /></span><span
+							class="fileupload-exists"><s:message
+									code="global.info.btn.change" /></span><input type="file" name="file"
+							tabindex="3" /></span> <a href="#" class="btn fileupload-exists"
+							data-dismiss="fileupload"><s:message
+								code="global.info.btn.remove" /></a>
+					</div>
+				</div>
 			</div>
 		</div>
 

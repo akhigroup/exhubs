@@ -14,6 +14,7 @@
 	media="screen" />
 <link href="/resources/css/core.css" rel="stylesheet" media="screen" />
 <link href="/resources/css/datetimepicker.css" rel="stylesheet" media="screen" />
+<link href="/resources/css/bootstrap-fileupload.min.css" rel="stylesheet" media="screen" />
 <link rel="shortcut icon" href="/resources/img/favicon.ico" />
 <style type="text/css">
 body {
@@ -29,6 +30,7 @@ body {
 	charset="utf-8"></script>
 <script src="/resources/js/locales/bootstrap-datetimepicker.zh-CN.js"
 	charset="utf-8"></script>
+<script src="/resources/js/bootstrap-fileupload.min.js"></script>
 <script src="/resources/js/bootbox.min.js"></script>
 <script src="/resources/js/main.js"></script>
 </head>
