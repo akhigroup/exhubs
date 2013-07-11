@@ -2,10 +2,8 @@ package com.bigcay.exhubs.controller;
 
 import java.security.Principal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -28,6 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bigcay.exhubs.common.GlobalManager;
+import com.bigcay.exhubs.common.ResponseResult;
+import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.form.UserFormBean;
 import com.bigcay.exhubs.form.UserFormBeanValidator;
 import com.bigcay.exhubs.model.Group;
@@ -216,21 +216,16 @@ public class UserController extends BaseController {
 
 	@RequestMapping("/rest/users/update_active_flag")
 	public @ResponseBody
-	Map<String, Object> updateActiveFlagRestHandler(Locale locale, @RequestParam("updateId") Integer updateId,
+	ResponseResult updateActiveFlagRestHandler(Locale locale, @RequestParam("updateId") Integer updateId,
 			@RequestParam("activeFlag") boolean activeFlag) {
 
 		logger.debug("UserController.updateActiveFlagRestHandler is invoked.");
 
-		Map<String, Object> responseMap = new HashMap<String, Object>();
+		ValidationResult validationResult = authorityService.updateUserActiveFlag(updateId, activeFlag, locale);
 
-		if (authorityService.updateUserActiveFlag(updateId, activeFlag)) {
-			responseMap.put("success", true);
-		} else {
-			responseMap.put("success", false);
-			responseMap.put("error", messageSource.getMessage("global.error.unknown_error", null, locale));
-		}
+		ResponseResult responseResult = new ResponseResult(validationResult);
 
-		return responseMap;
+		return responseResult;
 	}
 	
 }

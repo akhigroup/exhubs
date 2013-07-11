@@ -13,21 +13,22 @@ function showUsers(pageNumber) {
 };
 
 function changeUserStatus(updateId, activeFlag, currPageNum) {
-
-	cleanAjaxMessage();
-
-	var updateUserActiveFlagUri = "/rest/users/update_active_flag";
-	$.getJSON(updateUserActiveFlagUri, {
-		updateId : updateId,
-		activeFlag : activeFlag
-	}).done(function(obj) {
-		if (obj.success) {
-			showUsers(currPageNum == null ? 1 : currPageNum);
-		} else {
-			$('#ajax_error').html(obj.error).show();
+	$.ajax({
+		url : '/rest/users/update_active_flag',
+		data : {
+			updateId : updateId,
+			activeFlag : activeFlag
+		},
+		type : 'post',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			var obj = jQuery.parseJSON(xhr.responseText);
+			if (obj.resultType == 'SUCCESS') {
+				showUsers(currPageNum == null ? 1 : currPageNum);
+			} else if (obj.resultType == 'ERROR') {
+				showUsers(currPageNum == null ? 1 : currPageNum);
+				$('#ajax_error').html(obj.errorMessage).show();
+			}
 		}
-	}).fail(function(jqxhr, textStatus, error) {
-		var obj = jQuery.parseJSON(jqxhr.responseText);
-		$('#ajax_error').html(obj.error).show();
 	});
 };

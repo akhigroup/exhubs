@@ -77,16 +77,20 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
-	public boolean updateUserActiveFlag(Integer updateId, boolean activeFlag) {
+	public ValidationResult updateUserActiveFlag(Integer updateId, boolean activeFlag, Locale locale) {
+
+		ValidationResult result = new ValidationResult(ResultType.SUCCESS);
 
 		User targetUser = userRepository.findOne(updateId);
 
 		if (targetUser == null || targetUser.getActiveFlag().booleanValue() == activeFlag) {
-			return false;
+			result.setResultType(ResultType.ERROR);
+			result.addErrorMessage(messageSource.getMessage("global.error.unknown_error", null, locale));
+			return result;
 		} else {
 			targetUser.setActiveFlag(activeFlag);
 			this.persist(targetUser);
-			return true;
+			return result;
 		}
 	}
 

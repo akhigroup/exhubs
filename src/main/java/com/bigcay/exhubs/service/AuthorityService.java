@@ -38,7 +38,7 @@ public interface AuthorityService {
 	
 	Group persist(Group group);
 
-	boolean updateUserActiveFlag(Integer updateId, boolean activeFlag);
+	ValidationResult updateUserActiveFlag(Integer updateId, boolean activeFlag, Locale locale);
 	
 	ValidationResult validateBeforeDeleteGroup(Integer groupId, Locale locale);
 	
