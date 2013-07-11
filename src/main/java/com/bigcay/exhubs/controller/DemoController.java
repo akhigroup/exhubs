@@ -2,6 +2,7 @@ package com.bigcay.exhubs.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,7 @@ import com.bigcay.exhubs.form.UserFormBean;
 import com.bigcay.exhubs.form.UserFormBeanValidator;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.Group;
+import com.bigcay.exhubs.model.Image;
 import com.bigcay.exhubs.model.QuestionAnswer;
 import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
@@ -54,6 +57,7 @@ import com.bigcay.exhubs.model.Role;
 import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
 import com.bigcay.exhubs.service.ExamService;
+import com.bigcay.exhubs.service.ImageService;
 import com.bigcay.exhubs.service.QuestionService;
 
 @Controller
@@ -63,15 +67,18 @@ public class DemoController extends BaseController {
 
 	@Autowired
 	MessageSource messageSource;
-	
+
 	@Autowired
 	private AuthorityService authorityService;
 
 	@Autowired
 	private QuestionService questionService;
-	
+
 	@Autowired
 	private ExamService examService;
+
+	@Autowired
+	private ImageService imageService;
 
 	@Autowired
 	private UserFormBeanValidator userFormBeanValidator;
@@ -106,11 +113,11 @@ public class DemoController extends BaseController {
 		examPaper.setActiveFlag(true);
 		examPaper.setUser(authorityService.findUserById(1));
 		examPaper.setExamType(examService.findExamTypeById(1));
-		
+
 		examPaper = examService.persist(examPaper);
-		
+
 		examPaper.addQuestionSubject(questionService.findQuestionSubjectById(1), 2);
-		
+
 		examService.persist(examPaper);
 
 		return "demo/index";
@@ -120,7 +127,8 @@ public class DemoController extends BaseController {
 	public String uploadIndexHandler(Model model) {
 		return "demo/upload";
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "demo/upload", method = RequestMethod.POST)
 	public String uploadSubmitHandler(Model model, @RequestParam("name") String name,
 			@RequestParam("file") MultipartFile multipartFile) throws IOException {
@@ -128,16 +136,24 @@ public class DemoController extends BaseController {
 		logger.warn("** demo name: " + name);
 
 		if (!multipartFile.isEmpty()) {
-			byte[] bytes = multipartFile.getBytes();
 
-			logger.warn("** demo file bytes length: " + bytes.length);
+			Blob blob = Hibernate.createBlob(multipartFile.getInputStream());
 
-			return "redirect:/demo/upload";
+			Image image = new Image();
+			image.setName(multipartFile.getName());
+			image.setContentType(multipartFile.getContentType());
+			image.setLength((int) multipartFile.getSize());
+			image.setContent(blob);
+			image.setCreateDate(new Date());
+
+			Image savedImage = imageService.persist(image);
+
+			return "redirect:/image/" + savedImage.getId();
 		} else {
 			return "demo/upload";
 		}
 	}
-	
+
 	@RequestMapping(value = "demo/save_group", method = RequestMethod.GET)
 	public String cascadeSaveGroupHandler(Model model) {
 

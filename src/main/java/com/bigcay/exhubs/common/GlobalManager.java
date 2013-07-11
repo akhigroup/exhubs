@@ -1,5 +1,7 @@
 package com.bigcay.exhubs.common;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +28,16 @@ public class GlobalManager {
 		pageableMap.put("totalPages", totalPages);
 
 		return pageableMap;
+	}
+	
+	public static void close(Closeable resource) {
+		if (resource != null) {
+			try {
+				resource.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }

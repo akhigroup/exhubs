@@ -21,8 +21,20 @@ drop table if exists users;
 drop table if exists group_role;
 drop table if exists roles; 
 drop table if exists groups;
+drop table if exists images;
 */
 
+
+/* 0.1 images */
+create table images (
+	id int not null auto_increment,
+	name varchar(32),
+	content_type varchar(32),
+	content mediumblob,
+	length int,
+	create_date date not null,
+	primary key (id)
+);
 
 /* 1. groups */
 create table groups (
