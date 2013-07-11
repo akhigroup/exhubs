@@ -27,6 +27,10 @@
 		<intercept-url pattern="/users/edit_my_account" access="hasRole('ROLE_USER')" />
 
 
+		<!-- Image Module 
+		<intercept-url pattern="/image/*" access="hasRole('ROLE_USER')" />-->
+		
+
 		<!-- User Module 
 		<intercept-url pattern="/users" access="hasRole('ROLE_USER_MANAGER')" />
 		<intercept-url pattern="/users/*" access="hasRole('ROLE_USER_MANAGER')" />
