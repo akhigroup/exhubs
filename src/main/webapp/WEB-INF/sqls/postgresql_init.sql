@@ -120,7 +120,7 @@ create table users (
     userid varchar(32) not null,
     password varchar(32) not null,
     name varchar(32),
-    email varchar(32) not null,
+    email varchar(32),
     group_id int not null,
     active_flg boolean default TRUE,
     create_date date not null,
@@ -172,7 +172,6 @@ create table question_subjects (
 	question_type_id int not null,
 	user_id int not null,
 	primary key (id),
-	foreign key (image_id) references images (id),
 	foreign key (question_type_id) references question_types (id),
 	foreign key (user_id) references users (id)
 );
