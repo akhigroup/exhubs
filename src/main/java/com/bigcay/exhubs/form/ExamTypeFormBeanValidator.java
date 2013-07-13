@@ -33,7 +33,7 @@ public class ExamTypeFormBeanValidator implements Validator {
 		// 3. Business validations
 		ExamType examTypeFoundByName = examService.findExamTypeByName(examTypeFormBean.getName());
 
-		if (examTypeFoundByName != null && examTypeFoundByName.getId() != examTypeFormBean.getId()) {
+		if (examTypeFoundByName != null && !examTypeFoundByName.getId().equals(examTypeFormBean.getId())) {
 			errors.rejectValue("name", "ExamTypeFormBean.name.AlreadyExist");
 		}
 

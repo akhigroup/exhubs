@@ -39,7 +39,7 @@ public class ExamEventFormBeanValidator implements Validator {
 		// 3. Business validations
 		ExamEvent examEventFoundByName = examService.findExamEventByName(examEventFormBean.getName());
 
-		if (examEventFoundByName != null && examEventFoundByName.getId() != examEventFormBean.getId()) {
+		if (examEventFoundByName != null && !examEventFoundByName.getId().equals(examEventFormBean.getId())) {
 			errors.rejectValue("name", "ExamEventFormBean.name.AlreadyExist");
 		}
 	}

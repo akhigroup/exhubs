@@ -32,7 +32,7 @@ public class DepartmentFormBeanValidator implements Validator {
 		// 3. Business validations
 		Department departmentFoundByName = authorityService.findDepartmentByName(departmentFormBean.getName());
 
-		if (departmentFoundByName != null && departmentFoundByName.getId() != departmentFormBean.getId()) {
+		if (departmentFoundByName != null && !departmentFoundByName.getId().equals(departmentFormBean.getId())) {
 			errors.rejectValue("name", "DepartmentFormBean.name.AlreadyExist");
 		}
 

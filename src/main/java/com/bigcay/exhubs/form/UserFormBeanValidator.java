@@ -39,7 +39,7 @@ public class UserFormBeanValidator implements Validator {
 		// 3. Business validations
 		User userFoundByUserId = authorityService.findUserByUserId(userFormBean.getUserId());
 
-		if (userFoundByUserId != null && userFoundByUserId.getId() != userFormBean.getId()) {
+		if (userFoundByUserId != null && !userFoundByUserId.getId().equals(userFormBean.getId())) {
 			errors.rejectValue("userId", "UserFormBean.userId.AlreadyExist");
 		}
 	}

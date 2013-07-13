@@ -37,7 +37,7 @@ public class GroupFormBeanValidator implements Validator {
 		// 3. Business validations
 		Group groupFoundByName = authorityService.findGroupByName(groupFormBean.getName());
 
-		if (groupFoundByName != null && groupFoundByName.getId() != groupFormBean.getId()) {
+		if (groupFoundByName != null && !groupFoundByName.getId().equals(groupFormBean.getId())) {
 			errors.rejectValue("name", "GroupFormBean.name.AlreadyExist");
 		}
 	}

@@ -37,7 +37,7 @@ public class ExamPaperFormBeanValidator implements Validator {
 		// 3. Business validations
 		ExamPaper examPaperFoundByName = examService.findExamPaperByName(examPaperFormBean.getName());
 
-		if (examPaperFoundByName != null && examPaperFoundByName.getId() != examPaperFormBean.getId()) {
+		if (examPaperFoundByName != null && !examPaperFoundByName.getId().equals(examPaperFormBean.getId())) {
 			errors.rejectValue("name", "ExamPaperFormBean.name.AlreadyExist");
 		}
 	}
