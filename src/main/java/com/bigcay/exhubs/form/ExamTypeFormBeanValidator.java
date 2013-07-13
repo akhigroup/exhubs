@@ -6,6 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import com.bigcay.exhubs.model.ExamType;
 import com.bigcay.exhubs.service.ExamService;
 
 @Component
@@ -30,11 +31,10 @@ public class ExamTypeFormBeanValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(errors, "description", "ExamTypeFormBean.description.NotEmpty");
 
 		// 3. Business validations
-		// * Do not perform "exam type name already exist" validation when updating an existing record *
-		if (examTypeFormBean.getId() == null) {
-			if (examService.findExamTypeByName(examTypeFormBean.getName()) != null) {
-				errors.rejectValue("name", "ExamTypeFormBean.name.AlreadyExist");
-			}
+		ExamType examTypeFoundByName = examService.findExamTypeByName(examTypeFormBean.getName());
+
+		if (examTypeFoundByName != null && examTypeFoundByName.getId() != examTypeFormBean.getId()) {
+			errors.rejectValue("name", "ExamTypeFormBean.name.AlreadyExist");
 		}
 
 	}

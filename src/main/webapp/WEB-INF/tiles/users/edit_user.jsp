@@ -21,7 +21,7 @@
 						code="users.info.user_userid" /></label>
 				<div class="controls">
 					<form:input class="input-xlarge" path="userId" tabindex="1"
-						readonly="true" />
+						autofocus="autofocus" />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
@@ -33,8 +33,7 @@
 				<label class="control-label" for="name"><s:message
 						code="users.info.user_name" /></label>
 				<div class="controls">
-					<form:input class="input-xlarge" path="name" tabindex="2"
-						autofocus="autofocus" />
+					<form:input class="input-xlarge" path="name" tabindex="2" />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>

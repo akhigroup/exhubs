@@ -6,6 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.service.AuthorityService;
 
 @Component
@@ -34,11 +35,10 @@ public class GroupFormBeanValidator implements Validator {
 		}
 		
 		// 3. Business validations
-		// * Do not perform "group name already exist" validation when updating an existing record *
-		if (groupFormBean.getId() == null) {
-			if (authorityService.findGroupByName(groupFormBean.getName()) != null) {
-				errors.rejectValue("name", "GroupFormBean.name.AlreadyExist");
-			}
+		Group groupFoundByName = authorityService.findGroupByName(groupFormBean.getName());
+
+		if (groupFoundByName != null && groupFoundByName.getId() != groupFormBean.getId()) {
+			errors.rejectValue("name", "GroupFormBean.name.AlreadyExist");
 		}
 	}
 

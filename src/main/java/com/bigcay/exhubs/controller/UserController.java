@@ -173,6 +173,7 @@ public class UserController extends BaseController {
 			return "users/edit_user";
 		} else {
 			User user = authorityService.findUserById(editId);
+			user.setUserId(userFormBean.getUserId());
 			user.setName(userFormBean.getName());
 			user.setPassword(userFormBean.getPassword());
 			user.setEmail(userFormBean.getEmail());

@@ -17,7 +17,7 @@
 						code="examtypes.info.examtypes_name" /></label>
 				<div class="controls">
 					<form:input class="input-xlarge" path="name" tabindex="1"
-						readonly="true" />
+						autofocus="autofocus" />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>
@@ -30,8 +30,7 @@
 				<label class="control-label" for="description"><s:message
 						code="examtypes.info.examtypes_description" /></label>
 				<div class="controls">
-					<form:input class="input-xlarge" path="description" tabindex="2"
-						autofocus="autofocus" />
+					<form:input class="input-xlarge" path="description" tabindex="2" />
 					<c:if test="${status.error}">
 						<span class="help-inline">${status.errorMessage}</span>
 					</c:if>

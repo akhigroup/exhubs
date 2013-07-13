@@ -6,6 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.service.ExamService;
 
 @Component
@@ -36,10 +37,10 @@ public class ExamEventFormBeanValidator implements Validator {
 		}
 
 		// 3. Business validations
-		if (examEventFormBean.getId() == null) {
-			if (examService.findExamEventByName(examEventFormBean.getName()) != null) {
-				errors.rejectValue("name", "ExamEventFormBean.name.AlreadyExist");
-			}
+		ExamEvent examEventFoundByName = examService.findExamEventByName(examEventFormBean.getName());
+
+		if (examEventFoundByName != null && examEventFoundByName.getId() != examEventFormBean.getId()) {
+			errors.rejectValue("name", "ExamEventFormBean.name.AlreadyExist");
 		}
 	}
 }

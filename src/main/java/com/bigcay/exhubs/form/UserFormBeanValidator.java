@@ -6,6 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
 
 @Component
@@ -36,11 +37,10 @@ public class UserFormBeanValidator implements Validator {
 		}
 
 		// 3. Business validations
-		// * Do not perform "userId already exist" validation when updating an existing record *
-		if (userFormBean.getId() == null) {
-			if (authorityService.findUserByUserId(userFormBean.getUserId()) != null) {
-				errors.rejectValue("userId", "UserFormBean.userId.AlreadyExist");
-			}
+		User userFoundByUserId = authorityService.findUserByUserId(userFormBean.getUserId());
+
+		if (userFoundByUserId != null && userFoundByUserId.getId() != userFormBean.getId()) {
+			errors.rejectValue("userId", "UserFormBean.userId.AlreadyExist");
 		}
 	}
 

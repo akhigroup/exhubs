@@ -6,6 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.service.ExamService;
 
 @Component
@@ -34,10 +35,10 @@ public class ExamPaperFormBeanValidator implements Validator {
 		}
 
 		// 3. Business validations
-		if (examPaperFormBean.getId() == null) {
-			if (examService.findExamPaperByName(examPaperFormBean.getName()) != null) {
-				errors.rejectValue("name", "ExamPaperFormBean.name.AlreadyExist");
-			}
+		ExamPaper examPaperFoundByName = examService.findExamPaperByName(examPaperFormBean.getName());
+
+		if (examPaperFoundByName != null && examPaperFoundByName.getId() != examPaperFormBean.getId()) {
+			errors.rejectValue("name", "ExamPaperFormBean.name.AlreadyExist");
 		}
 	}
 
