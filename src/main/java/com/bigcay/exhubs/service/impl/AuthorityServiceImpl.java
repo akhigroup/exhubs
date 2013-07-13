@@ -208,4 +208,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return departmentRepository.findByName(name);
 	}
 
+	@Override
+	public List<Department> findAllDepartments() {
+		return departmentRepository.findAll();
+	}
+
 }

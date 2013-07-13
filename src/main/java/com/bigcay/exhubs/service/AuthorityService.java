@@ -49,6 +49,8 @@ public interface AuthorityService {
 	
 	Page<Department> findPageableDepartments(Integer pageNumber);
 	
+	List<Department> findAllDepartments();
+	
 	Department persist(Department department);
 	
 	Department findDepartmentById(Integer id);

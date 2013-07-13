@@ -144,15 +144,17 @@ create table users (
     name varchar(32),
     email varchar(32),
     group_id int not null,
+    department_id int,
     active_flg boolean default TRUE,
     create_date date not null,
     update_datetime timestamp null,
     primary key (id),
-    foreign key (group_id) references groups (id)
+    foreign key (group_id) references groups (id),
+    foreign key (department_id) references departments (id)
 );
 
-insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('admin', 'admin123', '系统管理员', 'biminglei@gmail.com', 1, TRUE, '2013-06-01', null);
-insert into users (userid, password, name, email, group_id, active_flg, create_date, update_datetime) values ('test', 'test123', 'Tester', 'biminglei@gmail.com', 2, FALSE, '2013-06-02', null);
+insert into users (userid, password, name, email, group_id, department_id, active_flg, create_date, update_datetime) values ('admin', 'admin123', '系统管理员', 'biminglei@gmail.com', 1, null, TRUE, '2013-06-01', null);
+insert into users (userid, password, name, email, group_id, department_id, active_flg, create_date, update_datetime) values ('test', 'test123', 'Tester', 'biminglei@gmail.com', 2, null, FALSE, '2013-06-02', null);
 
 
 
