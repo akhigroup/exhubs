@@ -18,9 +18,11 @@ import com.bigcay.exhubs.common.GlobalManager;
 import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.form.GroupFormBean;
+import com.bigcay.exhubs.model.Department;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Role;
 import com.bigcay.exhubs.model.User;
+import com.bigcay.exhubs.repository.DepartmentRepository;
 import com.bigcay.exhubs.repository.GroupRepository;
 import com.bigcay.exhubs.repository.RoleRepository;
 import com.bigcay.exhubs.repository.UserRepository;
@@ -41,6 +43,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 	@Autowired
 	private GroupRepository groupRepository;
+	
+	@Autowired
+	private DepartmentRepository departmentRepository;
 
 	@Override
 	public User findUserById(Integer id) {
@@ -167,6 +172,40 @@ public class AuthorityServiceImpl implements AuthorityService {
 	public Page<Group> findPageableGroups(Integer pageNumber) {
 		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id");
 		return groupRepository.findAll(pageRequest);
+	}
+	
+	@Override
+	public Page<Department> findPageableDepartments(Integer pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id");
+		return departmentRepository.findAll(pageRequest);
+	}
+	
+	@Override
+	public Department persist(Department department) {
+		return departmentRepository.save(department);
+	}
+
+	@Override
+	public Department findDepartmentById(Integer id) {
+		return departmentRepository.findOne(id);
+	}
+
+	@Override
+	public ValidationResult validateBeforeDeleteDepartment(Integer departmentId, Locale locale) {
+		// TO-DO
+
+		ValidationResult result = new ValidationResult(ResultType.SUCCESS);
+		return result;
+	}
+
+	@Override
+	public void deleteDepartment(Integer departmentId) {
+		departmentRepository.delete(departmentId);
+	}
+
+	@Override
+	public Department findDepartmentByName(String name) {
+		return departmentRepository.findByName(name);
 	}
 
 }

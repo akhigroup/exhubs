@@ -18,6 +18,7 @@ drop table if exists question_answers;
 drop table if exists question_subjects;
 drop table if exists question_types;
 drop table if exists users; 
+drop table if exists departments;
 drop table if exists group_role;
 drop table if exists roles; 
 drop table if exists groups;
@@ -58,6 +59,7 @@ create table roles (
 
 insert into roles (name, description) values ('ROLE_USER', '注册用户');
 insert into roles (name, description) values ('ROLE_USER_GROUP_MANAGER', '用户组管理');
+insert into roles (name, description) values ('ROLE_DEPARTMENT_MANAGER', '部门管理');
 insert into roles (name, description) values ('ROLE_USER_MANAGER', '用户管理');
 insert into roles (name, description) values ('ROLE_EXAM_MANAGER', '考试管理');
 insert into roles (name, description) values ('ROLE_QUESTION_MANAGER', '题目管理');
@@ -77,7 +79,20 @@ insert into group_role (group_id, role_id) values (1, 2);
 insert into group_role (group_id, role_id) values (1, 3);
 insert into group_role (group_id, role_id) values (1, 4);
 insert into group_role (group_id, role_id) values (1, 5);
+insert into group_role (group_id, role_id) values (1, 6);
 insert into group_role (group_id, role_id) values (2, 1);
+
+
+/* 3.1 departments */
+create table departments (
+	id int not null auto_increment,
+	name varchar(32) not null,
+	primary key (id)
+);
+
+insert into departments (name) values ('蓝翔技校2013级');
+insert into departments (name) values ('026后勤仓库');
+
 
 /* 4. users */
 create table users (

@@ -21,6 +21,8 @@ drop table question_types;
 drop sequence question_types_id_seq;
 drop table users;
 drop sequence users_id_seq;
+drop table departments;
+drop sequence departments_id_seq;
 drop table group_role;
 drop table roles;
 drop sequence roles_id_seq;
@@ -105,6 +107,24 @@ insert into group_role (group_id, role_id) values (1, 3);
 insert into group_role (group_id, role_id) values (1, 4);
 insert into group_role (group_id, role_id) values (1, 5);
 insert into group_role (group_id, role_id) values (2, 1);
+
+
+/* 3.1 departments */
+create sequence departments_id_seq
+	start with 1
+	increment BY 1
+	no minvalue
+	no maxvalue
+	cache 1;
+
+create table departments (
+	id int not null default nextval('departments_id_seq'),
+	name varchar(32) not null,
+	primary key (id)
+);
+
+insert into departments (name) values ('蓝翔技校2013级');
+insert into departments (name) values ('026后勤仓库');
 
 
 /* 4. users */

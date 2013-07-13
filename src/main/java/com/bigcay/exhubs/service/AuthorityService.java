@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 
 import com.bigcay.exhubs.common.ValidationResult;
 import com.bigcay.exhubs.form.GroupFormBean;
+import com.bigcay.exhubs.model.Department;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Role;
 import com.bigcay.exhubs.model.User;
@@ -45,4 +46,16 @@ public interface AuthorityService {
 	void deleteGroup(Integer groupId);
 	
 	Group saveNewGroup(GroupFormBean groupFormBean);
+	
+	Page<Department> findPageableDepartments(Integer pageNumber);
+	
+	Department persist(Department department);
+	
+	Department findDepartmentById(Integer id);
+	
+	Department findDepartmentByName(String name);
+	
+	ValidationResult validateBeforeDeleteDepartment(Integer departmentId, Locale locale);
+	
+	void deleteDepartment(Integer departmentId);
 }
