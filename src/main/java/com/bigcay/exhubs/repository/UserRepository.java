@@ -12,4 +12,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	List<User> findByGroup_Id(Integer groupId);
 	
+	List<User> findByCandidateExamEvents_Id(Integer examEventId);
+	
 }

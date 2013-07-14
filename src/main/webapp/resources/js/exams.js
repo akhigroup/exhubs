@@ -165,3 +165,72 @@ function deleteExamEvent(deleteId) {
 		}
 	});
 };
+
+function showAssociatedCandidates(examEventId) {
+	$.ajax({
+		url : '/ajax/examevents/show_associated_candidates',
+		data : {
+			examEventId: examEventId
+		},
+		type : 'get',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			$('#associatedCandidates').html(response);
+		}
+	});
+};
+
+function showPotentialCandidates(pageNumber) {
+	$.ajax({
+		url : '/ajax/examevents/show_potential_candidates',
+		data : {
+			pageNumber : pageNumber == null ? 1 : pageNumber
+		},
+		type : 'get',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			$('#potentialCandidates').html(response);
+		}
+	});
+};
+
+function assignCandidate(examEventId, candidateId) {
+	$.ajax({
+		url : '/rest/examevents/assign_candidate',
+		data : {
+			examEventId : examEventId,
+			candidateId : candidateId
+		},
+		type : 'post',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			var obj = jQuery.parseJSON(xhr.responseText);
+			if (obj.resultType == 'SUCCESS') {
+				showAssociatedCandidates(examEventId);
+			} else if (obj.resultType == 'ERROR') {
+				$('#ajax_error').html(obj.errorMessage).show();
+			}
+		}
+	});
+};
+
+function detachCandidate(examEventId, candidateId) {
+	$.ajax({
+		url : '/rest/examevents/detach_candidate',
+		data : {
+			examEventId : examEventId,
+			candidateId : candidateId
+		},
+		type : 'post',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			var obj = jQuery.parseJSON(xhr.responseText);
+			if (obj.resultType == 'SUCCESS') {
+				showAssociatedCandidates(examEventId);
+			} else if (obj.resultType == 'ERROR') {
+				$('#ajax_error').html(obj.errorMessage).show();
+			}
+		}
+	});
+};
+

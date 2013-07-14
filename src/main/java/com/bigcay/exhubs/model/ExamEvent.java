@@ -1,7 +1,10 @@
 package com.bigcay.exhubs.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,7 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
@@ -46,6 +53,30 @@ public class ExamEvent {
 
 	@Column(name = "active_flg")
 	private Boolean activeFlag;
+	
+	@OneToMany(mappedBy = "examEvent", fetch = FetchType.EAGER, orphanRemoval=true, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	private Set<ExamCandidate> examCandidates = new HashSet<ExamCandidate>();
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+	@OrderBy("id ASC")
+	@JoinTable(name = "exam_candidates", joinColumns = { @JoinColumn(name = "exam_event_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
+	private Set<User> candidateUsers = new HashSet<User>();
+	
+	public Set<ExamCandidate> getExamCandidates() {
+		return examCandidates;
+	}
+
+	public void setExamCandidates(Set<ExamCandidate> examCandidates) {
+		this.examCandidates = examCandidates;
+	}
+
+	public Set<User> getCandidateUsers() {
+		return candidateUsers;
+	}
+
+	public void setCandidateUsers(Set<User> candidateUsers) {
+		this.candidateUsers = candidateUsers;
+	}
 
 	public Integer getId() {
 		return id;
@@ -117,6 +148,30 @@ public class ExamEvent {
 
 	public void setActiveFlag(Boolean activeFlag) {
 		this.activeFlag = activeFlag;
+	}
+	
+	public void addCandidate(User user) {
+		
+		ExamCandidate examCandidate = new ExamCandidate();
+		examCandidate.setExamEvent(this);
+		examCandidate.setUser(user);
+
+		this.getExamCandidates().add(examCandidate);
+	}
+	
+	public void removeCandidateById(Integer candidateId) {
+
+		ExamCandidate deleteExamCandidate = null;
+
+		for (ExamCandidate examCandidate : this.getExamCandidates()) {
+			if (examCandidate.getUser().getId().equals(candidateId)) {
+				deleteExamCandidate = examCandidate;
+			}
+		}
+
+		if (deleteExamCandidate != null) {
+			this.getExamCandidates().remove(deleteExamCandidate);
+		}
 	}
 
 }

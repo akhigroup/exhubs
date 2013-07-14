@@ -6,6 +6,8 @@ create database exhubs charset=utf8;
 use exhubs;
 
 /*
+drop table if exists exam_reviewers;
+drop table if exists exam_candidates;
 drop table if exists exam_events;
 drop table if exists exam_paper_question_subject;
 drop table if exists exam_papers;
@@ -46,7 +48,7 @@ create table groups (
 );
 
 insert into groups (name, description) values ('GROUP_SYSTEM_ADMIN', '系统管理员组');
-insert into groups (name, description) values ('GROUP_NORMAL_USER', '普通用户组');
+insert into groups (name, description) values ('GROUP_EXAM_CANDIDATE', '学生考试组');
 
 
 /* 2. roles */
@@ -63,6 +65,8 @@ insert into roles (name, description) values ('ROLE_DEPARTMENT_MANAGER', '部门
 insert into roles (name, description) values ('ROLE_USER_MANAGER', '用户管理');
 insert into roles (name, description) values ('ROLE_EXAM_MANAGER', '考试管理');
 insert into roles (name, description) values ('ROLE_QUESTION_MANAGER', '题目管理');
+insert into roles (name, description) values ('ROLE_EXAM_REVIEW_MANAGER', '人工评阅');
+insert into roles (name, description) values ('ROLE_EXAM_CANDIDATE', '参加考试');
 
 
 /* 3. group_role */
@@ -80,7 +84,10 @@ insert into group_role (group_id, role_id) values (1, 3);
 insert into group_role (group_id, role_id) values (1, 4);
 insert into group_role (group_id, role_id) values (1, 5);
 insert into group_role (group_id, role_id) values (1, 6);
+insert into group_role (group_id, role_id) values (1, 7);
+insert into group_role (group_id, role_id) values (1, 8);
 insert into group_role (group_id, role_id) values (2, 1);
+insert into group_role (group_id, role_id) values (2, 8);
 
 
 /* 3.1 departments */
@@ -111,8 +118,12 @@ create table users (
     foreign key (department_id) references departments (id)
 );
 
-insert into users (userid, password, name, email, group_id, department_id, active_flg, create_date, update_datetime) values ('admin', 'admin123', '系统管理员', 'biminglei@gmail.com', 1, null, true, '2013-06-01', null);
-insert into users (userid, password, name, email, group_id, department_id, active_flg, create_date, update_datetime) values ('test', 'test123', 'tester', 'biminglei@gmail.com', 2, null, false, '2013-06-02', null);
+insert into users (userid, password, name, email, group_id, department_id, active_flg, create_date, update_datetime) values ('admin', 'admin123', '系统管理员', 'admin@gmail.com', 1, null, true, '2013-06-01', null);
+insert into users (userid, password, name, email, group_id, department_id, active_flg, create_date, update_datetime) values ('user01', 'user01', 'user01', 'user01@gmail.com', 2, null, true, '2013-06-01', null);
+insert into users (userid, password, name, email, group_id, department_id, active_flg, create_date, update_datetime) values ('user02', 'user02', 'user02', 'user02@gmail.com', 2, null, true, '2013-06-02', null);
+insert into users (userid, password, name, email, group_id, department_id, active_flg, create_date, update_datetime) values ('user03', 'user03', 'user03', 'user03@gmail.com', 2, null, true, '2013-06-03', null);
+insert into users (userid, password, name, email, group_id, department_id, active_flg, create_date, update_datetime) values ('user04', 'user04', 'user04', 'user04@gmail.com', 2, null, true, '2013-06-04', null);
+insert into users (userid, password, name, email, group_id, department_id, active_flg, create_date, update_datetime) values ('user05', 'user05', 'user05', 'user05@gmail.com', 2, null, true, '2013-06-05', null);
 
 
 /* 5. question_types */
@@ -298,4 +309,31 @@ create table exam_events (
 );
 
 insert into exam_events (name, description, exam_paper_id, user_id, start_datetime, end_datetime, duration, active_flg) values ('计算机期中考试(2013)', '高二计算机期中考试(2013)', 1, 1, '2013-07-01 09:00:00', '2013-07-01 09:30:00', 30, true);
+
+
+/* 16. exam_candidates */
+create table exam_candidates (
+	exam_event_id int not null,
+	user_id int not null,
+	final_score int,
+	done_flg boolean default 0,
+	primary key (exam_event_id, user_id),
+	foreign key (exam_event_id) references exam_events (id),
+	foreign key (user_id) references users (id)
+);
+
+insert into exam_candidates (exam_event_id, user_id, final_score, done_flg) values (1, 2, null, false);
+insert into exam_candidates (exam_event_id, user_id, final_score, done_flg) values (1, 3, null, false);
+
+
+/* 17. exam_reviewers */
+create table exam_reviewers (
+	exam_event_id int not null,
+	user_id int not null,
+	primary key (exam_event_id, user_id),
+	foreign key (exam_event_id) references exam_events (id),
+	foreign key (user_id) references users (id)
+);
+
+insert into exam_reviewers (exam_event_id, user_id) values (1, 1);
 

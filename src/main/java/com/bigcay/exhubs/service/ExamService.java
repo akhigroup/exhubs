@@ -10,6 +10,7 @@ import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
 import com.bigcay.exhubs.model.QuestionSubject;
+import com.bigcay.exhubs.model.User;
 
 public interface ExamService {
 
@@ -55,6 +56,8 @@ public interface ExamService {
 	
 	void deleteExamEvent(Integer examEventId);
 	
+	List<User> findCandidatesByExamEventId(Integer examEventId);
+	
 	ValidationResult validateBeforeAssignQuestionSubject(Integer examPaperId, Integer questionSubjectId, Locale locale);
 	
 	void assignQuestionSubject(Integer examPaperId, Integer questionSubjectId);
@@ -62,4 +65,12 @@ public interface ExamService {
 	ValidationResult validateBeforeDetachQuestionSubject(Integer examPaperId, Integer questionSubjectId, Locale locale);
 	
 	void detachQuestionSubject(Integer examPaperId, Integer questionSubjectId);
+	
+	ValidationResult validateBeforeAssignCandidate(Integer examEventId, Integer candidateId, Locale locale);
+	
+	void assignCandidate(Integer examEventId, Integer candidateId);
+	
+	ValidationResult validateBeforeDetachCandidate(Integer examEventId, Integer candidateId, Locale locale);
+	
+	void detachCandidate(Integer examEventId, Integer candidateId);
 }

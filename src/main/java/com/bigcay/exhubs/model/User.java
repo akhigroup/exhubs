@@ -1,7 +1,10 @@
 package com.bigcay.exhubs.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,7 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -49,6 +54,28 @@ public class User {
 
 	@Column(name = "update_datetime")
 	private Date updateDateTime;
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST})
+	private Set<ExamCandidate> examCandidates;
+
+	@ManyToMany(mappedBy = "candidateUsers", fetch = FetchType.LAZY)
+	private Set<ExamEvent> candidateExamEvents = new HashSet<ExamEvent>();
+	
+	public Set<ExamCandidate> getExamCandidates() {
+		return examCandidates;
+	}
+
+	public void setExamCandidates(Set<ExamCandidate> examCandidates) {
+		this.examCandidates = examCandidates;
+	}
+
+	public Set<ExamEvent> getCandidateExamEvents() {
+		return candidateExamEvents;
+	}
+
+	public void setCandidateExamEvents(Set<ExamEvent> candidateExamEvents) {
+		this.candidateExamEvents = candidateExamEvents;
+	}
 
 	public Date getCreateDate() {
 		return createDate;

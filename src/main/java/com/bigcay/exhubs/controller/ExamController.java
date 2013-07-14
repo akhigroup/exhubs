@@ -470,6 +470,47 @@ public class ExamController extends BaseController {
 			return "redirect:/examevents";
 		}
 	}
+	
+	@RequestMapping("exam_event/{examEventId}")
+	public String selectExamEventHandler(Model model, @PathVariable Integer examEventId) {
+
+		logger.debug("ExamController.selectExamEventHandler is invoked.");
+
+		model.addAttribute("examEventId", examEventId);
+
+		return "examevents/select_exam_event";
+	}
+	
+	@RequestMapping("ajax/examevents/show_associated_candidates")
+	public String showAssociatedCandidatesAjaxHandler(Model model,
+			@RequestParam("examEventId") Integer examEventId) {
+
+		logger.debug("ExamController.showAssociatedCandidatesAjaxHandler is invoked.");
+
+		List<User> associatedCandidates = examService.findCandidatesByExamEventId(examEventId);
+
+		model.addAttribute("associatedCandidates", associatedCandidates);
+
+		return "ajax/examevents/show_associated_candidates";
+	}
+
+	@RequestMapping("ajax/examevents/show_potential_candidates")
+	public String showPotentialCandidatesAjaxHandler(Model model, @RequestParam("pageNumber") Integer pageNumber) {
+
+		logger.debug("ExamController.showPotentialCandidatesAjaxHandler is invoked.");
+
+		// TO-DO, Add filter to get potential candidates
+		Page<User> potentialCandidatePage = authorityService.findPageableUsers(pageNumber - 1);
+		List<User> potentialCandidates = potentialCandidatePage.getContent();
+
+		model.addAttribute("potentialCandidates", potentialCandidates);
+		// add pagination attributes
+		model.addAttribute("showRecordsJSFunc", "showPotentialCandidates");
+		model.addAllAttributes(GlobalManager.getGlobalPageableMap(potentialCandidatePage));
+
+		return "ajax/examevents/show_potential_candidates";
+	}
+	
 
 	@RequestMapping(value = "/rest/examtypes/delete_exam_type", method = RequestMethod.POST)
 	public @ResponseBody
@@ -547,6 +588,40 @@ public class ExamController extends BaseController {
 
 		if (ResultType.SUCCESS == validationResult.getResultType()) {
 			examService.deleteExamEvent(deleteId);
+		}
+
+		ResponseResult responseResult = new ResponseResult(validationResult);
+		return responseResult;
+	}
+	
+	@RequestMapping(value = "/rest/examevents/assign_candidate", method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseResult assignCandidateRestHandler(Locale locale, @RequestParam("examEventId") Integer examEventId,
+			@RequestParam("candidateId") Integer candidateId) {
+
+		logger.debug("ExamController.assignCandidateRestHandler is invoked.");
+
+		ValidationResult validationResult = examService.validateBeforeAssignCandidate(examEventId, candidateId, locale);
+
+		if (ResultType.SUCCESS == validationResult.getResultType()) {
+			examService.assignCandidate(examEventId, candidateId);
+		}
+
+		ResponseResult responseResult = new ResponseResult(validationResult);
+		return responseResult;
+	}
+	
+	@RequestMapping(value = "/rest/examevents/detach_candidate", method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseResult detachCandidateRestHandler(Locale locale, @RequestParam("examEventId") Integer examEventId,
+			@RequestParam("candidateId") Integer candidateId) {
+
+		logger.debug("ExamController.detachCandidateRestHandler is invoked.");
+
+		ValidationResult validationResult = examService.validateBeforeDetachCandidate(examEventId, candidateId, locale);
+
+		if (ResultType.SUCCESS == validationResult.getResultType()) {
+			examService.detachCandidate(examEventId, candidateId);
 		}
 
 		ResponseResult responseResult = new ResponseResult(validationResult);

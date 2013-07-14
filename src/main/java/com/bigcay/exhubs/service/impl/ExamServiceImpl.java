@@ -17,10 +17,12 @@ import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
 import com.bigcay.exhubs.model.QuestionSubject;
+import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.repository.ExamEventRepository;
 import com.bigcay.exhubs.repository.ExamPaperRepository;
 import com.bigcay.exhubs.repository.ExamTypeRepository;
 import com.bigcay.exhubs.repository.QuestionSubjectRepository;
+import com.bigcay.exhubs.repository.UserRepository;
 import com.bigcay.exhubs.service.ExamService;
 
 @Service
@@ -38,6 +40,9 @@ public class ExamServiceImpl implements ExamService {
 
 	@Autowired
 	private QuestionSubjectRepository questionSubjectRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public Page<ExamType> findPageableExamTypes(Integer pageNumber) {
@@ -193,6 +198,48 @@ public class ExamServiceImpl implements ExamService {
 		examPaper.removeQuestionSubjectById(questionSubjectId);
 
 		this.persist(examPaper);
+	}
+
+	@Override
+	public List<User> findCandidatesByExamEventId(Integer examEventId) {
+		return userRepository.findByCandidateExamEvents_Id(examEventId);
+	}
+
+	@Override
+	public ValidationResult validateBeforeAssignCandidate(Integer examEventId, Integer candidateId, Locale locale) {
+		// TO-DO
+
+		ValidationResult result = new ValidationResult(ResultType.SUCCESS);
+		return result;
+	}
+
+	@Override
+	public void assignCandidate(Integer examEventId, Integer candidateId) {
+
+		ExamEvent examEvent = examEventRepository.findOne(examEventId);
+		User user = userRepository.findOne(candidateId);
+
+		examEvent.addCandidate(user);
+
+		this.persist(examEvent);
+	}
+	
+	@Override
+	public ValidationResult validateBeforeDetachCandidate(Integer examEventId, Integer candidateId,
+			Locale locale) {
+		// TO-DO
+
+		ValidationResult result = new ValidationResult(ResultType.SUCCESS);
+		return result;
+	}
+
+	@Override
+	public void detachCandidate(Integer examEventId, Integer candidateId) {
+
+		ExamEvent examEvent = examEventRepository.findOne(examEventId);
+		examEvent.removeCandidateById(candidateId);
+
+		this.persist(examEvent);
 	}
 
 }
