@@ -62,6 +62,30 @@ public class ExamEvent {
 	@JoinTable(name = "exam_candidates", joinColumns = { @JoinColumn(name = "exam_event_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
 	private Set<User> candidateUsers = new HashSet<User>();
 	
+	@OneToMany(mappedBy = "examEvent", fetch = FetchType.EAGER, orphanRemoval=true, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	private Set<ExamReviewer> examReviewers = new HashSet<ExamReviewer>();
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+	@OrderBy("id ASC")
+	@JoinTable(name = "exam_reviewers", joinColumns = { @JoinColumn(name = "exam_event_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
+	private Set<User> reviewerUsers = new HashSet<User>();
+	
+	public Set<ExamReviewer> getExamReviewers() {
+		return examReviewers;
+	}
+
+	public void setExamReviewers(Set<ExamReviewer> examReviewers) {
+		this.examReviewers = examReviewers;
+	}
+
+	public Set<User> getReviewerUsers() {
+		return reviewerUsers;
+	}
+
+	public void setReviewerUsers(Set<User> reviewerUsers) {
+		this.reviewerUsers = reviewerUsers;
+	}
+
 	public Set<ExamCandidate> getExamCandidates() {
 		return examCandidates;
 	}
@@ -171,6 +195,30 @@ public class ExamEvent {
 
 		if (deleteExamCandidate != null) {
 			this.getExamCandidates().remove(deleteExamCandidate);
+		}
+	}
+	
+	public void addReviewer(User user) {
+		
+		ExamReviewer examReviewer = new ExamReviewer();
+		examReviewer.setExamEvent(this);
+		examReviewer.setUser(user);
+
+		this.getExamReviewers().add(examReviewer);
+	}
+	
+	public void removeReviewerById(Integer reviewerId) {
+
+		ExamReviewer deleteExamReviewer = null;
+
+		for (ExamReviewer examReviewer : this.getExamReviewers()) {
+			if (examReviewer.getUser().getId().equals(reviewerId)) {
+				deleteExamReviewer = examReviewer;
+			}
+		}
+
+		if (deleteExamReviewer != null) {
+			this.getExamReviewers().remove(deleteExamReviewer);
 		}
 	}
 

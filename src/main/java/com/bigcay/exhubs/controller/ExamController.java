@@ -511,6 +511,36 @@ public class ExamController extends BaseController {
 		return "ajax/examevents/show_potential_candidates";
 	}
 	
+	@RequestMapping("ajax/examevents/show_associated_reviewers")
+	public String showAssociatedReviewersAjaxHandler(Model model,
+			@RequestParam("examEventId") Integer examEventId) {
+
+		logger.debug("ExamController.showAssociatedReviewersAjaxHandler is invoked.");
+
+		List<User> associatedReviewers = examService.findReviewersByExamEventId(examEventId);
+
+		model.addAttribute("associatedReviewers", associatedReviewers);
+
+		return "ajax/examevents/show_associated_reviewers";
+	}
+
+	@RequestMapping("ajax/examevents/show_potential_reviewers")
+	public String showPotentialReviewersAjaxHandler(Model model, @RequestParam("pageNumber") Integer pageNumber) {
+
+		logger.debug("ExamController.showPotentialReviewersAjaxHandler is invoked.");
+
+		// TO-DO, Add filter to get potential reviewers
+		Page<User> potentialReviewerPage = authorityService.findPageableUsers(pageNumber - 1);
+		List<User> potentialReviewers = potentialReviewerPage.getContent();
+
+		model.addAttribute("potentialReviewers", potentialReviewers);
+		// add pagination attributes
+		model.addAttribute("showRecordsJSFunc", "showPotentialReviewers");
+		model.addAllAttributes(GlobalManager.getGlobalPageableMap(potentialReviewerPage));
+
+		return "ajax/examevents/show_potential_reviewers";
+	}
+	
 
 	@RequestMapping(value = "/rest/examtypes/delete_exam_type", method = RequestMethod.POST)
 	public @ResponseBody
@@ -622,6 +652,40 @@ public class ExamController extends BaseController {
 
 		if (ResultType.SUCCESS == validationResult.getResultType()) {
 			examService.detachCandidate(examEventId, candidateId);
+		}
+
+		ResponseResult responseResult = new ResponseResult(validationResult);
+		return responseResult;
+	}
+	
+	@RequestMapping(value = "/rest/examevents/assign_reviewer", method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseResult assignReviewerRestHandler(Locale locale, @RequestParam("examEventId") Integer examEventId,
+			@RequestParam("reviewerId") Integer reviewerId) {
+
+		logger.debug("ExamController.assignReviewerRestHandler is invoked.");
+
+		ValidationResult validationResult = examService.validateBeforeAssignReviewer(examEventId, reviewerId, locale);
+
+		if (ResultType.SUCCESS == validationResult.getResultType()) {
+			examService.assignReviewer(examEventId, reviewerId);
+		}
+
+		ResponseResult responseResult = new ResponseResult(validationResult);
+		return responseResult;
+	}
+	
+	@RequestMapping(value = "/rest/examevents/detach_reviewer", method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseResult detachReviewerRestHandler(Locale locale, @RequestParam("examEventId") Integer examEventId,
+			@RequestParam("reviewerId") Integer reviewerId) {
+
+		logger.debug("ExamController.detachReviewerRestHandler is invoked.");
+
+		ValidationResult validationResult = examService.validateBeforeDetachReviewer(examEventId, reviewerId, locale);
+
+		if (ResultType.SUCCESS == validationResult.getResultType()) {
+			examService.detachReviewer(examEventId, reviewerId);
 		}
 
 		ResponseResult responseResult = new ResponseResult(validationResult);

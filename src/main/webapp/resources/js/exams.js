@@ -234,3 +234,70 @@ function detachCandidate(examEventId, candidateId) {
 	});
 };
 
+function showAssociatedReviewers(examEventId) {
+	$.ajax({
+		url : '/ajax/examevents/show_associated_reviewers',
+		data : {
+			examEventId: examEventId
+		},
+		type : 'get',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			$('#associatedReviewers').html(response);
+		}
+	});
+};
+
+function showPotentialReviewers(pageNumber) {
+	$.ajax({
+		url : '/ajax/examevents/show_potential_reviewers',
+		data : {
+			pageNumber : pageNumber == null ? 1 : pageNumber
+		},
+		type : 'get',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			$('#potentialReviewers').html(response);
+		}
+	});
+};
+
+function assignReviewer(examEventId, reviewerId) {
+	$.ajax({
+		url : '/rest/examevents/assign_reviewer',
+		data : {
+			examEventId : examEventId,
+			reviewerId : reviewerId
+		},
+		type : 'post',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			var obj = jQuery.parseJSON(xhr.responseText);
+			if (obj.resultType == 'SUCCESS') {
+				showAssociatedReviewers(examEventId);
+			} else if (obj.resultType == 'ERROR') {
+				$('#ajax_error').html(obj.errorMessage).show();
+			}
+		}
+	});
+};
+
+function detachReviewer(examEventId, reviewerId) {
+	$.ajax({
+		url : '/rest/examevents/detach_reviewer',
+		data : {
+			examEventId : examEventId,
+			reviewerId : reviewerId
+		},
+		type : 'post',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			var obj = jQuery.parseJSON(xhr.responseText);
+			if (obj.resultType == 'SUCCESS') {
+				showAssociatedReviewers(examEventId);
+			} else if (obj.resultType == 'ERROR') {
+				$('#ajax_error').html(obj.errorMessage).show();
+			}
+		}
+	});
+};

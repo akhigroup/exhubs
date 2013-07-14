@@ -14,4 +14,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	List<User> findByCandidateExamEvents_Id(Integer examEventId);
 	
+	List<User> findByReviewerExamEvents_Id(Integer examEventId);
 }

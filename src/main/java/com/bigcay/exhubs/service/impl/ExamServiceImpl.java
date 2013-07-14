@@ -242,4 +242,44 @@ public class ExamServiceImpl implements ExamService {
 		this.persist(examEvent);
 	}
 
+	@Override
+	public ValidationResult validateBeforeAssignReviewer(Integer examEventId, Integer reviewerId, Locale locale) {
+		// TO-DO
+
+		ValidationResult result = new ValidationResult(ResultType.SUCCESS);
+		return result;
+	}
+
+	@Override
+	public void assignReviewer(Integer examEventId, Integer reviewerId) {
+		ExamEvent examEvent = examEventRepository.findOne(examEventId);
+		User user = userRepository.findOne(reviewerId);
+
+		examEvent.addReviewer(user);
+
+		this.persist(examEvent);
+	}
+
+	@Override
+	public ValidationResult validateBeforeDetachReviewer(Integer examEventId, Integer reviewerId, Locale locale) {
+		// TO-DO
+
+		ValidationResult result = new ValidationResult(ResultType.SUCCESS);
+		return result;
+	}
+
+	@Override
+	public void detachReviewer(Integer examEventId, Integer reviewerId) {
+
+		ExamEvent examEvent = examEventRepository.findOne(examEventId);
+		examEvent.removeReviewerById(reviewerId);
+
+		this.persist(examEvent);
+	}
+
+	@Override
+	public List<User> findReviewersByExamEventId(Integer examEventId) {
+		return userRepository.findByReviewerExamEvents_Id(examEventId);
+	}
+
 }

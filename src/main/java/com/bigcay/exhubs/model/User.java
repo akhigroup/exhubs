@@ -61,6 +61,28 @@ public class User {
 	@ManyToMany(mappedBy = "candidateUsers", fetch = FetchType.LAZY)
 	private Set<ExamEvent> candidateExamEvents = new HashSet<ExamEvent>();
 	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST})
+	private Set<ExamReviewer> examReviewers;
+
+	@ManyToMany(mappedBy = "reviewerUsers", fetch = FetchType.LAZY)
+	private Set<ExamEvent> reviewerExamEvents = new HashSet<ExamEvent>();
+	
+	public Set<ExamReviewer> getExamReviewers() {
+		return examReviewers;
+	}
+
+	public void setExamReviewers(Set<ExamReviewer> examReviewers) {
+		this.examReviewers = examReviewers;
+	}
+
+	public Set<ExamEvent> getReviewerExamEvents() {
+		return reviewerExamEvents;
+	}
+
+	public void setReviewerExamEvents(Set<ExamEvent> reviewerExamEvents) {
+		this.reviewerExamEvents = reviewerExamEvents;
+	}
+
 	public Set<ExamCandidate> getExamCandidates() {
 		return examCandidates;
 	}

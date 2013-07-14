@@ -58,6 +58,8 @@ public interface ExamService {
 	
 	List<User> findCandidatesByExamEventId(Integer examEventId);
 	
+	List<User> findReviewersByExamEventId(Integer examEventId);
+	
 	ValidationResult validateBeforeAssignQuestionSubject(Integer examPaperId, Integer questionSubjectId, Locale locale);
 	
 	void assignQuestionSubject(Integer examPaperId, Integer questionSubjectId);
@@ -73,4 +75,12 @@ public interface ExamService {
 	ValidationResult validateBeforeDetachCandidate(Integer examEventId, Integer candidateId, Locale locale);
 	
 	void detachCandidate(Integer examEventId, Integer candidateId);
+	
+	ValidationResult validateBeforeAssignReviewer(Integer examEventId, Integer reviewerId, Locale locale);
+	
+	void assignReviewer(Integer examEventId, Integer reviewerId);
+	
+	ValidationResult validateBeforeDetachReviewer(Integer examEventId, Integer reviewerId, Locale locale);
+	
+	void detachReviewer(Integer examEventId, Integer reviewerId);
 }
