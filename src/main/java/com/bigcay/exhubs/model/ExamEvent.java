@@ -221,5 +221,25 @@ public class ExamEvent {
 			this.getExamReviewers().remove(deleteExamReviewer);
 		}
 	}
+	
+	public boolean getInProcess() {
+		Date currentDateTime = new Date();
+		if (currentDateTime.compareTo(this.getEndDateTime()) <= 0
+				&& currentDateTime.compareTo(this.getStartDateTime()) >= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean getExpired() {
+		Date currentDateTime = new Date();
+
+		if (currentDateTime.compareTo(this.getEndDateTime()) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

@@ -25,12 +25,17 @@
 					</c:if> <c:if test="${not candidateExamEvent.activeFlag}">
 						<s:message code="global.info.inactive" />
 					</c:if></td>
-				<td>
-					<button class="btn btn-info btn-mini"
-						onclick="location.href='/join_exam/${candidateExamEvent.id}'">
-						<s:message code="global.info.btn.start" />
-					</button>
-				</td>
+				<td><c:if test="${candidateExamEvent.inProcess}">
+						<button class="btn btn-info btn-mini"
+							onclick="location.href='/join_exam/${candidateExamEvent.id}'">
+							<s:message code="examevents.info.btn.start_exam" />
+						</button>
+					</c:if> <c:if test="${candidateExamEvent.expired}">
+						<button class="btn btn-link btn-mini"
+							onclick="location.href='/exam_result/${candidateExamEvent.id}'">
+							<s:message code="examevents.info.btn.view_exam_result" />
+						</button>
+					</c:if></td>
 			</tr>
 		</c:forEach>
 	</tbody>
