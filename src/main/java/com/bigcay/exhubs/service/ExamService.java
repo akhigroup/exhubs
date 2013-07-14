@@ -83,4 +83,6 @@ public interface ExamService {
 	ValidationResult validateBeforeDetachReviewer(Integer examEventId, Integer reviewerId, Locale locale);
 	
 	void detachReviewer(Integer examEventId, Integer reviewerId);
+	
+	List<ExamEvent> findCandidateExamEvents(Integer candidateId);
 }

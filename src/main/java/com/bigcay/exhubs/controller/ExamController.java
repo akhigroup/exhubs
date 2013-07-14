@@ -541,6 +541,28 @@ public class ExamController extends BaseController {
 		return "ajax/examevents/show_potential_reviewers";
 	}
 	
+	@RequestMapping("joinexams")
+	public String joinExamsIndexHandler() {
+
+		logger.debug("ExamController.joinExamsIndexHandler is invoked.");
+
+		return "joinexams/index";
+	}
+	
+	@RequestMapping("ajax/joinexams/show_candidate_exam_events")
+	public String showCandidateExamEventsAjaxHandler(Model model, Principal principal) {
+
+		logger.debug("ExamController.showCandidateExamEventsAjaxHandler is invoked.");
+		
+		User currentUser = authorityService.findUserByUserId(principal.getName());
+		
+		List<ExamEvent> candidateExamEvents = examService.findCandidateExamEvents(currentUser.getId());
+		
+		model.addAttribute("candidateExamEvents", candidateExamEvents);
+
+		return "ajax/joinexams/show_candidate_exam_events";
+	}
+	
 
 	@RequestMapping(value = "/rest/examtypes/delete_exam_type", method = RequestMethod.POST)
 	public @ResponseBody

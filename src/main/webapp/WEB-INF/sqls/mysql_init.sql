@@ -322,6 +322,7 @@ create table exam_candidates (
 	foreign key (user_id) references users (id)
 );
 
+insert into exam_candidates (exam_event_id, user_id, final_score, done_flg) values (1, 1, null, false);
 insert into exam_candidates (exam_event_id, user_id, final_score, done_flg) values (1, 2, null, false);
 insert into exam_candidates (exam_event_id, user_id, final_score, done_flg) values (1, 3, null, false);
 

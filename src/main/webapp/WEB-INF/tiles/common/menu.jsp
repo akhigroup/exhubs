@@ -19,6 +19,19 @@
 						<li><a href="/login"><s:message code="global.info.login" /></a></li>
 					</sec:authorize>
 
+					<sec:authorize access="hasAnyRole('ROLE_EXAM_CANDIDATE')">
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown"> <s:message
+									code="global.info.my_exam_manage" /> <b class="caret"></b>
+						</a>
+							<ul class="dropdown-menu">
+								<sec:authorize access="hasRole('ROLE_EXAM_CANDIDATE')">
+									<li><a href="/joinexams"><s:message
+												code="global.info.join_exam" /></a></li>
+								</sec:authorize>
+							</ul></li>
+					</sec:authorize>
+
 					<sec:authorize access="hasAnyRole('ROLE_EXAM_MANAGER','ROLE_QUESTION_MANAGER')">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"> <s:message

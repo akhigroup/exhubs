@@ -301,3 +301,14 @@ function detachReviewer(examEventId, reviewerId) {
 		}
 	});
 };
+
+function showCandidateExamEvents() {
+	$.ajax({
+		url : '/ajax/joinexams/show_candidate_exam_events',
+		type : 'get',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			$('#candidateExamEvents').html(response);
+		}
+	});
+};
