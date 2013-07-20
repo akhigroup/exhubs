@@ -1,5 +1,7 @@
 package com.bigcay.exhubs.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,6 +18,9 @@ public class ExamCandidate {
 
 	@Id
 	private User user;
+
+	@Column(name = "submit_datetime")
+	private Date submitDateTime;
 
 	@Column(name = "final_score")
 	private Integer finalScore;
@@ -53,6 +58,14 @@ public class ExamCandidate {
 
 	public void setDoneFlag(Boolean doneFlag) {
 		this.doneFlag = doneFlag;
+	}
+	
+	public Date getSubmitDateTime() {
+		return submitDateTime;
+	}
+
+	public void setSubmitDateTime(Date submitDateTime) {
+		this.submitDateTime = submitDateTime;
 	}
 
 }

@@ -421,6 +421,7 @@ insert into exam_events (name, description, exam_paper_id, user_id, start_dateti
 create table exam_candidates (
 	exam_event_id int not null,
 	user_id int not null,
+	submit_datetime timestamp null,
 	final_score int,
 	done_flg boolean default FALSE,
 	primary key (exam_event_id, user_id),
@@ -428,9 +429,9 @@ create table exam_candidates (
 	foreign key (user_id) references users (id)
 );
 
-insert into exam_candidates (exam_event_id, user_id, final_score, done_flg) values (1, 1, null, FALSE);
-insert into exam_candidates (exam_event_id, user_id, final_score, done_flg) values (1, 2, null, FALSE);
-insert into exam_candidates (exam_event_id, user_id, final_score, done_flg) values (1, 3, null, FALSE);
+insert into exam_candidates (exam_event_id, user_id, submit_datetime, final_score, done_flg) values (1, 1, null, null, FALSE);
+insert into exam_candidates (exam_event_id, user_id, submit_datetime, final_score, done_flg) values (1, 2, null, null, FALSE);
+insert into exam_candidates (exam_event_id, user_id, submit_datetime, final_score, done_flg) values (1, 3, null, null, FALSE);
 
 
 /* 17. exam_reviewers */
