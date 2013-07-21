@@ -6,9 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
+@NamedQuery(name = "ExamCandidate.findByExamEventIdAndUserId", query = "select ec from ExamCandidate ec where ec.examEvent.id = ?1 and ec.user.id = ?2")
 @IdClass(ExamCandidatePK.class)
 @Table(name = "exam_candidates")
 public class ExamCandidate {

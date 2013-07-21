@@ -1,6 +1,7 @@
 package com.bigcay.exhubs.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +38,8 @@ import com.bigcay.exhubs.form.ExamPaperFormBean;
 import com.bigcay.exhubs.form.ExamPaperFormBeanValidator;
 import com.bigcay.exhubs.form.ExamTypeFormBean;
 import com.bigcay.exhubs.form.ExamTypeFormBeanValidator;
+import com.bigcay.exhubs.form.SubmitExamPaperFormBean;
+import com.bigcay.exhubs.form.SubmitQuestionHeaderBean;
 import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
@@ -45,6 +48,7 @@ import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
 import com.bigcay.exhubs.service.ExamService;
 import com.bigcay.exhubs.service.QuestionService;
+import com.bigcay.exhubs.util.QuestionUtil;
 
 @Controller
 public class ExamController extends BaseController {
@@ -92,6 +96,11 @@ public class ExamController extends BaseController {
 		binder.registerCustomEditor(Date.class, new DefaultDateEditor());
 	}
 
+	@ModelAttribute("questionChoices")
+	public String[] getAllQuestionChoices() {
+		return QuestionUtil.getQuestionChoices();
+	}
+	
 	@ModelAttribute("examTypes")
 	public List<ExamType> getAllExamTypes() {
 		return examService.findAllExamTypes();
@@ -561,6 +570,55 @@ public class ExamController extends BaseController {
 		model.addAttribute("candidateExamEvents", candidateExamEvents);
 
 		return "ajax/joinexams/show_candidate_exam_events";
+	}
+	
+	@RequestMapping("start_exam/{currExamEventId}")
+	public String startExamIndexHandler(Model model, @PathVariable Integer currExamEventId, Principal principal) {
+
+		logger.debug("ExamController.startExamIndexHandler is invoked.");
+
+		User currentUser = authorityService.findUserByUserId(principal.getName());
+		ExamEvent examEvent = examService.findExamEventById(currExamEventId);
+
+		SubmitExamPaperFormBean submitExamPaperFormBean = new SubmitExamPaperFormBean();
+		List<SubmitQuestionHeaderBean> submitQuestionHeaderBeans = new ArrayList<SubmitQuestionHeaderBean>();
+		submitExamPaperFormBean.setSubmitQuestionHeaderBeans(submitQuestionHeaderBeans);
+
+		model.addAttribute("examEvent", examEvent);
+		model.addAttribute("userId", currentUser.getId());
+		model.addAttribute("submitExamPaperFormBean", submitExamPaperFormBean);
+
+		return "startexams/index";
+	}
+	
+	@RequestMapping(value = "start_exam/{currExamEventId}", method = RequestMethod.POST)
+	public String examPaperSubmitHandler(Model model, Locale locale, @PathVariable Integer currExamEventId,
+			@Valid @ModelAttribute("submitExamPaperFormBean") SubmitExamPaperFormBean submitExamPaperFormBean,
+			BindingResult result, final RedirectAttributes redirectAttributes) {
+
+		logger.debug("ExamController.examPaperSubmitHandler is invoked.");
+
+		if (result.hasErrors()) {
+			return "start_exam/" + currExamEventId;
+		} else {
+			ExamEvent examEvent = examService.findExamEventById(currExamEventId);
+
+			System.out.println("** examEventId:" + submitExamPaperFormBean.getExamEventId());
+			System.out.println("** userId:" + submitExamPaperFormBean.getUserId());
+
+			for (SubmitQuestionHeaderBean submitQuestionHeaderBean : submitExamPaperFormBean
+					.getSubmitQuestionHeaderBeans()) {
+
+				if (submitQuestionHeaderBean.getRadioSelectedIndex() != null) {
+					System.out.println("** " + submitQuestionHeaderBean.getQuestionHeaderId() + " - "
+							+ submitQuestionHeaderBean.getRadioSelectedIndex());
+				}
+			}
+
+			redirectAttributes.addFlashAttribute("info", messageSource.getMessage(
+					"startexams.info.submit_exam_success", new String[] { examEvent.getName() }, locale));
+			return "redirect:/joinexams";
+		}
 	}
 	
 

@@ -43,7 +43,7 @@ import com.bigcay.exhubs.form.QuestionHeaderBean;
 import com.bigcay.exhubs.form.QuestionSubjectFormBean;
 import com.bigcay.exhubs.form.UserFormBean;
 import com.bigcay.exhubs.form.UserFormBeanValidator;
-import com.bigcay.exhubs.model.ExamPaper;
+import com.bigcay.exhubs.model.ExamCandidate;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Image;
 import com.bigcay.exhubs.model.QuestionAnswer;
@@ -98,25 +98,23 @@ public class DemoController extends BaseController {
 
 	@RequestMapping(value = "demo", method = RequestMethod.GET)
 	public String indexHandler(Model model) {
+
+		/*
+		ExamCandidate examCandidate = examService.findExamCandidateByExamEventIdAndUserId(1, 1);
+		
+		if (examCandidate != null) {
+			System.out.println("examCandidate.submitDateTime: " + examCandidate.getSubmitDateTime());
+		}
+		
+		examCandidate.setSubmitDateTime(new Date());
+		examService.persist(examCandidate);
+		*/
+
 		return "demo/index";
 	}
 
 	@RequestMapping(value = "demo", method = RequestMethod.POST)
 	public String indexSubmitHandler(Model model) {
-
-		ExamPaper examPaper = new ExamPaper();
-		examPaper.setName("2013-地理-01");
-		examPaper.setDescription("2013地理期中考试");
-		examPaper.setCreateDate(new Date());
-		examPaper.setActiveFlag(true);
-		examPaper.setUser(authorityService.findUserById(1));
-		examPaper.setExamType(examService.findExamTypeById(1));
-
-		examPaper = examService.persist(examPaper);
-
-		examPaper.addQuestionSubject(questionService.findQuestionSubjectById(1), 2);
-
-		examService.persist(examPaper);
 
 		return "demo/index";
 	}

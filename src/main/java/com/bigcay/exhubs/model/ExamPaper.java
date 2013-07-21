@@ -169,4 +169,14 @@ public class ExamPaper {
 
 		return maxSortOrder + GlobalManager.SORT_ORDER_AUTO_INCREMENT;
 	}
+	
+	public int getTotalScores() {
+		int totalScore = 0;
+
+		for (QuestionSubject questionSubject : this.getQuestionSubjects()) {
+			totalScore += questionSubject.getTotalScore();
+		}
+
+		return totalScore;
+	}
 }

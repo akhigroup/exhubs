@@ -6,6 +6,7 @@ import java.util.Locale;
 import org.springframework.data.domain.Page;
 
 import com.bigcay.exhubs.common.ValidationResult;
+import com.bigcay.exhubs.model.ExamCandidate;
 import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
@@ -85,4 +86,8 @@ public interface ExamService {
 	void detachReviewer(Integer examEventId, Integer reviewerId);
 	
 	List<ExamEvent> findCandidateExamEvents(Integer candidateId);
+	
+	ExamCandidate findExamCandidateByExamEventIdAndUserId(Integer examEventId, Integer userId);
+	
+	ExamCandidate persist(ExamCandidate examCandidate);
 }

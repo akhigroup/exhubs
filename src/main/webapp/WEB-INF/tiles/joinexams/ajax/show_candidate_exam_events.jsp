@@ -27,7 +27,7 @@
 					</c:if></td>
 				<td><c:if test="${candidateExamEvent.inProcess}">
 						<button class="btn btn-info btn-mini"
-							onclick="location.href='/join_exam/${candidateExamEvent.id}'">
+							onclick="location.href='/start_exam/${candidateExamEvent.id}'">
 							<s:message code="examevents.info.btn.start_exam" />
 						</button>
 					</c:if> <c:if test="${candidateExamEvent.expired}">

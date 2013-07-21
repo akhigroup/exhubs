@@ -13,11 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bigcay.exhubs.common.GlobalManager;
 import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
+import com.bigcay.exhubs.model.ExamCandidate;
 import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
 import com.bigcay.exhubs.model.QuestionSubject;
 import com.bigcay.exhubs.model.User;
+import com.bigcay.exhubs.repository.ExamCandidateRepository;
 import com.bigcay.exhubs.repository.ExamEventRepository;
 import com.bigcay.exhubs.repository.ExamPaperRepository;
 import com.bigcay.exhubs.repository.ExamTypeRepository;
@@ -43,6 +45,9 @@ public class ExamServiceImpl implements ExamService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private ExamCandidateRepository examCandidateRepository;
 
 	@Override
 	public Page<ExamType> findPageableExamTypes(Integer pageNumber) {
@@ -285,6 +290,16 @@ public class ExamServiceImpl implements ExamService {
 	@Override
 	public List<ExamEvent> findCandidateExamEvents(Integer candidateId) {
 		return examEventRepository.findByCandidateUsers_Id(candidateId);
+	}
+
+	@Override
+	public ExamCandidate findExamCandidateByExamEventIdAndUserId(Integer examEventId, Integer userId) {
+		return examCandidateRepository.findByExamEventIdAndUserId(examEventId, userId);
+	}
+
+	@Override
+	public ExamCandidate persist(ExamCandidate examCandidate) {
+		return examCandidateRepository.save(examCandidate);
 	}
 
 }
