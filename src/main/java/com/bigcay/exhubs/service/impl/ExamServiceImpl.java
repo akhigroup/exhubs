@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bigcay.exhubs.common.GlobalManager;
 import com.bigcay.exhubs.common.ResultType;
 import com.bigcay.exhubs.common.ValidationResult;
+import com.bigcay.exhubs.form.SubmitExamPaperFormBean;
 import com.bigcay.exhubs.model.ExamCandidate;
 import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
@@ -300,6 +301,17 @@ public class ExamServiceImpl implements ExamService {
 	@Override
 	public ExamCandidate persist(ExamCandidate examCandidate) {
 		return examCandidateRepository.save(examCandidate);
+	}
+
+	@Override
+	public ValidationResult validateBeforeSubmitExamPaper(SubmitExamPaperFormBean submitExamPaperFormBean, Locale locale) {
+		// let's suppose that there is no error at the beginning
+		ValidationResult result = new ValidationResult(ResultType.SUCCESS);
+		
+		// TO-DO
+		// ADD VALIDATIONS HERE
+		
+		return result; 
 	}
 
 }

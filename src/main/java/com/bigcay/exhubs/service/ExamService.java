@@ -6,6 +6,7 @@ import java.util.Locale;
 import org.springframework.data.domain.Page;
 
 import com.bigcay.exhubs.common.ValidationResult;
+import com.bigcay.exhubs.form.SubmitExamPaperFormBean;
 import com.bigcay.exhubs.model.ExamCandidate;
 import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
@@ -90,4 +91,6 @@ public interface ExamService {
 	ExamCandidate findExamCandidateByExamEventIdAndUserId(Integer examEventId, Integer userId);
 	
 	ExamCandidate persist(ExamCandidate examCandidate);
+	
+	ValidationResult validateBeforeSubmitExamPaper(SubmitExamPaperFormBean submitExamPaperFormBean, Locale locale);
 }

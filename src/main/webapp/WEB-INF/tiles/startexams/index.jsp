@@ -73,9 +73,46 @@
 		</c:forEach>
 
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">
+			<button type="button" id="btnSubmitExamPaper"
+				class="btn btn-primary" tabindex="99">
 				<s:message code="global.info.btn.submit" />
 			</button>
 		</div>
 	</fieldset>
 </form:form>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$("#btnSubmitExamPaper").click(function(event) {
+			cleanAjaxMessage();
+	
+			if (validateSubmitExamPaperForm()) {
+				$("#form").submit();
+			} else {
+				event.stopPropagation();
+			}
+		});
+	});
+	
+	function validateSubmitExamPaperForm() {
+		var successFlag = true;
+
+		$.ajax({
+			url : '/rest/startexams/validate_submit_exam_paper',
+			data : $('#form').serialize(),
+			type : 'post',
+			async : false,
+			cache : false,
+			success : function(response, textStatus, xhr) {
+				var obj = jQuery.parseJSON(xhr.responseText);
+				if (obj.resultType == 'SUCCESS') {
+				} else if (obj.resultType == 'ERROR') {
+					$('#ajax_error').html(obj.errorMessage).show();
+					successFlag = false;
+				}
+			}
+		});
+
+		return successFlag;
+	};
+</script>

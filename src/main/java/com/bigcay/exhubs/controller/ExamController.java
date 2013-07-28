@@ -621,6 +621,20 @@ public class ExamController extends BaseController {
 		}
 	}
 	
+	
+	@RequestMapping(value = "/rest/startexams/validate_submit_exam_paper", method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseResult validateSubmitExamPaperRestHandler(Locale locale,
+			SubmitExamPaperFormBean submitExamPaperFormBean) {
+
+		logger.debug("ExamController.validateSubmitExamPaperRestHandler is invoked.");
+
+		ValidationResult validationResult = examService.validateBeforeSubmitExamPaper(
+				submitExamPaperFormBean, locale);
+
+		ResponseResult responseResult = new ResponseResult(validationResult);
+		return responseResult;
+	}
 
 	@RequestMapping(value = "/rest/examtypes/delete_exam_type", method = RequestMethod.POST)
 	public @ResponseBody
