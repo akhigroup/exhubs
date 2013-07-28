@@ -29,5 +29,5 @@ OR
 
 UAT:
 
+* Set TimeZone: `heroku config:add TZ=Asia/Shanghai`
 * Set Procfile: `java $JAVA_OPTS -Dspring.profiles.active=uat -jar target/dependency/jetty-runner.jar --port $PORT target/*.war`
-
