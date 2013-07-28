@@ -46,6 +46,7 @@ import com.bigcay.exhubs.form.SubmitQuestionHeaderBean;
 import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
+import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
 import com.bigcay.exhubs.model.QuestionSubject;
 import com.bigcay.exhubs.model.SubmitQuestionAnswer;
@@ -598,10 +599,24 @@ public class ExamController extends BaseController {
 
 			for (QuestionSubject questionSubject : examEvent.getExamPaper().getQuestionSubjects()) {
 				for (QuestionHeader questionHeader : questionSubject.getQuestionHeaders()) {
-
 					if (submitQuestionHeaderMap.containsKey(questionHeader.getId())) {
-						questionHeader.setCandidateSubmitQuestionAnswer(submitQuestionHeaderMap.get(
-								questionHeader.getId()).getSubmitQuestionAnswer());
+						SubmitQuestionAnswer submitQuestionAnswer = submitQuestionHeaderMap.get(
+								questionHeader.getId()).getSubmitQuestionAnswer();
+						questionHeader.setCandidateSubmitQuestionAnswer(submitQuestionAnswer);
+						
+						if (submitQuestionAnswer.getBinaryValue() != null && submitQuestionAnswer.getBinaryValue() > 0) {
+
+							int sortIndex = 1;
+							for (QuestionDetail questionDetail : questionHeader.getQuestionDetails()) {
+								int currQuestionDetailBinary = (int) Math.pow(2, sortIndex - 1);
+
+								if ((submitQuestionAnswer.getBinaryValue() & currQuestionDetailBinary) == currQuestionDetailBinary) {
+									questionDetail.setIsChecked(true);
+								}
+
+								sortIndex++;
+							}
+						}
 					}
 				}
 			}

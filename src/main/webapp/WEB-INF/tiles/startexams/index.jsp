@@ -55,7 +55,7 @@
 						name="submitQuestionHeaderBeans[${questionHeaderCounter}].questionTypeName"
 						value="${questionSubject.questionType.name}" />
 					<c:if
-						test="${questionHeader.questionType.name == 'SCQ' or questionHeader.questionType.name == 'TFQ'}">
+						test="${questionHeader.questionType.name == 'SCQ'}">
 					${question_header_status.index + 1}) ${questionHeader.description } (<s:message
 							code="questionrepos.info.question_subject_header_score"
 							arguments="${questionHeader.score}" />)<br />
@@ -65,6 +65,7 @@
 							<div>
 								<label class="radio"> <input type="radio"
 									name='submitQuestionHeaderBeans[${questionHeaderCounter}].radioSelectedIndex'
+									${questionDetail.optionCheckedValue}
 									value='${question_detail_status.index}'>
 									${questionChoices[question_detail_status.index]}.
 									${questionDetail.content}
@@ -74,7 +75,7 @@
 					</c:if>
 					
 					<c:if
-						test="${questionHeader.questionType.name == 'MCQ'}">
+						test="${questionHeader.questionType.name == 'TFQ'}">
 					${question_header_status.index + 1}) ${questionHeader.description } (<s:message
 							code="questionrepos.info.question_subject_header_score"
 							arguments="${questionHeader.score}" />)<br />
@@ -82,9 +83,27 @@
 							items="${questionHeader.questionDetails}"
 							varStatus="question_detail_status">
 							<div>
-								<label class="checkbox"> 
-								<input type="checkbox"
-									name='submitQuestionHeaderBeans[${questionHeaderCounter}].questionDetailBeans[${question_detail_status.index}].isChecked' value="true">
+								<label class="radio"> <input type="radio"
+									name='submitQuestionHeaderBeans[${questionHeaderCounter}].radioSelectedIndex'
+									${questionDetail.optionCheckedValue}
+									value='${question_detail_status.index}'>
+									${questionDetail.content}
+								</label>
+							</div>
+						</c:forEach>
+					</c:if>
+
+					<c:if test="${questionHeader.questionType.name == 'MCQ'}">
+					${question_header_status.index + 1}) ${questionHeader.description } (<s:message
+							code="questionrepos.info.question_subject_header_score"
+							arguments="${questionHeader.score}" />)<br />
+						<c:forEach var="questionDetail"
+							items="${questionHeader.questionDetails}"
+							varStatus="question_detail_status">
+							<div>
+								<label class="checkbox"> <input type="checkbox"
+									name='submitQuestionHeaderBeans[${questionHeaderCounter}].questionDetailBeans[${question_detail_status.index}].isChecked'
+									${questionDetail.optionCheckedValue} value="true">
 									${questionChoices[question_detail_status.index]}.
 									${questionDetail.content}
 								</label>

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "question_details")
@@ -29,6 +30,9 @@ public class QuestionDetail {
 	@JoinColumn(name = "question_header_id")
 	private QuestionHeader questionHeader;
 
+	@Transient
+	private Boolean isChecked;
+	
 	public QuestionHeader getQuestionHeader() {
 		return questionHeader;
 	}
@@ -59,6 +63,22 @@ public class QuestionDetail {
 
 	public void setSortOrder(Integer sortOrder) {
 		this.sortOrder = sortOrder;
+	}
+
+	public Boolean getIsChecked() {
+		return isChecked;
+	}
+
+	public void setIsChecked(Boolean isChecked) {
+		this.isChecked = isChecked;
+	}
+	
+	public String getOptionCheckedValue() {
+		if (this.getIsChecked() != null && this.getIsChecked().booleanValue() == true) {
+			return "checked";
+		} else {
+			return "";
+		}
 	}
 
 }
