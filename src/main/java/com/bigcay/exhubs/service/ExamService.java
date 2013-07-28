@@ -12,6 +12,7 @@ import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
 import com.bigcay.exhubs.model.QuestionSubject;
+import com.bigcay.exhubs.model.SubmitQuestionHeader;
 import com.bigcay.exhubs.model.User;
 
 public interface ExamService {
@@ -91,6 +92,12 @@ public interface ExamService {
 	ExamCandidate findExamCandidateByExamEventIdAndUserId(Integer examEventId, Integer userId);
 	
 	ExamCandidate persist(ExamCandidate examCandidate);
+	
+	SubmitQuestionHeader findSubmitQuestionHeader(Integer examEventId, Integer candidateUserId, Integer questionHeaderId);
+	
+	SubmitQuestionHeader findSubmitQuestionHeaderById(Integer submitQuestionHeaderId);
+	
+	SubmitQuestionHeader persist(SubmitQuestionHeader submitQuestionHeader);
 	
 	ValidationResult validateBeforeSubmitExamPaper(SubmitExamPaperFormBean submitExamPaperFormBean, Locale locale);
 }

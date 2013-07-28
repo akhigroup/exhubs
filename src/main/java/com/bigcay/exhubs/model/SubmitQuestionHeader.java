@@ -2,6 +2,7 @@ package com.bigcay.exhubs.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +34,7 @@ public class SubmitQuestionHeader {
 	@JoinColumn(name = "question_header_id")
 	private QuestionHeader questionHeader;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "submit_question_answer_id")
 	private SubmitQuestionAnswer submitQuestionAnswer;
 

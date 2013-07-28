@@ -19,12 +19,14 @@ import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
 import com.bigcay.exhubs.model.QuestionSubject;
+import com.bigcay.exhubs.model.SubmitQuestionHeader;
 import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.repository.ExamCandidateRepository;
 import com.bigcay.exhubs.repository.ExamEventRepository;
 import com.bigcay.exhubs.repository.ExamPaperRepository;
 import com.bigcay.exhubs.repository.ExamTypeRepository;
 import com.bigcay.exhubs.repository.QuestionSubjectRepository;
+import com.bigcay.exhubs.repository.SubmitQuestionHeaderRepository;
 import com.bigcay.exhubs.repository.UserRepository;
 import com.bigcay.exhubs.service.ExamService;
 
@@ -49,6 +51,9 @@ public class ExamServiceImpl implements ExamService {
 	
 	@Autowired
 	private ExamCandidateRepository examCandidateRepository;
+	
+	@Autowired
+	private SubmitQuestionHeaderRepository submitQuestionHeaderRepository;
 
 	@Override
 	public Page<ExamType> findPageableExamTypes(Integer pageNumber) {
@@ -312,6 +317,23 @@ public class ExamServiceImpl implements ExamService {
 		// ADD VALIDATIONS HERE
 		
 		return result; 
+	}
+
+	@Override
+	public SubmitQuestionHeader findSubmitQuestionHeader(Integer examEventId, Integer candidateUserId,
+			Integer questionHeaderId) {
+		return submitQuestionHeaderRepository.findByExamEventIdAndCandidateIdAndQuestionHeaderId(examEventId,
+				candidateUserId, questionHeaderId);
+	}
+
+	@Override
+	public SubmitQuestionHeader persist(SubmitQuestionHeader submitQuestionHeader) {
+		return submitQuestionHeaderRepository.save(submitQuestionHeader);
+	}
+
+	@Override
+	public SubmitQuestionHeader findSubmitQuestionHeaderById(Integer submitQuestionHeaderId) {
+		return submitQuestionHeaderRepository.findOne(submitQuestionHeaderId);
 	}
 
 }

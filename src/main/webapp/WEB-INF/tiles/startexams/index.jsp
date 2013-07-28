@@ -31,6 +31,8 @@
 			: ${examEvent.examPaper.totalScores} <br /> <br />
 		</div>
 
+		<c:set var="questionHeaderCounter" value="0" />
+
 		<c:forEach var="questionSubject"
 			items="${examEvent.examPaper.questionSubjects}"
 			varStatus="question_subject_status">
@@ -45,11 +47,15 @@
 				<c:forEach var="questionHeader"
 					items="${questionSubject.questionHeaders}"
 					varStatus="question_header_status">
+
 					<input type="hidden"
-						name="submitQuestionHeaderBeans[${question_header_status.index}].questionHeaderId"
+						name="submitQuestionHeaderBeans[${questionHeaderCounter}].questionHeaderId"
 						value="${questionHeader.id}" />
+					<input type="hidden"
+						name="submitQuestionHeaderBeans[${questionHeaderCounter}].questionTypeName"
+						value="${questionSubject.questionType.name}" />
 					<c:if
-						test="${questionHeader.questionType.name == 'SCQ' or questionHeader.questionType.name == 'MCQ'}">
+						test="${questionHeader.questionType.name == 'SCQ' or questionHeader.questionType.name == 'TFQ'}">
 					${question_header_status.index + 1}) ${questionHeader.description } (<s:message
 							code="questionrepos.info.question_subject_header_score"
 							arguments="${questionHeader.score}" />)<br />
@@ -58,7 +64,7 @@
 							varStatus="question_detail_status">
 							<div>
 								<label class="radio"> <input type="radio"
-									name='submitQuestionHeaderBeans[${question_header_status.index}].radioSelectedIndex'
+									name='submitQuestionHeaderBeans[${questionHeaderCounter}].radioSelectedIndex'
 									value='${question_detail_status.index}'>
 									${questionChoices[question_detail_status.index]}.
 									${questionDetail.content}
@@ -66,6 +72,55 @@
 							</div>
 						</c:forEach>
 					</c:if>
+					
+					<c:if
+						test="${questionHeader.questionType.name == 'MCQ'}">
+					${question_header_status.index + 1}) ${questionHeader.description } (<s:message
+							code="questionrepos.info.question_subject_header_score"
+							arguments="${questionHeader.score}" />)<br />
+						<c:forEach var="questionDetail"
+							items="${questionHeader.questionDetails}"
+							varStatus="question_detail_status">
+							<div>
+								<label class="checkbox"> 
+								<input type="checkbox"
+									name='submitQuestionHeaderBeans[${questionHeaderCounter}].questionDetailBeans[${question_detail_status.index}].isChecked' value="true">
+									${questionChoices[question_detail_status.index]}.
+									${questionDetail.content}
+								</label>
+							</div>
+						</c:forEach>
+					</c:if>
+
+					<c:if test="${questionHeader.questionType.name == 'BFQ'}">
+						<div>
+							${question_header_status.index + 1}) <input type="text"
+								name='submitQuestionHeaderBeans[${questionHeaderCounter}].textAnswer'
+								class="input-large" /> (
+							<s:message
+								code="questionrepos.info.question_subject_header_score"
+								arguments="${questionHeader.score}" />
+							)
+						</div>
+					</c:if>
+
+					<c:if test="${questionHeader.questionType.name == 'EQ'}">
+						<div>
+							${question_header_status.index + 1})
+
+							<textarea
+								name='submitQuestionHeaderBeans[${questionHeaderCounter}].textAnswer'
+								rows="4" class="input-xxlarge"></textarea>
+							(
+							<s:message
+								code="questionrepos.info.question_subject_header_score"
+								arguments="${questionHeader.score}" />
+							)
+						</div>
+					</c:if>
+
+					<c:set var="questionHeaderCounter"
+						value="${questionHeaderCounter + 1}" />
 					<br />
 				</c:forEach>
 
@@ -73,8 +128,8 @@
 		</c:forEach>
 
 		<div class="form-actions">
-			<button type="button" id="btnSubmitExamPaper"
-				class="btn btn-primary" tabindex="99">
+			<button type="button" id="btnSubmitExamPaper" class="btn btn-primary"
+				tabindex="99">
 				<s:message code="global.info.btn.submit" />
 			</button>
 		</div>
@@ -85,7 +140,7 @@
 	$(document).ready(function() {
 		$("#btnSubmitExamPaper").click(function(event) {
 			cleanAjaxMessage();
-	
+
 			if (validateSubmitExamPaperForm()) {
 				$("#form").submit();
 			} else {
@@ -93,7 +148,7 @@
 			}
 		});
 	});
-	
+
 	function validateSubmitExamPaperForm() {
 		var successFlag = true;
 

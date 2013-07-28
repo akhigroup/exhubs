@@ -1,12 +1,21 @@
 package com.bigcay.exhubs.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SubmitQuestionHeaderBean {
 
 	private Integer questionHeaderId;
+	
+	private String questionTypeName;
 
+	private List<QuestionDetailBean> questionDetailBeans = new ArrayList<QuestionDetailBean>();
+	
 	private SubmitQuestionAnswerBean submitQuestionAnswerBean;
 
 	private Integer radioSelectedIndex;
+	
+	private String textAnswer;
 
 	public Integer getRadioSelectedIndex() {
 		return radioSelectedIndex;
@@ -30,6 +39,30 @@ public class SubmitQuestionHeaderBean {
 
 	public void setSubmitQuestionAnswerBean(SubmitQuestionAnswerBean submitQuestionAnswerBean) {
 		this.submitQuestionAnswerBean = submitQuestionAnswerBean;
+	}
+
+	public String getQuestionTypeName() {
+		return questionTypeName;
+	}
+
+	public void setQuestionTypeName(String questionTypeName) {
+		this.questionTypeName = questionTypeName;
+	}
+
+	public String getTextAnswer() {
+		return textAnswer;
+	}
+
+	public void setTextAnswer(String textAnswer) {
+		this.textAnswer = textAnswer;
+	}
+
+	public List<QuestionDetailBean> getQuestionDetailBeans() {
+		return questionDetailBeans;
+	}
+
+	public void setQuestionDetailBeans(List<QuestionDetailBean> questionDetailBeans) {
+		this.questionDetailBeans = questionDetailBeans;
 	}
 
 }

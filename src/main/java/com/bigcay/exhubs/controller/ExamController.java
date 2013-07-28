@@ -38,12 +38,16 @@ import com.bigcay.exhubs.form.ExamPaperFormBean;
 import com.bigcay.exhubs.form.ExamPaperFormBeanValidator;
 import com.bigcay.exhubs.form.ExamTypeFormBean;
 import com.bigcay.exhubs.form.ExamTypeFormBeanValidator;
+import com.bigcay.exhubs.form.QuestionDetailBean;
 import com.bigcay.exhubs.form.SubmitExamPaperFormBean;
 import com.bigcay.exhubs.form.SubmitQuestionHeaderBean;
 import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
+import com.bigcay.exhubs.model.QuestionHeader;
 import com.bigcay.exhubs.model.QuestionSubject;
+import com.bigcay.exhubs.model.SubmitQuestionAnswer;
+import com.bigcay.exhubs.model.SubmitQuestionHeader;
 import com.bigcay.exhubs.model.User;
 import com.bigcay.exhubs.service.AuthorityService;
 import com.bigcay.exhubs.service.ExamService;
@@ -594,7 +598,7 @@ public class ExamController extends BaseController {
 	@RequestMapping(value = "start_exam/{currExamEventId}", method = RequestMethod.POST)
 	public String examPaperSubmitHandler(Model model, Locale locale, @PathVariable Integer currExamEventId,
 			@Valid @ModelAttribute("submitExamPaperFormBean") SubmitExamPaperFormBean submitExamPaperFormBean,
-			BindingResult result, final RedirectAttributes redirectAttributes) {
+			BindingResult result, final RedirectAttributes redirectAttributes, Principal principal) {
 
 		logger.debug("ExamController.examPaperSubmitHandler is invoked.");
 
@@ -602,17 +606,66 @@ public class ExamController extends BaseController {
 			return "start_exam/" + currExamEventId;
 		} else {
 			ExamEvent examEvent = examService.findExamEventById(currExamEventId);
-
-			System.out.println("** examEventId:" + submitExamPaperFormBean.getExamEventId());
-			System.out.println("** userId:" + submitExamPaperFormBean.getUserId());
+			User currentUser = authorityService.findUserByUserId(principal.getName());
 
 			for (SubmitQuestionHeaderBean submitQuestionHeaderBean : submitExamPaperFormBean
 					.getSubmitQuestionHeaderBeans()) {
 
-				if (submitQuestionHeaderBean.getRadioSelectedIndex() != null) {
-					System.out.println("** " + submitQuestionHeaderBean.getQuestionHeaderId() + " - "
-							+ submitQuestionHeaderBean.getRadioSelectedIndex());
+				SubmitQuestionHeader submitQuestionHeader = null;
+				SubmitQuestionAnswer submitQuestionAnswer = null;
+				String questionTypeName = submitQuestionHeaderBean.getQuestionTypeName();
+
+				SubmitQuestionHeader existSubmitQuestionHeader = examService.findSubmitQuestionHeader(currExamEventId,
+						currentUser.getId(), submitQuestionHeaderBean.getQuestionHeaderId());
+
+				submitQuestionHeader = existSubmitQuestionHeader != null ? existSubmitQuestionHeader
+						: new SubmitQuestionHeader();
+
+				submitQuestionAnswer = submitQuestionHeader.getSubmitQuestionAnswer() != null ? submitQuestionHeader
+						.getSubmitQuestionAnswer() : new SubmitQuestionAnswer();
+
+				QuestionHeader questionHeader = questionService.findQuestionHeaderById(submitQuestionHeaderBean
+						.getQuestionHeaderId());
+
+				int questionDetailIndex = 1;
+				int checkboxBinaryNum = 0;
+				List<QuestionDetailBean> submitQuestionDetailBeans = submitQuestionHeaderBean.getQuestionDetailBeans();
+
+				for (QuestionDetailBean submitQuestionDetailBean : submitQuestionDetailBeans) {
+					if (submitQuestionDetailBean.getIsChecked() != null
+							&& submitQuestionDetailBean.getIsChecked().booleanValue()) {
+						checkboxBinaryNum += Math.pow(2, questionDetailIndex - 1);
+					}
+					questionDetailIndex++;
 				}
+
+				if ("SCQ".equalsIgnoreCase(questionTypeName) || "TFQ".equalsIgnoreCase(questionTypeName)) {
+					if (submitQuestionHeaderBean.getRadioSelectedIndex() != null) {
+						int binaryValue = (int) Math.pow(2, (double) submitQuestionHeaderBean.getRadioSelectedIndex());
+						submitQuestionAnswer.setBinaryValue(binaryValue);
+					}
+				} else if ("MCQ".equalsIgnoreCase(questionTypeName)) {
+					if (checkboxBinaryNum > 0) {
+						submitQuestionAnswer.setBinaryValue(checkboxBinaryNum);
+					}
+				} else if ("BFQ".equalsIgnoreCase(questionTypeName)) {
+					if (submitQuestionHeaderBean.getTextAnswer() != null
+							&& !submitQuestionHeaderBean.getTextAnswer().isEmpty()) {
+						submitQuestionAnswer.setShortTextValue(submitQuestionHeaderBean.getTextAnswer());
+					}
+				} else if ("EQ".equalsIgnoreCase(questionTypeName)) {
+					if (submitQuestionHeaderBean.getTextAnswer() != null
+							&& !submitQuestionHeaderBean.getTextAnswer().isEmpty()) {
+						submitQuestionAnswer.setLongTextValue(submitQuestionHeaderBean.getTextAnswer());
+					}
+				}
+
+				submitQuestionHeader.setExamEvent(examEvent);
+				submitQuestionHeader.setCandidate(currentUser);
+				submitQuestionHeader.setQuestionHeader(questionHeader);
+				submitQuestionHeader.setSubmitQuestionAnswer(submitQuestionAnswer);
+
+				examService.persist(submitQuestionHeader);
 			}
 
 			redirectAttributes.addFlashAttribute("info", messageSource.getMessage(
