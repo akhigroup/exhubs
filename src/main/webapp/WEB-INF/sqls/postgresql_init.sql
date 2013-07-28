@@ -1,5 +1,9 @@
 /* 0. initiation */
 drop sequence hibernate_sequence;
+drop table submit_question_headers;
+drop sequence submit_question_headers_id_seq;
+drop table submit_question_answers;
+drop sequence submit_question_answers_id_seq;
 drop table exam_reviewers;
 drop table exam_candidates;
 drop table exam_events;
@@ -444,3 +448,47 @@ create table exam_reviewers (
 );
 
 insert into exam_reviewers (exam_event_id, user_id) values (1, 1);
+
+/* 18. submit_question_answers */
+create sequence submit_question_answers_id_seq
+	start with 1
+	increment BY 1
+	no minvalue
+	no maxvalue
+	cache 1;
+
+create table submit_question_answers (
+	id int not null default nextval('submit_question_answers_id_seq'),
+	binary_value int,
+	short_text_value varchar(32),
+	long_text_value varchar(2000),
+	comment varchar(64),
+	primary key (id)
+);
+
+/* 19. submit_question_headers */
+create sequence submit_question_headers_id_seq
+	start with 1
+	increment BY 1
+	no minvalue
+	no maxvalue
+	cache 1;
+
+create table submit_question_headers (
+	id int not null default nextval('submit_question_headers_id_seq'),
+	exam_event_id int not null,
+	user_id int not null,
+	question_header_id int not null,
+	submit_question_answer_id int,
+	comment varchar(64),
+	obtain_score int,
+	review_user_id int,
+	review_datetime timestamp null,
+	primary key (id),
+	unique (exam_event_id, user_id, question_header_id),
+	foreign key (exam_event_id) references exam_events (id),
+	foreign key (user_id) references users (id),
+	foreign key (question_header_id) references question_headers (id),
+	foreign key (submit_question_answer_id) references submit_question_answers (id),
+	foreign key (review_user_id) references users (id)
+);
