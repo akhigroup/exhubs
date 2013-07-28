@@ -4,8 +4,10 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -584,6 +586,27 @@ public class ExamController extends BaseController {
 		User currentUser = authorityService.findUserByUserId(principal.getName());
 		ExamEvent examEvent = examService.findExamEventById(currExamEventId);
 
+		List<SubmitQuestionHeader> submitQuestionHeaders = examService.findSubmitQuestionHeaders(currExamEventId,
+				currentUser.getId());
+
+		if (submitQuestionHeaders != null && submitQuestionHeaders.size() > 0) {
+			Map<Integer, SubmitQuestionHeader> submitQuestionHeaderMap = new HashMap<Integer, SubmitQuestionHeader>();
+
+			for (SubmitQuestionHeader submitQuestionHeader : submitQuestionHeaders) {
+				submitQuestionHeaderMap.put(submitQuestionHeader.getQuestionHeader().getId(), submitQuestionHeader);
+			}
+
+			for (QuestionSubject questionSubject : examEvent.getExamPaper().getQuestionSubjects()) {
+				for (QuestionHeader questionHeader : questionSubject.getQuestionHeaders()) {
+
+					if (submitQuestionHeaderMap.containsKey(questionHeader.getId())) {
+						questionHeader.setCandidateSubmitQuestionAnswer(submitQuestionHeaderMap.get(
+								questionHeader.getId()).getSubmitQuestionAnswer());
+					}
+				}
+			}
+		}
+		
 		SubmitExamPaperFormBean submitExamPaperFormBean = new SubmitExamPaperFormBean();
 		List<SubmitQuestionHeaderBean> submitQuestionHeaderBeans = new ArrayList<SubmitQuestionHeaderBean>();
 		submitExamPaperFormBean.setSubmitQuestionHeaderBeans(submitQuestionHeaderBeans);

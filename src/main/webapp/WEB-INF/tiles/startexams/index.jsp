@@ -96,6 +96,7 @@
 						<div>
 							${question_header_status.index + 1}) <input type="text"
 								name='submitQuestionHeaderBeans[${questionHeaderCounter}].textAnswer'
+								value="${questionHeader.candidateSubmitQuestionAnswer.shortTextValue}"
 								class="input-large" /> (
 							<s:message
 								code="questionrepos.info.question_subject_header_score"
@@ -110,7 +111,7 @@
 
 							<textarea
 								name='submitQuestionHeaderBeans[${questionHeaderCounter}].textAnswer'
-								rows="4" class="input-xxlarge"></textarea>
+								rows="4" class="input-xxlarge">${questionHeader.candidateSubmitQuestionAnswer.longTextValue}</textarea>
 							(
 							<s:message
 								code="questionrepos.info.question_subject_header_score"

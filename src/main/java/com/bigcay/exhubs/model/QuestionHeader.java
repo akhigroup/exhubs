@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.bigcay.exhubs.util.QuestionUtil;
 
@@ -44,6 +45,9 @@ public class QuestionHeader {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "question_answer_id")
 	private QuestionAnswer questionAnswer;
+	
+	@Transient
+	private SubmitQuestionAnswer candidateSubmitQuestionAnswer;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "questionHeader")
 	@OrderBy("sortOrder ASC")
@@ -107,5 +111,13 @@ public class QuestionHeader {
 
 	public void setQuestionSubject(QuestionSubject questionSubject) {
 		this.questionSubject = questionSubject;
+	}
+
+	public SubmitQuestionAnswer getCandidateSubmitQuestionAnswer() {
+		return candidateSubmitQuestionAnswer;
+	}
+
+	public void setCandidateSubmitQuestionAnswer(SubmitQuestionAnswer candidateSubmitQuestionAnswer) {
+		this.candidateSubmitQuestionAnswer = candidateSubmitQuestionAnswer;
 	}
 }

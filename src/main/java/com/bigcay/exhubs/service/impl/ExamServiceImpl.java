@@ -336,4 +336,9 @@ public class ExamServiceImpl implements ExamService {
 		return submitQuestionHeaderRepository.findOne(submitQuestionHeaderId);
 	}
 
+	@Override
+	public List<SubmitQuestionHeader> findSubmitQuestionHeaders(Integer examEventId, Integer candidateUserId) {
+		return submitQuestionHeaderRepository.findByExamEventIdAndCandidateId(examEventId, candidateUserId);
+	}
+
 }
