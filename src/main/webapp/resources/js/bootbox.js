@@ -567,6 +567,11 @@ var bootbox = window.bootbox || (function(document, $) {
             CANCEL  : 'Cancel',
             CONFIRM : 'OK'
         },
+        'zh-CN' : {
+            OK      : '确定',
+            CANCEL  : '取消',
+            CONFIRM : '确定'
+        }，
         'fr' : {
             OK      : 'OK',
             CANCEL  : 'Annuler',

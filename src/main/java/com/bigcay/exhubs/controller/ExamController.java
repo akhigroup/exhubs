@@ -64,6 +64,8 @@ public class ExamController extends BaseController {
 	MessageSource messageSource;
 
 	private static final Logger logger = LoggerFactory.getLogger(ExamController.class);
+	private static final String ACTION_TYPE_SUBMIT = "submit";
+	private static final String ACTION_TYPE_SAVE_DRAFT = "save_draft";
 
 	@Autowired
 	private ExamService examService;
@@ -634,12 +636,13 @@ public class ExamController extends BaseController {
 	}
 	
 	@RequestMapping(value = "start_exam/{currExamEventId}", method = RequestMethod.POST)
-	public String examPaperSubmitHandler(Model model, Locale locale, @PathVariable Integer currExamEventId,
+	public String examPaperSubmitHandler(Model model, Locale locale, @PathVariable Integer currExamEventId, 
+			@RequestParam("actionType") String actionType,
 			@Valid @ModelAttribute("submitExamPaperFormBean") SubmitExamPaperFormBean submitExamPaperFormBean,
 			BindingResult result, final RedirectAttributes redirectAttributes, Principal principal) {
 
 		logger.debug("ExamController.examPaperSubmitHandler is invoked.");
-
+		
 		if (result.hasErrors()) {
 			return "start_exam/" + currExamEventId;
 		} else {
@@ -706,8 +709,18 @@ public class ExamController extends BaseController {
 				examService.persist(submitQuestionHeader);
 			}
 
-			redirectAttributes.addFlashAttribute("info", messageSource.getMessage(
-					"startexams.info.submit_exam_success", new String[] { examEvent.getName() }, locale));
+			if (ACTION_TYPE_SAVE_DRAFT.equalsIgnoreCase(actionType)) {
+				redirectAttributes.addFlashAttribute(
+						"info",
+						messageSource.getMessage("startexams.info.save_draft_exam_success",
+								new String[] { examEvent.getName() }, locale));
+			} else if (ACTION_TYPE_SUBMIT.equalsIgnoreCase(actionType)) {
+				redirectAttributes.addFlashAttribute(
+						"info",
+						messageSource.getMessage("startexams.info.submit_exam_success",
+								new String[] { examEvent.getName() }, locale));
+			}
+			
 			return "redirect:/joinexams";
 		}
 	}

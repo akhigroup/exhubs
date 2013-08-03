@@ -66,6 +66,9 @@ body {
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		$("#container").bindAlertCleanerClassName();
+		
+		// Set locale for bootbox
+		bootbox.setLocale(getCurrentLocale());
 	});
 </script>
 

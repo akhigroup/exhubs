@@ -4,6 +4,18 @@ function cleanAjaxMessage() {
 	$('#ajax_error').html('').hide();
 };
 
+// Get currentLocale
+function getCurrentLocale() {
+	var currentLocale = $("#current_locale").val();
+	var localeArray = [ "en", "zh-CN" ];
+	
+	if (jQuery.inArray(currentLocale, localeArray) == -1) {
+		currentLocale = 'en';
+	}
+	
+	return currentLocale;
+}
+
 // Bind DateTimePicker
 function bindDateTimePicker() {
 	var currentLocale = $("#current_locale").val();

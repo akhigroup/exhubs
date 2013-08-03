@@ -11,7 +11,8 @@
 			- ${examEvent.name}
 		</legend>
 
-		<input type="hidden" name="examEventId" value="${examEvent.id}" /> <input
+		<input type="hidden" name="actionType" value="" /> <input
+			type="hidden" name="examEventId" value="${examEvent.id}" /> <input
 			type="hidden" name="userId" value="${userId}" />
 
 		<div id="examEventPanel" class="panel">
@@ -149,8 +150,12 @@
 
 		<div class="form-actions">
 			<button type="button" id="btnSubmitExamPaper" class="btn btn-primary"
-				tabindex="99">
+				tabindex="98">
 				<s:message code="global.info.btn.submit" />
+			</button>
+			<button type="button" id="btnSaveDraftExamPaper" class="btn"
+				tabindex="99">
+				<s:message code="global.info.btn.save_draft" />
 			</button>
 		</div>
 	</fieldset>
@@ -158,14 +163,33 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		$("#btnSubmitExamPaper").click(function(event) {
+		$("#btnSaveDraftExamPaper").click(function(event) {
 			cleanAjaxMessage();
+			
+			$("input[name='actionType']").val('save_draft');
 
 			if (validateSubmitExamPaperForm()) {
 				$("#form").submit();
 			} else {
 				event.stopPropagation();
 			}
+		});
+		
+		$("#btnSubmitExamPaper").on("click", function(e) {
+			var confirmsMessage = "<s:message code='startexams.alert.are_you_sure_to_submit'/>";
+			cleanAjaxMessage();
+
+			bootbox.confirm(confirmsMessage, function(result) {
+				if (result == true) {
+					$("input[name='actionType']").val('submit');
+
+					if (validateSubmitExamPaperForm()) {
+						$("#form").submit();
+					} else {
+						event.stopPropagation();
+					}
+				}
+			});
 		});
 	});
 
