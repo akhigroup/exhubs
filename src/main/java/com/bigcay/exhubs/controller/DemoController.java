@@ -43,7 +43,6 @@ import com.bigcay.exhubs.form.QuestionHeaderBean;
 import com.bigcay.exhubs.form.QuestionSubjectFormBean;
 import com.bigcay.exhubs.form.UserFormBean;
 import com.bigcay.exhubs.form.UserFormBeanValidator;
-import com.bigcay.exhubs.model.ExamCandidate;
 import com.bigcay.exhubs.model.Group;
 import com.bigcay.exhubs.model.Image;
 import com.bigcay.exhubs.model.QuestionAnswer;
