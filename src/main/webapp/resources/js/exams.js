@@ -312,3 +312,14 @@ function showCandidateExamEvents() {
 		}
 	});
 };
+
+function showReviewerExamEvents() {
+	$.ajax({
+		url : '/ajax/reviewexams/show_reviewer_exam_events',
+		type : 'get',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			$('#reviewerExamEvents').html(response);
+		}
+	});
+};

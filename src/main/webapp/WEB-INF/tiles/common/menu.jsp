@@ -32,7 +32,7 @@
 							</ul></li>
 					</sec:authorize>
 
-					<sec:authorize access="hasAnyRole('ROLE_EXAM_MANAGER','ROLE_QUESTION_MANAGER')">
+					<sec:authorize access="hasAnyRole('ROLE_EXAM_MANAGER','ROLE_QUESTION_MANAGER','ROLE_EXAM_REVIEW_MANAGER')">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"> <s:message
 									code="global.info.exam_manage" /> <b class="caret"></b>
@@ -57,6 +57,10 @@
 								<sec:authorize access="hasRole('ROLE_EXAM_MANAGER')">
 									<li><a href="/examevents"><s:message
 												code="global.info.exam_event_setting" /></a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('ROLE_EXAM_REVIEW_MANAGER')">
+									<li><a href="/reviewexams"><s:message
+												code="global.info.review_exam" /></a></li>
 								</sec:authorize>
 							</ul></li>
 					</sec:authorize>

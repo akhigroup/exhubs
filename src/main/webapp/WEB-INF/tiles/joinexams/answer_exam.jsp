@@ -176,7 +176,7 @@
 		});
 		
 		$("#btnSubmitExamPaper").on("click", function(e) {
-			var confirmsMessage = "<s:message code='startexams.alert.are_you_sure_to_submit'/>";
+			var confirmsMessage = "<s:message code='joinexams.alert.are_you_sure_to_submit'/>";
 			cleanAjaxMessage();
 
 			bootbox.confirm(confirmsMessage, function(result) {
@@ -197,7 +197,7 @@
 		var successFlag = true;
 
 		$.ajax({
-			url : '/rest/startexams/validate_submit_exam_paper',
+			url : '/rest/joinexams/validate_submit_exam_paper',
 			data : $('#form').serialize(),
 			type : 'post',
 			async : false,

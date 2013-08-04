@@ -12,4 +12,6 @@ public interface ExamEventRepository extends JpaRepository<ExamEvent, Integer> {
 	
 	List<ExamEvent> findByCandidateUsers_Id(Integer candidateId);
 	
+	List<ExamEvent> findByReviewerUsers_Id(Integer reviewerId);
+	
 }

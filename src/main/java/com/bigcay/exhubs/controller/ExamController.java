@@ -582,10 +582,10 @@ public class ExamController extends BaseController {
 		return "ajax/joinexams/show_candidate_exam_events";
 	}
 	
-	@RequestMapping("start_exam/{currExamEventId}")
-	public String startExamIndexHandler(Model model, @PathVariable Integer currExamEventId, Principal principal) {
+	@RequestMapping("answer_exam/{currExamEventId}")
+	public String answerExamIndexHandler(Model model, @PathVariable Integer currExamEventId, Principal principal) {
 
-		logger.debug("ExamController.startExamIndexHandler is invoked.");
+		logger.debug("ExamController.answerExamIndexHandler is invoked.");
 
 		User currentUser = authorityService.findUserByUserId(principal.getName());
 		ExamEvent examEvent = examService.findExamEventById(currExamEventId);
@@ -633,10 +633,10 @@ public class ExamController extends BaseController {
 		model.addAttribute("userId", currentUser.getId());
 		model.addAttribute("submitExamPaperFormBean", submitExamPaperFormBean);
 
-		return "startexams/index";
+		return "joinexams/answer_exam";
 	}
 	
-	@RequestMapping(value = "start_exam/{currExamEventId}", method = RequestMethod.POST)
+	@RequestMapping(value = "answer_exam/{currExamEventId}", method = RequestMethod.POST)
 	public String examPaperSubmitHandler(Model model, Locale locale, @PathVariable Integer currExamEventId, 
 			@RequestParam("actionType") String actionType,
 			@Valid @ModelAttribute("submitExamPaperFormBean") SubmitExamPaperFormBean submitExamPaperFormBean,
@@ -645,7 +645,7 @@ public class ExamController extends BaseController {
 		logger.debug("ExamController.examPaperSubmitHandler is invoked.");
 		
 		if (result.hasErrors()) {
-			return "start_exam/" + currExamEventId;
+			return "answer_exam/" + currExamEventId;
 		} else {
 			ExamEvent examEvent = examService.findExamEventById(currExamEventId);
 			User currentUser = authorityService.findUserByUserId(principal.getName());
@@ -720,12 +720,12 @@ public class ExamController extends BaseController {
 			if (ACTION_TYPE_SAVE_DRAFT.equalsIgnoreCase(actionType)) {
 				redirectAttributes.addFlashAttribute(
 						"info",
-						messageSource.getMessage("startexams.info.save_draft_exam_success",
+						messageSource.getMessage("joinexams.info.save_draft_exam_success",
 								new String[] { examEvent.getName() }, locale));
 			} else if (ACTION_TYPE_SUBMIT.equalsIgnoreCase(actionType)) {
 				redirectAttributes.addFlashAttribute(
 						"info",
-						messageSource.getMessage("startexams.info.submit_exam_success",
+						messageSource.getMessage("joinexams.info.submit_exam_success",
 								new String[] { examEvent.getName() }, locale));
 			}
 			
@@ -733,8 +733,29 @@ public class ExamController extends BaseController {
 		}
 	}
 	
+	@RequestMapping("reviewexams")
+	public String reviewExamsIndexHandler() {
+
+		logger.debug("ExamController.reviewExamsIndexHandler is invoked.");
+
+		return "reviewexams/index";
+	}
 	
-	@RequestMapping(value = "/rest/startexams/validate_submit_exam_paper", method = RequestMethod.POST)
+	@RequestMapping("ajax/reviewexams/show_reviewer_exam_events")
+	public String showReviewerExamEventsAjaxHandler(Model model, Principal principal) {
+
+		logger.debug("ExamController.showReviewerExamEventsAjaxHandler is invoked.");
+		
+		User currentUser = authorityService.findUserByUserId(principal.getName());
+		
+		List<ExamEvent> reviewerExamEvents = examService.findReviewerExamEventsByUserId(currentUser.getId());
+		
+		model.addAttribute("reviewerExamEvents", reviewerExamEvents);
+
+		return "ajax/reviewexams/show_reviewer_exam_events";
+	}
+	
+	@RequestMapping(value = "/rest/joinexams/validate_submit_exam_paper", method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseResult validateSubmitExamPaperRestHandler(Locale locale,
 			SubmitExamPaperFormBean submitExamPaperFormBean) {

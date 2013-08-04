@@ -350,4 +350,12 @@ public class ExamServiceImpl implements ExamService {
 		return submitQuestionHeaderRepository.findByExamEventIdAndCandidateId(examEventId, candidateUserId);
 	}
 
+	@Override
+	public List<ExamEvent> findReviewerExamEventsByUserId(Integer reviewerId) {
+		List<ExamEvent> examEvents = examEventRepository.findByReviewerUsers_Id(reviewerId);
+
+		return examEvents;
+	}
+
+
 }

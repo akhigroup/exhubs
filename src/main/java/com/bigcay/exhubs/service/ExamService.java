@@ -102,4 +102,7 @@ public interface ExamService {
 	SubmitQuestionHeader persist(SubmitQuestionHeader submitQuestionHeader);
 	
 	ValidationResult validateBeforeSubmitExamPaper(SubmitExamPaperFormBean submitExamPaperFormBean, Locale locale);
+	
+	List<ExamEvent> findReviewerExamEventsByUserId(Integer reviewerId);
+	
 }

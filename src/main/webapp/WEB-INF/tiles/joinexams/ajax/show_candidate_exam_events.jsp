@@ -26,8 +26,8 @@
 				<td>${candidateExamEvent.myExamCandidate.finalScore}</td>
 				<td><c:if test="${candidateExamEvent.inProcess}">
 						<button class="btn btn-info btn-mini"
-							onclick="location.href='/start_exam/${candidateExamEvent.id}'">
-							<s:message code="examevents.info.btn.start_exam" />
+							onclick="location.href='/answer_exam/${candidateExamEvent.id}'">
+							<s:message code="examevents.info.btn.answer_exam" />
 						</button>
 					</c:if></td>
 			</tr>
