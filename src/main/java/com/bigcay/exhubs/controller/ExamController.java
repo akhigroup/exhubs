@@ -43,6 +43,7 @@ import com.bigcay.exhubs.form.ExamTypeFormBeanValidator;
 import com.bigcay.exhubs.form.QuestionDetailBean;
 import com.bigcay.exhubs.form.SubmitExamPaperFormBean;
 import com.bigcay.exhubs.form.SubmitQuestionHeaderBean;
+import com.bigcay.exhubs.model.ExamCandidate;
 import com.bigcay.exhubs.model.ExamEvent;
 import com.bigcay.exhubs.model.ExamPaper;
 import com.bigcay.exhubs.model.ExamType;
@@ -707,6 +708,13 @@ public class ExamController extends BaseController {
 				submitQuestionHeader.setSubmitQuestionAnswer(submitQuestionAnswer);
 
 				examService.persist(submitQuestionHeader);
+			}
+			
+			if(ACTION_TYPE_SUBMIT.equalsIgnoreCase(actionType)) {
+				ExamCandidate currentExamCandidate = examService.findExamCandidateByExamEventIdAndUserId(currExamEventId, currentUser.getId());
+				currentExamCandidate.setSubmitDateTime(new Date());
+				
+				examService.persist(currentExamCandidate);
 			}
 
 			if (ACTION_TYPE_SAVE_DRAFT.equalsIgnoreCase(actionType)) {
