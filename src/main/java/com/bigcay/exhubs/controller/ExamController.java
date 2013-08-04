@@ -574,7 +574,7 @@ public class ExamController extends BaseController {
 		
 		User currentUser = authorityService.findUserByUserId(principal.getName());
 		
-		List<ExamEvent> candidateExamEvents = examService.findCandidateExamEvents(currentUser.getId());
+		List<ExamEvent> candidateExamEvents = examService.findCandidateExamEventsByUserId(currentUser.getId());
 		
 		model.addAttribute("candidateExamEvents", candidateExamEvents);
 

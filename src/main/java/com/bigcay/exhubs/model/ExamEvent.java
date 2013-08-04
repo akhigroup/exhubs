@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "exam_events")
@@ -69,6 +70,9 @@ public class ExamEvent {
 	@OrderBy("id ASC")
 	@JoinTable(name = "exam_reviewers", joinColumns = { @JoinColumn(name = "exam_event_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
 	private Set<User> reviewerUsers = new HashSet<User>();
+	
+	@Transient
+	private ExamCandidate myExamCandidate;
 	
 	public Set<ExamReviewer> getExamReviewers() {
 		return examReviewers;
@@ -172,6 +176,14 @@ public class ExamEvent {
 
 	public void setActiveFlag(Boolean activeFlag) {
 		this.activeFlag = activeFlag;
+	}
+	
+	public ExamCandidate getMyExamCandidate() {
+		return myExamCandidate;
+	}
+
+	public void setMyExamCandidate(ExamCandidate myExamCandidate) {
+		this.myExamCandidate = myExamCandidate;
 	}
 	
 	public void addCandidate(User user) {

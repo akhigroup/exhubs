@@ -294,8 +294,17 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public List<ExamEvent> findCandidateExamEvents(Integer candidateId) {
-		return examEventRepository.findByCandidateUsers_Id(candidateId);
+	public List<ExamEvent> findCandidateExamEventsByUserId(Integer candidateId) {
+
+		List<ExamEvent> examEvents = examEventRepository.findByCandidateUsers_Id(candidateId);
+
+		// Assemble myExamCandidate
+		for (ExamEvent examEvent : examEvents) {
+			ExamCandidate myExamCandidate = examCandidateRepository.findByExamEventIdAndUserId(examEvent.getId(), candidateId);
+			examEvent.setMyExamCandidate(myExamCandidate);
+		}
+
+		return examEvents;
 	}
 
 	@Override

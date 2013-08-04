@@ -9,7 +9,8 @@
 			<th><s:message code="examevents.info.examevents_name" /></th>
 			<th><s:message code="examevents.info.examevents_start_datetime" /></th>
 			<th><s:message code="examevents.info.examevents_duration" /></th>
-			<th><s:message code="examevents.info.examevents_status" /></th>
+			<th><s:message code="examevents.info.examevents_submit_datetime" /></th>
+			<th><s:message code="examevents.info.examevents_final_score" /></th>
 			<th><s:message code="examevents.info.examevents_operation" /></th>
 		</tr>
 	</thead>
@@ -20,20 +21,13 @@
 				<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
 						value="${candidateExamEvent.startDateTime}" /></td>
 				<td>${candidateExamEvent.duration}</td>
-				<td><c:if test="${candidateExamEvent.activeFlag}">
-						<s:message code="global.info.active" />
-					</c:if> <c:if test="${not candidateExamEvent.activeFlag}">
-						<s:message code="global.info.inactive" />
-					</c:if></td>
+				<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
+						value="${candidateExamEvent.myExamCandidate.submitDateTime}" /></td>
+				<td>${candidateExamEvent.myExamCandidate.finalScore}</td>
 				<td><c:if test="${candidateExamEvent.inProcess}">
 						<button class="btn btn-info btn-mini"
 							onclick="location.href='/start_exam/${candidateExamEvent.id}'">
 							<s:message code="examevents.info.btn.start_exam" />
-						</button>
-					</c:if> <c:if test="${candidateExamEvent.expired}">
-						<button class="btn btn-link btn-mini"
-							onclick="location.href='/exam_result/${candidateExamEvent.id}'">
-							<s:message code="examevents.info.btn.view_exam_result" />
 						</button>
 					</c:if></td>
 			</tr>

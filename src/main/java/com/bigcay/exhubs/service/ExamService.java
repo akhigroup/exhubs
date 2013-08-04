@@ -87,7 +87,7 @@ public interface ExamService {
 	
 	void detachReviewer(Integer examEventId, Integer reviewerId);
 	
-	List<ExamEvent> findCandidateExamEvents(Integer candidateId);
+	List<ExamEvent> findCandidateExamEventsByUserId(Integer candidateId);
 	
 	ExamCandidate findExamCandidateByExamEventIdAndUserId(Integer examEventId, Integer userId);
 	
