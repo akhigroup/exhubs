@@ -323,3 +323,17 @@ function showReviewerExamEvents() {
 		}
 	});
 };
+
+function showReviewQuestionSubjects(examEventId) {
+	$.ajax({
+		url : '/ajax/reviewexams/show_review_question_subjects',
+		data : {
+			examEventId: examEventId
+		},
+		type : 'get',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			$('#reviewQuestionSubjects').html(response);
+		}
+	});
+};

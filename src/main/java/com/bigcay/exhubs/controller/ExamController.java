@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -753,6 +754,32 @@ public class ExamController extends BaseController {
 		model.addAttribute("reviewerExamEvents", reviewerExamEvents);
 
 		return "ajax/reviewexams/show_reviewer_exam_events";
+	}
+	
+	@RequestMapping("review_exam_event/{examEventId}")
+	public String reviewExamEventHandler(Model model, @PathVariable Integer examEventId) {
+
+		logger.debug("ExamController.reviewExamEventHandler is invoked.");
+
+		model.addAttribute("examEventId", examEventId);
+
+		return "reviewexams/select_review_exam_event";
+	}
+	
+	@RequestMapping("ajax/reviewexams/show_review_question_subjects")
+	public String showReviewQuestionSubjectsAjaxHandler(Model model, @RequestParam("examEventId") Integer examEventId, Principal principal) {
+
+		logger.debug("ExamController.showReviewQuestionSubjectsAjaxHandler is invoked.");
+		
+		//User currentUser = authorityService.findUserByUserId(principal.getName());
+		
+		ExamEvent examEvent = examService.findExamEventById(examEventId);
+		Set<QuestionSubject> questionSubjects = examEvent.getExamPaper().getQuestionSubjects();
+		
+		model.addAttribute("questionSubjects", questionSubjects);
+		model.addAttribute("examEventId", examEventId);
+		
+		return "ajax/reviewexams/show_review_question_subjects";
 	}
 	
 	@RequestMapping(value = "/rest/joinexams/validate_submit_exam_paper", method = RequestMethod.POST)

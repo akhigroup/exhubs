@@ -21,7 +21,7 @@
 						value="${reviewerExamEvent.startDateTime}" /></td>
 				<td>
 					<button class="btn btn-info btn-mini"
-						onclick="location.href='/review_exam/${reviewerExamEvent.id}'">
+						onclick="location.href='/review_exam_event/${reviewerExamEvent.id}'">
 						<s:message code="examevents.info.btn.review_exam" />
 					</button>
 				</td>
