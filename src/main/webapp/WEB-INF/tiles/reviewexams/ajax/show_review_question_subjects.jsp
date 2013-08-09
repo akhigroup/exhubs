@@ -23,8 +23,28 @@
 						onclick="location.href='/review_question_subject/${questionSubject.id}?examEventId=${examEventId}'">
 						<s:message code="reviewexams.info.btn.review_question_subject" />
 					</button>
+					<button data-question-subject-id="${questionSubject.id}"
+						data-exam-event-id="${examEventId}"
+						class="btn btn-info btn-mini auto_review_question_subject">
+						<s:message
+							code="reviewexams.info.btn.auto_review_question_subject" />
+					</button>
 				</td>
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
+
+<script type="text/javascript" charset="utf-8">
+	$(".auto_review_question_subject").on("click", function(e) {
+		var examEventId = $(this).data('examEventId');
+		var questionSubjectId = $(this).data('questionSubjectId');
+		var confirmsMessage = "<s:message code='global.alert.are_you_sure'/>";
+
+		bootbox.confirm(confirmsMessage, function(result) {
+			if (result == true) {
+				autoReviewQuestionSubject(examEventId, questionSubjectId);
+			}
+		});
+	});
+</script>

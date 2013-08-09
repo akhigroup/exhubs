@@ -346,8 +346,18 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public List<SubmitQuestionHeader> findSubmitQuestionHeaders(Integer examEventId, Integer candidateUserId) {
+	public List<SubmitQuestionHeader> findSubmitQuestionHeadersByExamEventIdAndUserId(Integer examEventId, Integer candidateUserId) {
 		return submitQuestionHeaderRepository.findByExamEventIdAndCandidateId(examEventId, candidateUserId);
+	}
+	
+	@Override
+	public List<SubmitQuestionHeader> findSubmitQuestionHeadersByExamEventIdAndQuestionHeaderId(Integer examEventId, Integer questionHeaderId) {
+		return submitQuestionHeaderRepository.findByExamEventIdAndQuestionHeaderId(examEventId, questionHeaderId);
+	}
+	
+	@Override
+	public List<SubmitQuestionHeader> findSubmitQuestionHeadersByExamEventId(Integer examEventId) {
+		return submitQuestionHeaderRepository.findByExamEventId(examEventId);
 	}
 
 	@Override
@@ -356,6 +366,5 @@ public class ExamServiceImpl implements ExamService {
 
 		return examEvents;
 	}
-
 
 }

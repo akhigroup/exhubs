@@ -95,7 +95,11 @@ public interface ExamService {
 	
 	SubmitQuestionHeader findSubmitQuestionHeader(Integer examEventId, Integer candidateUserId, Integer questionHeaderId);
 	
-	List<SubmitQuestionHeader> findSubmitQuestionHeaders(Integer examEventId, Integer candidateUserId);
+	List<SubmitQuestionHeader> findSubmitQuestionHeadersByExamEventIdAndUserId(Integer examEventId, Integer candidateUserId);
+	
+	List<SubmitQuestionHeader> findSubmitQuestionHeadersByExamEventIdAndQuestionHeaderId(Integer examEventId, Integer questionHeaderId);
+	
+	List<SubmitQuestionHeader> findSubmitQuestionHeadersByExamEventId(Integer examEventId);
 	
 	SubmitQuestionHeader findSubmitQuestionHeaderById(Integer submitQuestionHeaderId);
 	

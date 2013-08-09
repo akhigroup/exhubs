@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bigcay.exhubs.model.QuestionAnswer;
+import com.bigcay.exhubs.model.SubmitQuestionAnswer;
 
 public class QuestionUtil {
 
@@ -43,5 +44,36 @@ public class QuestionUtil {
 		}
 
 		return rightQuestionAnswer;
+	}
+	
+	public static boolean reviewSubmittAnswer(String questionTypeName, QuestionAnswer questionAnswer,
+			SubmitQuestionAnswer submitQuestionAnswer) {
+
+		if ("SCQ".equalsIgnoreCase(questionTypeName) || "MCQ".equalsIgnoreCase(questionTypeName)
+				|| "TFQ".equalsIgnoreCase(questionTypeName)) {
+			if (questionAnswer.getBinaryValue().equals(submitQuestionAnswer.getBinaryValue())) {
+				return true;
+			} else {
+				return false;
+			}
+		} else if ("BFQ".equalsIgnoreCase(questionTypeName)) {
+			if (submitQuestionAnswer.getShortTextValue() != null
+					&& questionAnswer.getShortTextValue().trim()
+							.equalsIgnoreCase(submitQuestionAnswer.getShortTextValue().trim())) {
+				return true;
+			} else {
+				return false;
+			}
+		} else if ("EQ".equalsIgnoreCase(questionTypeName)) {
+			if (submitQuestionAnswer.getLongTextValue() != null
+					&& questionAnswer.getLongTextValue().trim()
+							.equalsIgnoreCase(submitQuestionAnswer.getLongTextValue().trim())) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 }

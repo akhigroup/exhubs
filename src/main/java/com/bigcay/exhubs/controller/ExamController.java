@@ -51,6 +51,7 @@ import com.bigcay.exhubs.model.ExamType;
 import com.bigcay.exhubs.model.QuestionDetail;
 import com.bigcay.exhubs.model.QuestionHeader;
 import com.bigcay.exhubs.model.QuestionSubject;
+import com.bigcay.exhubs.model.QuestionType;
 import com.bigcay.exhubs.model.SubmitQuestionAnswer;
 import com.bigcay.exhubs.model.SubmitQuestionHeader;
 import com.bigcay.exhubs.model.User;
@@ -591,7 +592,7 @@ public class ExamController extends BaseController {
 		User currentUser = authorityService.findUserByUserId(principal.getName());
 		ExamEvent examEvent = examService.findExamEventById(currExamEventId);
 
-		List<SubmitQuestionHeader> submitQuestionHeaders = examService.findSubmitQuestionHeaders(currExamEventId,
+		List<SubmitQuestionHeader> submitQuestionHeaders = examService.findSubmitQuestionHeadersByExamEventIdAndUserId(currExamEventId,
 				currentUser.getId());
 
 		if (submitQuestionHeaders != null && submitQuestionHeaders.size() > 0) {
@@ -940,6 +941,47 @@ public class ExamController extends BaseController {
 
 		if (ResultType.SUCCESS == validationResult.getResultType()) {
 			examService.detachReviewer(examEventId, reviewerId);
+		}
+
+		ResponseResult responseResult = new ResponseResult(validationResult);
+		return responseResult;
+	}
+	
+	@RequestMapping(value = "/rest/reviewexams/auto_review_question_subject", method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseResult autoReviewQuestionSubjectRestHandler(Locale locale,
+			@RequestParam("examEventId") Integer examEventId,
+			@RequestParam("questionSubjectId") Integer questionSubjectId, Principal principal) {
+
+		logger.debug("ExamController.autoReviewQuestionSubjectRestHandler is invoked.");
+
+		/* authorityService.findUserByUserId(principal.getName()); */
+		User reviewer = authorityService.findUserById(1);
+
+		QuestionSubject questionSubject = questionService.findQuestionSubjectById(questionSubjectId);
+		QuestionType questionType = questionSubject.getQuestionType();
+
+		ValidationResult validationResult = new ValidationResult(ResultType.SUCCESS);
+		validationResult.setSuccessMessage(messageSource.getMessage("reviewexams.info.review_question_subject_success",
+				new String[] { questionSubject.getContent().substring(0, 25) + "..." }, locale));
+
+		for (QuestionHeader questionHeader : questionSubject.getQuestionHeaders()) {
+			List<SubmitQuestionHeader> submitQuestionHeaders = examService
+					.findSubmitQuestionHeadersByExamEventIdAndQuestionHeaderId(examEventId, questionHeader.getId());
+
+			for (SubmitQuestionHeader submitQuestionHeader : submitQuestionHeaders) {
+				if (QuestionUtil.reviewSubmittAnswer(questionType.getName(), questionHeader.getQuestionAnswer(),
+						submitQuestionHeader.getSubmitQuestionAnswer())) {
+					submitQuestionHeader.setObtainScore(questionHeader.getScore());
+				} else {
+					submitQuestionHeader.setObtainScore(0);
+				}
+
+				submitQuestionHeader.setReviewer(reviewer);
+				submitQuestionHeader.setReviewDateTime(new Date());
+
+				examService.persist(submitQuestionHeader);
+			}
 		}
 
 		ResponseResult responseResult = new ResponseResult(validationResult);
