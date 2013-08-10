@@ -15,10 +15,16 @@
 		<div class="span1"></div>
 	</div>
 	<div class="row-fluid">
-		<div class="span6">
+		<div class="span1">
 			<button type="button" class="btn btn-primary"
 				onclick="location.href='/users/create'">
 				<s:message code="global.info.btn.add" />
+			</button>
+		</div>
+		<div class="span5">
+			<button type="button" class="btn"
+				onclick="location.href='/excelreports/user_report'">
+				<s:message code="excelreports.info.btn.export_user_report" />
 			</button>
 		</div>
 		<div class="span6"></div>

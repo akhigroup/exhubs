@@ -80,6 +80,11 @@ public class AuthorityServiceImpl implements AuthorityService {
 		PageRequest pageRequest = new PageRequest(pageNumber, GlobalManager.DEFAULT_PAGE_SIZE, Sort.Direction.ASC, "id");
 		return userRepository.findAll(pageRequest);
 	}
+	
+	@Override
+	public List<User> findAllUsers() {
+		return userRepository.findAll();
+	}
 
 	@Override
 	public ValidationResult updateUserActiveFlag(Integer updateId, boolean activeFlag, Locale locale) {
@@ -212,5 +217,6 @@ public class AuthorityServiceImpl implements AuthorityService {
 	public List<Department> findAllDepartments() {
 		return departmentRepository.findAll();
 	}
+
 
 }

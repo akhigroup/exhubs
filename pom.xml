@@ -218,6 +218,15 @@
 			<artifactId>poi</artifactId>
 			<version>3.8</version>
 		</dependency>
+		
+		<!-- RLib -->
+		<dependency>
+			<groupId>com.bigcay</groupId>
+			<artifactId>rlib</artifactId>
+			<version>1.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/RLib.jar</systemPath>
+		</dependency>
 
 		<!-- Test -->
 		<dependency>

@@ -178,5 +178,20 @@ public class User {
 	public void setDepartment(Department department) {
 		this.department = department;
 	}
+	
+	// used by user report
+	public String getGroupDesc() {
+		return this.getGroup() != null ? this.getGroup().getDescription() : null;
+	}
+	
+	// used by user report
+	public String getDepartmentName() {
+		return this.getDepartment() != null ? this.getDepartment().getName() : null;
+	}
+	
+	// used by user report
+	public String getStatus() {
+		return (this.getActiveFlag() == null || this.getActiveFlag() == false) ? "N" : "Y";
+	}
 
 }

@@ -20,6 +20,8 @@ public interface AuthorityService {
 	User findUserByUserId(String userId);
 
 	Page<User> findPageableUsers(Integer pageNumber);
+	
+	List<User> findAllUsers();
 
 	Role findRoleById(Integer id);
 
