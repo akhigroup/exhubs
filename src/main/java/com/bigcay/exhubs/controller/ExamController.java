@@ -987,5 +987,39 @@ public class ExamController extends BaseController {
 		ResponseResult responseResult = new ResponseResult(validationResult);
 		return responseResult;
 	}
+	
+	@RequestMapping(value = "/rest/reviewexams/calculate_exam_event_scores", method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseResult calculateExamEventScoresRestHandler(Locale locale, @RequestParam("examEventId") Integer examEventId) {
+
+		logger.debug("ExamController.calculateExamEventScoresRestHandler is invoked.");
+
+		ExamEvent examEvent = examService.findExamEventById(examEventId);
+
+		ValidationResult validationResult = new ValidationResult(ResultType.SUCCESS);
+		validationResult.setSuccessMessage(messageSource.getMessage(
+				"reviewexams.info.calculate_exam_event_scores_success", new String[] { examEvent.getName() }, locale));
+
+		for (ExamCandidate examCandidate : examEvent.getExamCandidates()) {
+			int tempFinalScore = 0;
+
+			List<SubmitQuestionHeader> submitQuestionHeaders = examService
+					.findSubmitQuestionHeadersByExamEventIdAndUserId(examEventId, examCandidate.getUser().getId());
+
+			for (SubmitQuestionHeader submitQuestionHeader : submitQuestionHeaders) {
+				if (submitQuestionHeader.getObtainScore() != null) {
+					tempFinalScore += submitQuestionHeader.getObtainScore();
+				}
+			}
+
+			examCandidate.setFinalScore(tempFinalScore);
+			examCandidate.setDoneFlag(true);
+
+			examService.persist(examCandidate);
+		}
+
+		ResponseResult responseResult = new ResponseResult(validationResult);
+		return responseResult;
+	}
 
 }

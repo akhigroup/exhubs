@@ -24,8 +24,25 @@
 						onclick="location.href='/review_exam_event/${reviewerExamEvent.id}'">
 						<s:message code="examevents.info.btn.review_exam" />
 					</button>
+					<button data-exam-event-id="${reviewerExamEvent.id}"
+						class="btn btn-info btn-mini calculate_exam_event_scores">
+						<s:message code="reviewexams.info.btn.calculate_exam_event_scores" />
+					</button>
 				</td>
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
+
+<script type="text/javascript" charset="utf-8">
+	$(".calculate_exam_event_scores").on("click", function(e) {
+		var examEventId = $(this).data('examEventId');
+		var confirmsMessage = "<s:message code='global.alert.are_you_sure'/>";
+
+		bootbox.confirm(confirmsMessage, function(result) {
+			if (result == true) {
+				calculateExamEventScores(examEventId);
+			}
+		});
+	});
+</script>

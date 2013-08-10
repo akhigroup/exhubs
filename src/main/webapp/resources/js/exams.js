@@ -357,3 +357,23 @@ function autoReviewQuestionSubject(examEventId, questionSubjectId) {
 		}
 	});
 };
+
+function calculateExamEventScores(examEventId) {
+	$.ajax({
+		url : '/rest/reviewexams/calculate_exam_event_scores',
+		data : {
+			examEventId : examEventId,
+		},
+		type : 'post',
+		cache : false,
+		success : function(response, textStatus, xhr) {
+			var obj = jQuery.parseJSON(xhr.responseText);
+			if (obj.resultType == 'SUCCESS') {
+				$('#ajax_success').html(obj.successMessage).show();
+			} else if (obj.resultType == 'ERROR') {
+				$('#ajax_error').html(obj.errorMessage).show();
+			}
+		}
+	});
+};
+
