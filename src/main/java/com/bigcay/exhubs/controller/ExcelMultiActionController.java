@@ -23,10 +23,10 @@ public class ExcelMultiActionController extends MultiActionController {
 	private static final Logger logger = LoggerFactory.getLogger(ExcelMultiActionController.class);
 	
 	private String getTemplateExcelFolderPath() {
-		logger.info("servlet context realpath: " + getServletContext().getRealPath("/"));
-		logger.info("template excel path: " + getServletContext().getRealPath("/") + "resources" + File.separator + "excel" + File.separator);
+		logger.info("servlet context realpath(): " + getServletContext().getRealPath(""));
+		logger.info("template excel path: " + getServletContext().getRealPath("") + File.separator + "resources" + File.separator + "excel" + File.separator);
 		
-		return getServletContext().getRealPath("/") + "resources" + File.separator + "excel" + File.separator;
+		return getServletContext().getRealPath("") + File.separator + "resources" + File.separator + "excel" + File.separator;
 	}
 
 	protected String getTemplateExcelFilePath(String excelName) {
