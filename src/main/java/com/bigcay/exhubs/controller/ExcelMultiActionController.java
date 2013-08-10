@@ -12,13 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Workbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import com.bigcay.exhubs.util.ExcelTemplateNameUtil;
 
 public class ExcelMultiActionController extends MultiActionController {
 
+	private static final Logger logger = LoggerFactory.getLogger(ExcelMultiActionController.class);
+	
 	private String getTemplateExcelFolderPath() {
+		logger.info("servlet context realpath: " + getServletContext().getRealPath("/"));
+		logger.info("template excel path: " + getServletContext().getRealPath("/") + "resources" + File.separator + "excel" + File.separator);
+		
 		return getServletContext().getRealPath("/") + "resources" + File.separator + "excel" + File.separator;
 	}
 
