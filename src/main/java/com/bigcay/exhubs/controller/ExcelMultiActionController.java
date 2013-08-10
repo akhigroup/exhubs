@@ -23,9 +23,6 @@ public class ExcelMultiActionController extends MultiActionController {
 	private static final Logger logger = LoggerFactory.getLogger(ExcelMultiActionController.class);
 	
 	private String getTemplateExcelFolderPath() {
-		logger.info("servlet context realpath(): " + getServletContext().getRealPath(""));
-		logger.info("template excel path: " + getServletContext().getRealPath("") + File.separator + "resources" + File.separator + "excel" + File.separator);
-		
 		return getServletContext().getRealPath("") + File.separator + "resources" + File.separator + "excel" + File.separator;
 	}
 
@@ -38,6 +35,8 @@ public class ExcelMultiActionController extends MultiActionController {
 	protected void exportExcel(HttpServletRequest request, HttpServletResponse response, Workbook workbook,
 			String excelName) throws Exception {
 
+		logger.debug("ExcelReportController.exportExcel is invoked.");
+		
 		String finalExcelName = java.net.URLEncoder.encode(excelName, "UTF-8").replaceAll("\\+", "%20");
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		workbook.write(os);
